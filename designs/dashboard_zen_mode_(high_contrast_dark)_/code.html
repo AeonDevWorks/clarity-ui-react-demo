@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Zen Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f1115", // Deep charcoal as requested
+                        "surface-dark": "#1a1d24", // Slightly lighter for panels
+                        "text-subtle": "#9da6b8",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"],
+                        "body": ["Public Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Toolbar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#292e38] bg-[#111318] px-6 py-3 shrink-0">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 flex items-center justify-center rounded bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-[24px]">dashboard_customize</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Dashboard Transformer</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="flex gap-2 items-center">
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-dark border border-[#292e38]">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-medium text-text-subtle">AI Model: GPT-4o</span>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-blue-600 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Zen Mode Active</span>
+</button>
+<button class="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#292e38] hover:bg-[#353b47] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#292e38] hover:bg-[#353b47] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-[#292e38]" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZyGwBjGa-pvudFMZpX5ValMOyEMEy8IvsCTrmZoEol8P-Lm2xQAMd2r2gTzUPCnaZrYTCzPoz_iYL5bKCiDqKV5hL4jbs6dTr5nsKfwl9pHxbTQsP515NB_LqzWUKvjgeOoRnYV8frkRAm7qZWdP4DR9_uyhfAuqTAhOPNZMf7mh0-YsdwPKJ1OFZGr9463NtYQXD88UTDcGsR5mEn-r_x6ATOAchQ7AulBLF4zZFDOeHvzsHjmNoQoKVOLUJvHa1uYMIdtKf5H-m");'></div>
+</div>
+</header>
+<!-- Main Content Split View -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Panel: Original Source (50%) -->
+<section class="hidden lg:flex flex-col w-1/2 border-r border-[#292e38] bg-[#0f1115] relative group/left-panel">
+<!-- Header for Panel -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-[#292e38]">
+<h3 class="text-white tracking-light text-sm font-bold uppercase tracking-wider text-text-subtle flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">table_chart</span>
+                    Original Source: Google Analytics 4
+                </h3>
+<button class="text-text-subtle hover:text-white transition-colors flex items-center gap-1 text-sm">
+<span class="material-symbols-outlined text-[18px]">open_in_full</span>
+                    Dismiss Panel
+                </button>
+</div>
+<!-- Content Representation -->
+<div class="flex-1 p-6 overflow-y-auto relative">
+<!-- Overlay to simulate "Zen Mode" focus elsewhere -->
+<div class="absolute inset-0 bg-[#0f1115]/60 backdrop-blur-[2px] z-10 pointer-events-none flex items-center justify-center">
+<div class="bg-surface-dark border border-[#292e38] px-4 py-2 rounded-full text-sm text-text-subtle shadow-xl">
+                        Reference View
+                    </div>
+</div>
+<!-- Fake Complex Dashboard Layout -->
+<div class="flex flex-col gap-4 opacity-50">
+<div class="flex gap-4">
+<div class="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+<div class="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+<div class="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+</div>
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg border border-[#292e38] opacity-70" data-alt="Complex data table and charts from Google Analytics dashboard" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCQf9kFz0jTLb3oYy9idJd32_r7bSftlHA_XTH8nmzQUanoK4JkUgOczrQHvakNR-veahiWW3LDnW2lDdsvolzmz22KwMxGlsh_YpEQypPvSPg9VMLqLr0TXhiODQxPIRkR78hHYsCVU3NQ0FgDelTlstM6QEshGKVAptsD4MhQBPSZ1ijgpmwTY9K-mfA_KuqWoVZbZ6QsztiPN-F8MubJoX2h7ziefzSTPfCPXSbGGroB869Eo1si0WF0XkaC7npfrWmDMeB17X6w");'></div>
+<div class="flex gap-4">
+<div class="h-48 w-2/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+<div class="h-48 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+</div>
+</div>
+</div>
+<!-- Resize Handle Simulation -->
+<div class="absolute right-0 top-0 bottom-0 w-1 hover:w-1.5 cursor-col-resize bg-[#292e38] hover:bg-primary transition-all z-20"></div>
+</section>
+<!-- Right Panel: Zen Mode (50%) -->
+<section class="flex flex-col flex-1 w-full lg:w-1/2 bg-[#0f1115] overflow-y-auto">
+<!-- Zen Controls (Slider) -->
+<div class="px-8 pt-8 pb-4">
+<div class="@container">
+<div class="relative flex w-full flex-col items-start justify-between gap-3 p-4 bg-surface-dark border border-[#292e38] rounded-xl @[480px]:flex-row @[480px]:items-center">
+<div class="flex w-full shrink-[3] items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">tune</span>
+</div>
+<div>
+<p class="text-white text-base font-bold leading-normal">Zen Level</p>
+<p class="text-text-subtle text-xs">Simplification Intensity</p>
+</div>
+</div>
+<div class="flex flex-col w-full max-w-[240px] gap-2">
+<div class="flex justify-between text-xs text-text-subtle font-medium">
+<span>Detail</span>
+<span class="text-white">High</span>
+</div>
+<div class="flex h-4 w-full items-center gap-4">
+<div class="flex h-1.5 flex-1 rounded-full bg-[#3c4453]">
+<div class="h-full w-[85%] rounded-full bg-gradient-to-r from-blue-600 to-primary relative">
+<div class="absolute -right-2 -top-[5px] size-4 rounded-full bg-white shadow-[0_0_10px_rgba(25,93,230,0.5)] cursor-pointer hover:scale-110 transition-transform"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="px-8 pb-12 flex flex-col gap-8 max-w-[800px] mx-auto w-full">
+<!-- Headline Section -->
+<div class="flex flex-col gap-3 border-l-4 border-primary pl-6 py-2">
+<p class="text-text-subtle text-sm font-medium uppercase tracking-widest">AI Insight • High Confidence</p>
+<h1 class="text-white text-3xl md:text-4xl font-bold leading-tight">Weekly Performance Overview</h1>
+</div>
+<!-- Narrative Summary -->
+<div class="prose prose-invert max-w-none">
+<p class="text-xl text-[#e0e2e8] leading-relaxed font-light">
+                        Your acquisition strategy is showing strong results. <span class="text-primary font-medium border-b border-primary/30 pb-0.5">Direct traffic</span> has surpassed organic search for the first time this quarter, indicating stronger brand recall.
+                    </p>
+</div>
+<!-- Key Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Metric Card 1 -->
+<div class="p-5 bg-surface-dark border border-[#292e38] rounded-xl flex flex-col gap-4 hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between">
+<span class="text-text-subtle font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">group</span>
+                                Total Users
+                            </span>
+<span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                                +12%
+                            </span>
+</div>
+<div class="flex items-end gap-2">
+<span class="text-4xl font-bold text-white group-hover:text-primary transition-colors">12.4k</span>
+<span class="text-text-subtle text-sm mb-1">this week</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="p-5 bg-surface-dark border border-[#292e38] rounded-xl flex flex-col gap-4 hover:border-primary/50 transition-colors group">
+<div class="flex items-center justify-between">
+<span class="text-text-subtle font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">ads_click</span>
+                                Conversion Rate
+                            </span>
+<span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                                +0.5%
+                            </span>
+</div>
+<div class="flex items-end gap-2">
+<span class="text-4xl font-bold text-white group-hover:text-primary transition-colors">2.4%</span>
+<span class="text-text-subtle text-sm mb-1">avg. session</span>
+</div>
+</div>
+</div>
+<!-- Linear Insight Feed -->
+<div class="flex flex-col gap-4">
+<h4 class="text-white font-bold text-lg border-b border-[#292e38] pb-2">Why this happened</h4>
+<ul class="flex flex-col gap-4">
+<li class="flex gap-4 items-start">
+<div class="mt-1 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div>
+<p class="text-white font-medium">New Summer Campaign</p>
+<p class="text-text-subtle text-sm mt-1">The email blast sent on Tuesday drove 40% of the direct traffic surge.</p>
+</div>
+</li>
+<li class="flex gap-4 items-start">
+<div class="mt-1 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div>
+<p class="text-white font-medium">Reduced Bounce Rate</p>
+<p class="text-text-subtle text-sm mt-1">Landing page optimization improved retention by 15s on average.</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Action Buttons -->
+<div class="pt-4 flex flex-wrap gap-4">
+<button class="flex-1 min-w-[200px] h-12 bg-primary hover:bg-blue-600 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                        Generate Full Report
+                    </button>
+<button class="flex-1 min-w-[200px] h-12 bg-surface-dark hover:bg-[#292e38] border border-[#292e38] text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">manage_search</span>
+                        Deep Dive Analysis
+                    </button>
+</div>
+<!-- Spacer -->
+<div class="h-10"></div>
+</div>
+</section>
+</main>
+</body></html>

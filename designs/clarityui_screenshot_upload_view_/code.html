@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClarityUI - Screenshot Upload View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1a1d23",
+                        "border-dark": "#292e38",
+                        "text-secondary": "#94a3b8"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between border-b border-solid border-border-dark bg-[#111318] px-6 py-3 h-16 shrink-0 z-20">
+<div class="flex items-center gap-3 text-white w-64">
+<div class="size-6 text-primary">
+<svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">ClarityUI</h2>
+</div>
+<div class="flex flex-1 justify-center max-w-md">
+<div class="flex h-10 w-full items-center justify-center rounded-lg bg-border-dark p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 transition-all duration-200 has-[:checked]:bg-background-dark has-[:checked]:text-primary text-text-secondary text-sm font-medium leading-normal hover:bg-white/5">
+<span class="truncate flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">spa</span>
+                    Zen
+                </span>
+<input checked="" class="invisible w-0 absolute" name="cognitive-mode" type="radio" value="Zen"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 transition-all duration-200 has-[:checked]:bg-background-dark has-[:checked]:text-primary text-text-secondary text-sm font-medium leading-normal hover:bg-white/5">
+<span class="truncate flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+                    Flow
+                </span>
+<input class="invisible w-0 absolute" name="cognitive-mode" type="radio" value="Flow"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 transition-all duration-200 has-[:checked]:bg-background-dark has-[:checked]:text-primary text-text-secondary text-sm font-medium leading-normal hover:bg-white/5">
+<span class="truncate flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+                    ADHD
+                </span>
+<input class="invisible w-0 absolute" name="cognitive-mode" type="radio" value="ADHD"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-end gap-6 w-64">
+<div class="flex flex-col w-32 gap-1 group">
+<div class="flex justify-between items-center text-[10px] uppercase text-text-secondary font-semibold tracking-wider">
+<span>Intensity</span>
+<span>Med</span>
+</div>
+<div class="flex h-1.5 w-full items-center rounded-full bg-border-dark relative cursor-pointer">
+<div class="absolute h-full w-[50%] rounded-full bg-primary/80 group-hover:bg-primary transition-colors"></div>
+<div class="absolute left-[50%] -ml-1 top-1/2 -translate-y-1/2 size-3 rounded-full bg-white shadow-md border border-primary/20"></div>
+</div>
+</div>
+<div class="h-6 w-px bg-border-dark mx-2"></div>
+<button class="text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-border-dark cursor-pointer hover:ring-primary/50 transition-all" data-alt="User profile avatar showing abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDNMDAXtxRpuIoPrOBYB-a6Zulwgk-j9Q0y0JS-E4MQzv3gssUQrvxicpUTauQrKZSdRn2loxD2s-mkmdcMM5IlNHggfX8AFNBMAoLzyrt5i41vslLw3hftrBqIrkBBLsNceso6PjJqMY9rGPO7YokqqBTj0KVYiRYl1-sjuJ-O56RmY0oOb0tMJuU6ban9UDsEALLqVJqQ8ru-Il7KyJyfqGowRySz5Qf4dQRKVW1pHgfSYMghwTWJS3zHQsBwpaYcoyNyhXs8SWff");'></div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden relative">
+<section class="w-1/2 flex flex-col border-r border-border-dark bg-[#111318] relative group/left-panel">
+<div class="h-12 border-b border-border-dark px-6 flex items-center justify-between shrink-0 bg-[#111318]">
+<div class="flex items-center gap-3 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">image</span>
+<span class="font-mono text-xs opacity-70">/uploads/screenshot_upload_001.png</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-medium text-text-secondary">Show Original</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="flex-1 overflow-auto p-6 flex flex-col items-center justify-center bg-[#0d0f12]">
+<div class="relative w-full h-full max-h-[800px] bg-surface-dark border border-dashed border-border-dark rounded-xl flex items-center justify-center overflow-hidden shadow-inner">
+<div class="absolute inset-0 p-8 flex items-center justify-center">
+<div class="w-full h-full bg-center bg-contain bg-no-repeat opacity-80 rounded-lg shadow-2xl" data-alt="Preview of the uploaded clutter screenshot interface" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfzA5WkgkeVEGV4FQ6Fx3DpAundtfdtzxUjhwabbuaJFjQ_X2I7ko5CJ0LgzAe9V07XcMoJmxzyt-i5DT1C0XF_wnJockbd1bxfqbJzeIDDbZ1PAytjtVnBzGnO7PtnrVJAgqB_cT4AUzOapbnQakq7KOIBTLKOfuai_PraAXVcBwBjKuJ5sey7cTWbHzRj2h97GeB7Y-oQhktpY-djGPENMwSW3KGoAGkWvtpsWkD7JyhYnTFxbzVJfy1ZGqZq9v4HFiR-thX9Eyx");'>
+</div>
+</div>
+</div>
+</div>
+<button class="absolute top-1/2 right-0 translate-x-1/2 z-10 size-8 bg-surface-dark border border-border-dark rounded-full flex items-center justify-center text-text-secondary hover:text-white shadow-lg opacity-0 group-hover/left-panel:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+</section>
+<section class="w-1/2 flex flex-col bg-surface-dark relative">
+<div class="h-12 border-b border-border-dark px-6 flex items-center justify-between shrink-0 bg-[#1a1d23]">
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2 px-2 py-1 rounded-md bg-green-500/10 text-green-500 border border-green-500/20">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="text-xs font-medium uppercase tracking-wide">Processed</span>
+</div>
+<span class="text-xs text-text-secondary ml-2">Zen Mode Active</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-text-secondary hover:text-white transition-colors" title="Download">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="text-text-secondary hover:text-white transition-colors" title="Share">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto p-8 relative bg-surface-dark">
+<div class="max-w-3xl mx-auto space-y-8 animate-fade-in">
+<div class="space-y-4">
+<div class="h-8 w-3/4 bg-border-dark rounded animate-pulse"></div>
+<div class="h-4 w-1/2 bg-border-dark/60 rounded animate-pulse"></div>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<div class="p-6 bg-[#111318] rounded-xl border border-border-dark/50 hover:border-primary/30 transition-colors group cursor-pointer">
+<div class="flex items-start gap-4">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">article</span>
+</div>
+<div class="space-y-3 w-full">
+<div class="h-5 w-2/3 bg-border-dark rounded group-hover:bg-border-dark/80 transition-colors"></div>
+<div class="space-y-2">
+<div class="h-3 w-full bg-border-dark/40 rounded"></div>
+<div class="h-3 w-5/6 bg-border-dark/40 rounded"></div>
+<div class="h-3 w-4/6 bg-border-dark/40 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-[#111318] rounded-xl border border-border-dark/50 hover:border-primary/30 transition-colors group cursor-pointer">
+<div class="flex items-start gap-4">
+<div class="size-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+<span class="material-symbols-outlined">image</span>
+</div>
+<div class="space-y-3 w-full">
+<div class="h-5 w-1/2 bg-border-dark rounded group-hover:bg-border-dark/80 transition-colors"></div>
+<div class="w-full aspect-video bg-border-dark/30 rounded-lg"></div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-[#111318] rounded-xl border border-border-dark/50 hover:border-primary/30 transition-colors group cursor-pointer">
+<div class="flex items-start gap-4">
+<div class="size-10 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 shrink-0">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<div class="space-y-3 w-full">
+<div class="h-5 w-3/5 bg-border-dark rounded group-hover:bg-border-dark/80 transition-colors"></div>
+<div class="space-y-2">
+<div class="h-3 w-full bg-border-dark/40 rounded"></div>
+<div class="h-3 w-full bg-border-dark/40 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 bg-[#111318] border border-border-dark rounded-full p-1.5 flex items-center shadow-2xl z-10">
+<button class="size-8 rounded-full flex items-center justify-center text-text-secondary hover:text-white hover:bg-border-dark transition-colors" title="Light Mode">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+<div class="w-px h-4 bg-border-dark mx-1"></div>
+<button class="size-8 rounded-full flex items-center justify-center text-primary bg-primary/10 transition-colors" title="Dark Mode">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</button>
+<div class="w-px h-4 bg-border-dark mx-1"></div>
+<button class="size-8 rounded-full flex items-center justify-center text-text-secondary hover:text-white hover:bg-border-dark transition-colors" title="High Contrast">
+<span class="material-symbols-outlined text-[18px]">contrast</span>
+</button>
+</div>
+<div class="absolute bottom-0 w-full px-6 py-3 border-t border-border-dark flex justify-between items-center text-xs text-text-secondary bg-[#111318]/50 backdrop-blur-sm">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span>Optimized for readability</span>
+</div>
+<div class="font-mono">v2.4.0-beta</div>
+</div>
+</section>
+</main>
+
+</body></html>

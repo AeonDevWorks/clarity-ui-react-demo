@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClarityUI - Raw HTML Paste View</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111318",
+                        "surface-dark": "#1a1d23",
+                        "card-dark": "#252830",
+                        "border-dark": "#292e38"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111318; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #292e38; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f4652; 
+        }
+        .glass-panel {
+            background: rgba(41, 46, 56, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Header -->
+<header class="flex items-center justify-between border-b border-border-dark bg-[#111318] px-6 py-3 shrink-0 z-20">
+<!-- Logo -->
+<div class="flex items-center gap-3 text-white w-64">
+<div class="size-8 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 32px;">auto_awesome</span>
+</div>
+<h2 class="text-white text-lg font-bold tracking-tight">ClarityUI</h2>
+</div>
+<!-- Center: Cognitive Mode Selector -->
+<div class="flex-1 flex justify-center">
+<div class="flex h-10 items-center justify-center rounded-lg bg-[#292e38] p-1">
+<label class="flex cursor-pointer h-full items-center justify-center overflow-hidden rounded px-4 text-[#9da6b8] transition-colors hover:text-white">
+<span class="text-sm font-medium">Zen</span>
+<input class="invisible w-0" name="mode" type="radio" value="Zen"/>
+</label>
+<label class="flex cursor-pointer h-full items-center justify-center overflow-hidden rounded bg-primary text-white shadow-sm px-4">
+<span class="text-sm font-bold">Flow</span>
+<input checked="" class="invisible w-0" name="mode" type="radio" value="Flow"/>
+</label>
+<label class="flex cursor-pointer h-full items-center justify-center overflow-hidden rounded px-4 text-[#9da6b8] transition-colors hover:text-white">
+<span class="text-sm font-medium">ADHD</span>
+<input class="invisible w-0" name="mode" type="radio" value="ADHD"/>
+</label>
+</div>
+</div>
+<!-- Right: Global Controls -->
+<div class="flex gap-3 w-64 justify-end items-center">
+<!-- Theme Intensity Slider (Mock) -->
+<div class="hidden xl:flex items-center gap-2 bg-[#292e38] rounded-lg h-10 px-3 min-w-[140px]">
+<span class="material-symbols-outlined text-[#9da6b8] text-[18px]">contrast</span>
+<div class="flex-1 h-1 bg-[#111318] rounded-full overflow-hidden">
+<div class="w-[60%] h-full bg-primary"></div>
+</div>
+</div>
+<button class="flex items-center justify-center rounded-lg size-10 bg-[#292e38] hover:bg-[#383e4b] text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-[#292e38] hover:bg-[#383e4b] text-white transition-colors relative">
+<img alt="User Profile" class="size-6 rounded-full" data-alt="User avatar with initials AM" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0I9TOk5uKHoltLW4U0gQiONhkLJ6isUCZQOTwPO-V_FC8Te5fswz1TF-Cmga5Q68Cmm4fOM5vgV1qohd02ol80kAqvMbmuhaAlzYUjuRtjfIYiPswFW2iQVA2XRdQ2bXlcZqxLDHXcfXjmTongMb4tovc6vhiS_f6OLeI5WX1FIK9mAzqPYfQLf-ibwUGaj4KIJi7EObQDjns4ARjzvVfVK7-HWGF5xnI2H5J1N4yKdzaqkq1WXqflIxUBdk1qU21YdCJXn_35XFn"/>
+<div class="absolute bottom-2 right-2 size-2 bg-green-500 rounded-full border border-[#292e38]"></div>
+</button>
+</div>
+</header>
+<!-- Main Split Layout -->
+<main class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel: Before / Source (40%) -->
+<section class="w-[40%] flex flex-col border-r border-border-dark bg-[#161920] relative group/leftpanel">
+<!-- Left Panel Header -->
+<div class="flex items-center justify-between px-4 py-3 border-b border-border-dark bg-[#1a1d23]">
+<div class="flex items-center gap-2 overflow-hidden">
+<div class="bg-red-500/20 text-red-400 p-1 rounded">
+<span class="material-symbols-outlined text-[16px]">html</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-[#9da6b8] uppercase tracking-wider">Source Input</span>
+<span class="text-sm text-white truncate font-mono">https://news-site.com/article/tech-trends...</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#292e38] hover:bg-[#383e4b] transition-colors">
+<span class="material-symbols-outlined text-white text-[18px]">visibility_off</span>
+<span class="text-xs font-medium text-white">Hide Original</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-[#292e38] text-[#9da6b8]">
+<span class="material-symbols-outlined">close_fullscreen</span>
+</button>
+</div>
+</div>
+<!-- Left Panel Content: Simulating a cluttered raw view -->
+<div class="flex-1 overflow-y-auto p-4 bg-[#111318]">
+<!-- Browser Frame Simulation -->
+<div class="bg-white rounded overflow-hidden opacity-80 pointer-events-none select-none relative h-full min-h-[800px]">
+<!-- Fake Website Header -->
+<div class="bg-blue-900 h-12 flex items-center px-4 justify-between">
+<div class="w-24 h-4 bg-white/30 rounded"></div>
+<div class="flex gap-2">
+<div class="w-16 h-3 bg-white/20 rounded"></div>
+<div class="w-16 h-3 bg-white/20 rounded"></div>
+</div>
+</div>
+<!-- Fake Website Content Grid (Cluttered) -->
+<div class="flex">
+<!-- Sidebar Ad -->
+<div class="w-1/4 bg-gray-200 p-2 flex flex-col gap-2 border-r border-gray-300">
+<div class="bg-yellow-100 border border-yellow-300 h-32 flex items-center justify-center text-yellow-600 text-xs text-center p-2">Ad Space</div>
+<div class="h-4 bg-gray-300 w-3/4 mt-4"></div>
+<div class="h-3 bg-gray-300 w-full"></div>
+<div class="h-3 bg-gray-300 w-5/6"></div>
+<div class="h-3 bg-gray-300 w-full"></div>
+</div>
+<!-- Main Content -->
+<div class="w-3/4 p-4">
+<div class="h-8 bg-gray-800 w-3/4 mb-4"></div> <!-- Title -->
+<div class="bg-red-50 p-2 border border-red-200 mb-4 text-red-800 text-xs">Subscribe to read full article!</div>
+<!-- Paragraphs -->
+<div class="space-y-2 mb-6">
+<div class="h-3 bg-gray-400 w-full"></div>
+<div class="h-3 bg-gray-400 w-full"></div>
+<div class="h-3 bg-gray-400 w-11/12"></div>
+<div class="h-3 bg-gray-400 w-full"></div>
+<div class="h-3 bg-gray-400 w-4/5"></div>
+</div>
+<!-- Mid-article Ad -->
+<div class="w-full h-24 bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-400 mb-6">
+                                Interstitial Ad Banner
+                            </div>
+<div class="space-y-2">
+<div class="h-3 bg-gray-400 w-full"></div>
+<div class="h-3 bg-gray-400 w-full"></div>
+<div class="h-3 bg-gray-400 w-full"></div>
+</div>
+</div>
+</div>
+<!-- Overlay indicating it's the raw source -->
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<div class="bg-black/80 backdrop-blur-sm text-white px-6 py-3 rounded-xl border border-white/10 shadow-2xl flex flex-col items-center">
+<span class="material-symbols-outlined text-4xl mb-2 text-[#9da6b8]">html</span>
+<span class="font-bold text-lg">Raw Rendered View</span>
+<span class="text-sm text-[#9da6b8]">Visually cluttered</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: After / Flow Mode (60%) -->
+<section class="w-[60%] flex flex-col bg-background-dark relative">
+<!-- Right Panel Header -->
+<div class="flex items-center justify-between px-8 py-3 border-b border-border-dark bg-[#1a1d23]/50 backdrop-blur sticky top-0 z-10">
+<div class="flex flex-col">
+<span class="text-xs font-bold text-primary uppercase tracking-wider mb-0.5">Detected Task</span>
+<div class="flex items-center gap-2">
+<h1 class="text-white font-bold text-lg leading-none">Read &amp; Analyze Article</h1>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">CONFIDENCE 98%</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#292e38] hover:bg-[#383e4b] text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+                        Export
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-lg shadow-blue-900/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+                        Copy Text
+                    </button>
+</div>
+</div>
+<!-- Content Area: Flow Stream -->
+<div class="flex-1 overflow-y-auto px-8 py-8 relative" id="flow-container">
+<div class="max-w-3xl mx-auto space-y-8 pb-24">
+<!-- Step 1: Summary Card -->
+<div class="group relative pl-8 border-l-2 border-primary">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-primary border-4 border-background-dark"></div>
+<div class="mb-2 flex items-center gap-2">
+<span class="text-xs font-bold text-primary tracking-widest uppercase">Step 1</span>
+<span class="text-xs text-[#9da6b8]">AI Generated</span>
+</div>
+<div class="bg-[#1a1d23] rounded-xl p-6 border border-border-dark shadow-sm hover:border-primary/50 transition-colors">
+<div class="flex items-start gap-4">
+<div class="bg-blue-500/10 p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined">summarize</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white mb-2">Executive Summary</h3>
+<p class="text-[#ced4e0] leading-relaxed text-sm">
+                                        This article discusses the emerging trends in AI-driven interfaces for 2024. The author argues that cognitive load reduction is the primary driver for user adoption, citing a 40% increase in retention for streamlined apps.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Key Points -->
+<div class="group relative pl-8 border-l-2 border-[#292e38]">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-[#292e38] border-4 border-background-dark group-hover:bg-primary transition-colors"></div>
+<div class="mb-2 flex items-center gap-2">
+<span class="text-xs font-bold text-[#9da6b8] tracking-widest uppercase group-hover:text-primary transition-colors">Step 2</span>
+</div>
+<div class="bg-[#1a1d23] rounded-xl p-6 border border-border-dark shadow-sm hover:border-primary/50 transition-colors">
+<div class="flex items-start gap-4">
+<div class="bg-purple-500/10 p-3 rounded-lg text-purple-400">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+</div>
+<div class="w-full">
+<h3 class="text-lg font-bold text-white mb-3">Key Takeaways</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 p-2 rounded hover:bg-[#252830] transition-colors">
+<span class="material-symbols-outlined text-green-400 text-sm mt-1">check_circle</span>
+<span class="text-[#ced4e0] text-sm">Multimodal AI is shifting from novelty to utility.</span>
+</li>
+<li class="flex items-start gap-3 p-2 rounded hover:bg-[#252830] transition-colors">
+<span class="material-symbols-outlined text-green-400 text-sm mt-1">check_circle</span>
+<span class="text-[#ced4e0] text-sm">Accessibility is no longer an afterthought but a core design principle.</span>
+</li>
+<li class="flex items-start gap-3 p-2 rounded hover:bg-[#252830] transition-colors">
+<span class="material-symbols-outlined text-green-400 text-sm mt-1">check_circle</span>
+<span class="text-[#ced4e0] text-sm">"Calm Technology" is the new design standard for high-traffic platforms.</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Main Content (Reading View) -->
+<div class="group relative pl-8 border-l-2 border-[#292e38]">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-[#292e38] border-4 border-background-dark group-hover:bg-primary transition-colors"></div>
+<div class="mb-2 flex items-center gap-2">
+<span class="text-xs font-bold text-[#9da6b8] tracking-widest uppercase group-hover:text-primary transition-colors">Step 3</span>
+</div>
+<div class="bg-[#1a1d23] rounded-xl p-8 border border-border-dark shadow-sm hover:border-primary/50 transition-colors">
+<h3 class="text-2xl font-bold text-white mb-6">The Rise of Cognitive Interfaces</h3>
+<div class="prose prose-invert max-w-none text-[#ced4e0] leading-8 text-base font-normal space-y-6">
+<p>
+                                    As we navigate an increasingly digital world, the sheer volume of information vying for our attention has become overwhelming. This phenomenon, often termed "information overload," is not just a nuisance; it's a barrier to effective comprehension and decision-making.
+                                </p>
+<div class="border-l-4 border-primary pl-4 py-1 italic text-white bg-[#111318]/50 rounded-r">
+                                    "The interface of the future doesn't just display information; it curates attention."
+                                </div>
+<p>
+                                    Designers are now pivoting towards "Cognitive Interfaces"—systems specifically engineered to respect human cognitive limits. By leveraging AI to parse, structure, and prioritize content before it even reaches the user's retina, we can reclaim our mental bandwidth.
+                                </p>
+<p>
+                                    Tools like ClarityUI are at the forefront of this shift. By transforming raw, chaotic HTML into structured "Flows," they allow users to process information sequentially rather than simultaneously.
+                                </p>
+</div>
+<!-- Contextual Image within content -->
+<div class="mt-8 rounded-lg overflow-hidden border border-border-dark">
+<div class="w-full h-48 bg-cover bg-center" data-alt="Abstract blue digital network connections representing AI data processing" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwE83ao2mdULG7mQ-hcTTT6gX6u7sXT-K4JmggXWujAbCTA2DXLcWS0RuIDLd17EffyN7dSdmsha5Qco4WcCYyvNnAeOzKRx2XAVAiVT4BdR2eZmHMzCZvMwH1CPIPvoNp6tT8jwTnA-3lymPF1z_zQG3S6QmhLZ0zRijnLUIuGQL0v_mmoGDDQYAvGMhFU43Yo2NNki5yljhWzqvqd3_mrIBzxE_5S1DAFNNn0LrUQApcqNhipoXXDptsE0JFZE_vvKptp9z0NLbt');"></div>
+<div class="bg-[#111318] p-3 text-xs text-[#9da6b8] flex justify-between">
+<span>Figure 1: Data Topology</span>
+<span>Source: Tech Trends Quarterly</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 4: Action Items -->
+<div class="group relative pl-8 border-l-2 border-dashed border-[#292e38]">
+<div class="absolute -left-[9px] top-0 size-4 rounded-full bg-[#111318] border-2 border-[#292e38] group-hover:border-primary transition-colors"></div>
+<div class="mb-2 flex items-center gap-2">
+<span class="text-xs font-bold text-[#9da6b8] tracking-widest uppercase group-hover:text-primary transition-colors">Detected Actions</span>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-[#252830] hover:bg-[#292e38] border border-border-dark hover:border-primary p-4 rounded-lg text-left transition-all group/btn">
+<div class="flex items-center justify-between mb-2">
+<span class="text-white font-bold text-sm">Sign Up for Newsletter</span>
+<span class="material-symbols-outlined text-[#9da6b8] group-hover/btn:text-primary">arrow_forward</span>
+</div>
+<p class="text-xs text-[#9da6b8]">Link found in footer</p>
+</button>
+<button class="flex-1 bg-[#252830] hover:bg-[#292e38] border border-border-dark hover:border-primary p-4 rounded-lg text-left transition-all group/btn">
+<div class="flex items-center justify-between mb-2">
+<span class="text-white font-bold text-sm">Download PDF Report</span>
+<span class="material-symbols-outlined text-[#9da6b8] group-hover/btn:text-primary">download</span>
+</div>
+<p class="text-xs text-[#9da6b8]">Direct download link</p>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Pill -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
+<div class="glass-panel border border-white/10 rounded-full px-2 py-1.5 shadow-2xl flex items-center gap-2">
+<button class="size-9 rounded-full hover:bg-white/10 flex items-center justify-center text-[#ced4e0] transition-colors" title="Decrease Font Size">
+<span class="material-symbols-outlined text-[18px]">text_decrease</span>
+</button>
+<span class="w-px h-4 bg-white/20"></span>
+<button class="size-9 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-colors" title="Reset">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+</button>
+<span class="w-px h-4 bg-white/20"></span>
+<button class="size-9 rounded-full hover:bg-white/10 flex items-center justify-center text-[#ced4e0] transition-colors" title="Increase Font Size">
+<span class="material-symbols-outlined text-[18px]">text_increase</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

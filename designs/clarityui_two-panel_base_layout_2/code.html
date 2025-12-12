@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClarityUI - Zen Mode</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e2330",
+                        "border-light": "#dcdfe5",
+                        "border-dark": "#2a2f3d",
+                        "text-main": "#111318",
+                        "text-sub": "#636f88",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem", 
+                        "lg": "1.5rem", 
+                        "xl": "2rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcdfe5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c0c4cc; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2a2f3d;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #3e4556;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-6 py-3 shrink-0 z-30 relative h-[65px]">
+<div class="flex items-center gap-3 text-text-main dark:text-white w-1/4">
+<div class="size-9 flex items-center justify-center bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined text-2xl">filter_vintage</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.02em]">ClarityUI</h2>
+</div>
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="flex h-11 items-center justify-center rounded-full bg-background-light dark:bg-background-dark p-1.5 border border-border-light dark:border-border-dark shadow-inner">
+<label class="group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a2f3d] has-[:checked]:shadow-sm has-[:checked]:text-primary text-text-sub dark:text-gray-400 text-sm font-semibold transition-all duration-200 hover:text-text-main dark:hover:text-gray-200">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">self_improvement</span> 
+                        Zen
+                    </span>
+<input checked="" class="invisible w-0 absolute" name="mode" type="radio" value="Zen"/>
+</label>
+<label class="group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a2f3d] has-[:checked]:shadow-sm has-[:checked]:text-primary text-text-sub dark:text-gray-400 text-sm font-semibold transition-all duration-200 hover:text-text-main dark:hover:text-gray-200">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">waves</span> 
+                        Flow
+                    </span>
+<input class="invisible w-0 absolute" name="mode" type="radio" value="Flow"/>
+</label>
+<label class="group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a2f3d] has-[:checked]:shadow-sm has-[:checked]:text-primary text-text-sub dark:text-gray-400 text-sm font-semibold transition-all duration-200 hover:text-text-main dark:hover:text-gray-200">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">bolt</span> 
+                        ADHD
+                    </span>
+<input class="invisible w-0 absolute" name="mode" type="radio" value="ADHD"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-end gap-6 w-1/4">
+<div class="hidden xl:flex items-center gap-4 bg-background-light dark:bg-background-dark px-4 py-2 rounded-full border border-border-light dark:border-border-dark">
+<span class="text-[10px] font-bold text-text-sub uppercase tracking-wider">Intensity</span>
+<div class="flex h-1.5 w-20 rounded-full bg-gray-200 dark:bg-gray-700 relative items-center cursor-pointer group">
+<div class="h-full w-[60%] rounded-full bg-primary group-hover:bg-blue-600 transition-colors"></div>
+<div class="absolute left-[60%] -translate-x-1/2 w-3.5 h-3.5 bg-white border-2 border-primary rounded-full shadow-sm cursor-grab hover:scale-110 active:scale-95 transition-transform"></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-text-main dark:text-white transition-colors border border-transparent hover:border-border-light">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white dark:border-gray-700 shadow-sm cursor-pointer hover:ring-2 ring-primary ring-offset-2 transition-all" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0Wq1EktKfVxcce6WrN9siJ0ZoK4StRecexx9I8hzUSTjJxrHCZErqdyBufrLKolVetM4_TgGDjM8tV5NqKRGmS87pOUYnm1a3kaZ4SHDp6a7p4USj7md1rpZrMfCRJruHv0jjCzy86qci5eGYO9Sh4vWFoCig3AswEbsG7hok4LWxZe4n8uWE5QI4ewLP_0OeB7FojZJGoVGMp2-ch-Ywyl8CpzeHqA2ppoTNhw0zlPxByXEgVSTY0JGabDU4yhrv66Up7LSENC_6");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative w-full bg-background-light dark:bg-background-dark">
+<section class="flex flex-col w-full lg:w-1/2 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark relative group/leftpanel transition-all duration-300">
+<div class="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-white dark:bg-surface-dark z-10 h-14 shrink-0">
+<div class="flex items-center bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1.5 max-w-[60%]">
+<span class="material-symbols-outlined text-sm text-text-sub mr-2">lock</span>
+<span class="text-xs font-mono text-text-sub truncate">bbc.com/news/technology</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 pl-3 border-l border-border-light dark:border-border-dark">
+<span class="text-xs font-medium text-text-sub hidden sm:inline-block">Show Original</span>
+<label class="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-gray-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+<div class="h-4 w-4 rounded-full bg-white shadow-sm"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+<button class="flex items-center justify-center size-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-sub hover:text-text-main transition-colors" title="Dismiss Panel">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto relative bg-gray-50 dark:bg-[#0f1218] scroll-smooth">
+<img alt="Screenshot of a cluttered news website" class="w-full h-auto object-top min-h-full opacity-90 dark:opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNrW9ML2_ZzvEDNdqjTA2M85LInikYPnGySX5zYSZf8wjI1qwKVLB7NSOE7p0sLWerAqody11-eRWk9bHG4AbttSauLsX9MGqTe2F2tYs861c_JCeB1IW_kzuZvqWGYxIW27A0urTHnn5d80XwIKqD-4FcXR8UVSP8uwm6u33PjxxlbD1cOfEvY_8Qow0hGyWvkzdNpyjorVZv3FyrohpM6hXVcbHAf98Xls1ZY2C6aVN8J52wtdu5ZIUCqzjG2wmIauO3gSlKXD3z"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+</div>
+</section>
+<section class="flex flex-col w-full lg:w-1/2 bg-surface-light dark:bg-surface-dark relative h-full">
+<div class="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md z-20 h-14 shrink-0 sticky top-0">
+<div class="flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+<button class="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Raw</button>
+<button class="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Struct</button>
+<button class="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Summary</button>
+<button class="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-gray-600 text-primary shadow-sm ring-1 ring-black/5 dark:ring-white/5">Deep</button>
+<button class="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Flux</button>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-full hover:border-primary/50 hover:shadow-sm transition-all group">
+<span class="material-symbols-outlined text-lg text-text-sub group-hover:text-primary">palette</span>
+<span class="text-xs font-semibold text-text-main dark:text-white">Appearance</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto px-8 py-10 lg:px-12 bg-surface-light dark:bg-surface-dark font-body">
+<article class="max-w-2xl mx-auto animate-[fadeIn_0.5s_ease-out]">
+<span class="inline-block px-3 py-1 mb-6 text-[10px] font-bold tracking-widest text-primary uppercase bg-primary/10 rounded-full">Technology</span>
+<h1 class="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-6 leading-tight font-display">
+                        How AI Transformers Are Reshaping Digital Consumption
+                    </h1>
+<div class="flex items-center gap-3 mb-10 text-xs text-text-sub border-b border-border-light dark:border-border-dark pb-6">
+<span class="font-bold text-text-main dark:text-gray-300">BBC News</span>
+<span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+<span>5 min read</span>
+<span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+<span>Processed by ClarityUI</span>
+</div>
+<div class="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+<p class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:float-left first-letter:mr-3 first-letter:mt-[-6px]">
+                            The modern web is a cacophony of noise. Ads, pop-ups, and endless navigation bars compete for our limited attention span. But a new wave of browser interfaces, powered by multimodal AI, is emerging to bring silence to the chaos.
+                        </p>
+<p>
+                            These "transformer" interfaces don't just block ads; they fundamentally restructure the content. By understanding the semantic meaning of a webpage, AI can strip away the structural debris and present the core information in a format that suits the user's current cognitive state.
+                        </p>
+<div class="my-8 p-6 bg-background-light dark:bg-[#151921] rounded-2xl border-l-4 border-primary">
+<p class="text-base italic font-medium text-text-main dark:text-gray-200">
+                                "It's not about hiding information, it's about revealing clarity. We are moving from a web of pages to a web of pure intent."
+                            </p>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white mt-8 mb-4 font-display">The Deep Reading Mode</h3>
+<p>
+                            In 'Deep' mode, distractions are eliminated entirely. Typography is optimized for long-form reading, contrast is adjusted to reduce eye strain, and related concepts are automatically linked for context without cluttering the view. This allows users to enter a flow state previously impossible on ad-heavy news sites.
+                        </p>
+<p>
+                            As we move forward, the browser will cease to be a passive window and become an active agent, curating our digital environment to match our mental needs.
+                        </p>
+</div>
+<div class="mt-16 pt-8 border-t border-border-light dark:border-border-dark flex justify-between items-center text-sm text-text-sub">
+<span>Original source: bbc.com</span>
+<button class="text-primary font-medium hover:underline">Read original</button>
+</div>
+</article>
+</div>
+</section>
+</main>
+
+</body></html>

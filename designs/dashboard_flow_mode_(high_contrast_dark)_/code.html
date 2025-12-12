@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Flow Mode</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1e2128",
+                        "border-dark": "#292e38",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"],
+                        "body": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111621; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #292e38; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3c4453; 
+        }
+        .dimmed-overlay {
+            background: linear-gradient(to bottom, rgba(17, 22, 33, 0.7), rgba(17, 22, 33, 0.85));
+            backdrop-filter: grayscale(100%) blur(1px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-[#111318] px-6 py-3 z-50">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">transform</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AI Interface Transformer</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="flex bg-[#292e38] rounded-lg p-1">
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-4 bg-primary text-white text-sm font-bold leading-normal transition-all hover:brightness-110 shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-[18px] mr-2">auto_mode</span>
+<span class="truncate">Flow Mode</span>
+</button>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-4 text-gray-400 text-sm font-medium leading-normal hover:text-white transition-colors">
+<span class="truncate">Standard</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-[#292e38]"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-white leading-none">Alex Morgan</p>
+<p class="text-xs text-gray-400 leading-none mt-1">Data Analyst</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-[#292e38]" data-alt="User profile avatar showing a professional headshot" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBOqlU7i4XwT5aYX96ltd7xqavgHUirWeVy8gFdUJKfey7Tpko8_3Msz6Yk_s-Dsv6ZmLxM1cTyDyMmRZ9jLcaO7bpoxvf54QdzHCRuiEfMGy-oMAQWTufeI1W8-LdnVMXj19qcZ5GmdiVOhv_6FZDoLpisyIqQfxUzJfPL2qCUzGUavjzp54yfGLZX1ibDWjapYlPgDjRwIP3qZFAFbVGZ7kUBTdwWbgwNm7-pQXVOyDKhCIsQJz5gLf-CvgyWGcQYiD5nFvJ3rP4");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area: Split View -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel: Source View (Dimmed) -->
+<aside class="hidden lg:flex w-[40%] flex-col border-r border-border-dark relative bg-[#0d1016]">
+<!-- Dismiss Button -->
+<button class="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#292e38] text-gray-400 hover:text-white hover:bg-[#3c4453] transition-colors" title="Collapse Source View">
+<span class="material-symbols-outlined text-lg">close_fullscreen</span>
+</button>
+<!-- Source Label -->
+<div class="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md">
+<p class="text-xs font-medium text-gray-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">visibility_off</span>
+                    Original Interface (Source)
+                </p>
+</div>
+<!-- Dimmed Overlay -->
+<div class="absolute inset-0 z-10 dimmed-overlay pointer-events-none"></div>
+<!-- Mock Complex Dashboard Content (Visual Noise) -->
+<div class="flex-1 overflow-hidden opacity-40 p-4 scale-[0.98] origin-top">
+<!-- Fake Toolbar -->
+<div class="h-12 w-full bg-[#1e2128] border border-[#292e38] rounded mb-4 flex items-center gap-2 px-3">
+<div class="h-6 w-24 bg-[#292e38] rounded"></div>
+<div class="h-6 w-32 bg-[#292e38] rounded"></div>
+<div class="flex-1"></div>
+<div class="h-6 w-6 bg-[#292e38] rounded-full"></div>
+</div>
+<!-- Fake Grid/Table -->
+<div class="grid grid-cols-4 gap-3">
+<!-- Left Sidebar of fake dashboard -->
+<div class="col-span-1 flex flex-col gap-2">
+<div class="h-8 w-full bg-[#1e2128] rounded"></div>
+<div class="h-8 w-full bg-[#1e2128] rounded"></div>
+<div class="h-8 w-full bg-[#1e2128] rounded"></div>
+<div class="h-8 w-full bg-[#1e2128] rounded"></div>
+<div class="h-32 w-full bg-[#1e2128] rounded mt-4"></div>
+</div>
+<!-- Main Content of fake dashboard -->
+<div class="col-span-3 flex flex-col gap-3">
+<div class="h-48 w-full bg-[#1e2128] rounded border border-[#292e38] relative overflow-hidden">
+<!-- Fake Chart Lines -->
+<div class="absolute bottom-4 left-4 right-4 h-32 flex items-end justify-between gap-1">
+<div class="w-full bg-[#292e38] h-[40%]"></div>
+<div class="w-full bg-[#292e38] h-[60%]"></div>
+<div class="w-full bg-[#292e38] h-[30%]"></div>
+<div class="w-full bg-[#292e38] h-[80%]"></div>
+<div class="w-full bg-[#292e38] h-[50%]"></div>
+</div>
+</div>
+<div class="h-80 w-full bg-[#1e2128] rounded border border-[#292e38] p-3">
+<div class="flex gap-4 mb-3 border-b border-[#292e38] pb-2">
+<div class="h-4 w-20 bg-[#292e38] rounded"></div>
+<div class="h-4 w-20 bg-[#292e38] rounded"></div>
+<div class="h-4 w-20 bg-[#292e38] rounded"></div>
+</div>
+<!-- Fake Rows -->
+<div class="flex flex-col gap-2">
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+<div class="h-8 w-full bg-[#292e38]/50 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Active Flow Mode -->
+<main class="flex-1 flex flex-col h-full bg-background-dark overflow-hidden relative">
+<!-- Draggable Handle Visual -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-16 bg-[#292e38] rounded-r hover:bg-primary cursor-ew-resize hidden lg:block transition-colors"></div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-8 py-8 md:px-12 lg:px-16">
+<div class="max-w-[800px] mx-auto flex flex-col gap-8 pb-24">
+<!-- Header -->
+<div class="flex flex-col gap-2">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full w-fit">
+<span class="material-symbols-outlined text-primary text-sm">analytics</span>
+<span class="text-primary text-xs font-bold uppercase tracking-wide">Report Generation</span>
+</div>
+<h1 class="text-white text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+                            Monthly User Acquisition
+                        </h1>
+<p class="text-gray-400 text-lg">Define the metrics you want to include in this month's automated report.</p>
+</div>
+<!-- Progress Stepper -->
+<div class="flex flex-col gap-3 bg-surface-dark p-5 rounded-xl border border-border-dark shadow-sm">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-white text-base font-semibold">Step 2 of 5</p>
+<p class="text-gray-400 text-sm mt-1">Select Key Metrics</p>
+</div>
+<span class="text-primary text-sm font-bold">40% Completed</span>
+</div>
+<div class="w-full h-2 bg-[#292e38] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<!-- Main Interaction Area: Metric Selection -->
+<div class="flex flex-col gap-4">
+<h3 class="text-white text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bar_chart</span>
+                            Choose Metrics
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1: Selected -->
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="h-full bg-surface-dark border-2 border-primary rounded-xl p-5 transition-all peer-checked:bg-primary/5 hover:border-primary">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-[#292e38] rounded-lg text-white">
+<span class="material-symbols-outlined">group_add</span>
+</div>
+<div class="size-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center text-white transition-opacity opacity-100">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<h4 class="text-white font-bold text-lg mb-1">New Users</h4>
+<p class="text-gray-400 text-sm mb-3">First-time visitors to the site.</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-white">3,450</span>
+<span class="text-green-400 text-xs font-bold flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+                                        </span>
+</div>
+</div>
+</label>
+<!-- Card 2: Unselected -->
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="h-full bg-surface-dark border-2 border-transparent border-[#292e38] rounded-xl p-5 transition-all hover:border-gray-500 peer-checked:border-primary peer-checked:bg-primary/5">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-[#292e38] rounded-lg text-gray-300 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<div class="size-6 rounded-full border-2 border-[#3c4453] bg-transparent flex items-center justify-center text-transparent transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<h4 class="text-gray-200 font-bold text-lg mb-1 group-hover:text-white">Avg. Session Duration</h4>
+<p class="text-gray-500 text-sm mb-3 group-hover:text-gray-400">Time spent per session.</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-400 group-hover:text-white">2m 14s</span>
+<span class="text-gray-600 text-xs font-bold flex items-center">
+<span class="material-symbols-outlined text-[14px]">remove</span> 0%
+                                        </span>
+</div>
+</div>
+</label>
+<!-- Card 3: Selected -->
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="h-full bg-surface-dark border-2 border-primary rounded-xl p-5 transition-all peer-checked:bg-primary/5 hover:border-primary">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-[#292e38] rounded-lg text-white">
+<span class="material-symbols-outlined">call_missed_outgoing</span>
+</div>
+<div class="size-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center text-white transition-opacity opacity-100">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<h4 class="text-white font-bold text-lg mb-1">Bounce Rate</h4>
+<p class="text-gray-400 text-sm mb-3">Single-page sessions.</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-white">42.5%</span>
+<span class="text-green-400 text-xs font-bold flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> 5%
+                                        </span>
+</div>
+</div>
+</label>
+<!-- Card 4: Unselected -->
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="h-full bg-surface-dark border-2 border-transparent border-[#292e38] rounded-xl p-5 transition-all hover:border-gray-500 peer-checked:border-primary peer-checked:bg-primary/5">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-[#292e38] rounded-lg text-gray-300 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+<div class="size-6 rounded-full border-2 border-[#3c4453] bg-transparent flex items-center justify-center text-transparent transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<h4 class="text-gray-200 font-bold text-lg mb-1 group-hover:text-white">Revenue</h4>
+<p class="text-gray-500 text-sm mb-3 group-hover:text-gray-400">Total revenue generated.</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-400 group-hover:text-white">$12,450</span>
+<span class="text-red-400 text-xs font-bold flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> 2%
+                                        </span>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- AI Insight Box -->
+<div class="bg-gradient-to-r from-[#1c2333] to-[#111621] border border-primary/30 p-5 rounded-xl flex gap-4 items-start shadow-lg relative overflow-hidden group">
+<!-- Decorative glow -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/20 blur-[50px] rounded-full group-hover:bg-primary/30 transition-all"></div>
+<div class="bg-primary/20 p-2 rounded-lg text-primary shrink-0 z-10">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div class="z-10">
+<h4 class="text-white font-bold text-sm uppercase tracking-wider mb-1">AI Analysis</h4>
+<p class="text-gray-200 text-sm leading-relaxed">
+<strong class="text-white">Good news:</strong> Your bounce rate has improved by 5% compared to last month, likely due to the recent optimization of the landing page load times. This is a key highlight for your report.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer: Navigation Actions -->
+<footer class="border-t border-border-dark bg-[#111621] p-6 absolute bottom-0 w-full z-10">
+<div class="max-w-[800px] mx-auto flex justify-between items-center">
+<button class="flex items-center gap-2 px-6 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-[#292e38] transition-colors font-semibold">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Back
+                    </button>
+<button class="flex items-center gap-2 px-8 py-3 rounded-lg bg-primary hover:bg-blue-600 text-white shadow-lg shadow-blue-600/20 transition-all transform hover:-translate-y-0.5 font-bold">
+                        Next: Analyze Trends
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

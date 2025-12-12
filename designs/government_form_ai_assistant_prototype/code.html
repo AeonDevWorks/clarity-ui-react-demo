@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Government Form AI Assistant Prototype</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- React & Router -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2060df",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem", // rounded-md
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111317] dark:text-white h-screen overflow-hidden">
+    <div id="root" class="h-full"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const DemoNav = () => {
+            const location = useLocation();
+            
+            const navItems = [
+                { path: '/', label: 'Zen Mode' },
+                { path: '/flow', label: 'Flow Mode' },
+                { path: '/focus', label: 'ADHD Mode' },
+            ];
+
+            return (
+                <div className="fixed bottom-4 right-4 z-50 bg-white dark:bg-surface-dark shadow-lg rounded-full border border-gray-200 dark:border-gray-700 p-1 flex gap-1">
+                    {navItems.map((item) => (
+                        <Link 
+                            key={item.path} 
+                            to={item.path}
+                            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                                location.pathname === item.path 
+                                ? 'bg-primary text-white' 
+                                : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'
+                            }`}
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
+                </div>
+            );
+        };
+
+        // --- Screen 1: Zen Mode ---
+        
+        const ZenModeScreen = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="h-screen flex flex-col overflow-hidden font-display bg-background-light dark:bg-background-dark text-[#111317] dark:text-white">
+                    {/* Top Toolbar */}
+                    <header className="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f4] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-3 z-20 shadow-sm">
+                        <div className="flex items-center gap-4 text-[#111317] dark:text-white">
+                            <div className="size-6 text-primary flex items-center justify-center">
+                                <span className="material-symbols-outlined">description</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <h2 className="text-[#111317] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Form 1040-SR Assistant</h2>
+                                <div className="flex items-center gap-1.5 mt-0.5">
+                                    <span className="size-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Zen Mode Active</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-1 justify-end gap-6 items-center">
+                            <div className="hidden md:flex items-center gap-6">
+                                <a className="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+                                <a className="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Save Draft</a>
+                            </div>
+                            <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 hidden md:block"></div>
+                            <div className="flex gap-2">
+                                <button className="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111317] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Change Text Size">
+                                    <span className="material-symbols-outlined">text_fields</span>
+                                </button>
+                                <button className="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111317] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Adjust Contrast">
+                                    <span className="material-symbols-outlined">contrast</span>
+                                </button>
+                                <button className="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors ring-1 ring-primary/20" title="Toggle View">
+                                    <span className="material-symbols-outlined">vertical_split</span>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content Area (Split View) */}
+                    <main className="flex-1 flex overflow-hidden relative">
+                        {/* Left Panel: Original Document Source */}
+                        <aside className="hidden lg:flex flex-col w-1/2 border-r border-[#f0f2f4] dark:border-gray-800 bg-[#f8fafc] dark:bg-[#0f1218] relative group/left-panel">
+                            {/* Panel Header */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-[#e2e8f0] dark:border-gray-800 bg-white/50 dark:bg-surface-dark/50 backdrop-blur-sm sticky top-0 z-10">
+                                <h3 className="text-gray-700 dark:text-gray-200 text-sm font-bold uppercase tracking-wider">Original Document Source</h3>
+                                <button className="text-gray-400 hover:text-primary transition-colors" title="Collapse Panel">
+                                    <span className="material-symbols-outlined">first_page</span>
+                                </button>
+                            </div>
+                            {/* Document Scroll Container */}
+                            <div className="flex-1 overflow-y-auto p-8 flex justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+                                <div className="w-full max-w-[800px] bg-white shadow-lg rounded-sm overflow-hidden min-h-[1000px] relative border border-gray-200">
+                                    {/* Fake Form Representation Image */}
+                                    <div className="w-full aspect-[8.5/11] bg-contain bg-top bg-no-repeat opacity-90 hover:opacity-100 transition-opacity" data-alt="Image of the standard IRS 1040 tax form" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzcyoGNtSVmQAJJj0KSent1qlmeiABq0Be9u01M3ShAzKyIrwwFsxW2I_4RfNJxnvQA9pfVoma4XbsaHP4r9c2lfl474AcmVDQOLYeICWdDrmsUFaP55pd71oioT2RMlJxo0dUotpX7nPUGE7Cg7mQ9FWz-eN-11qXBh-vBvGTOnn7fkwwgH--v8cldOqmrmdrCQCeI5xPv3Y025aGc3dVvncQ79nwA2_1JpPUsTzHAFSXkQ0cvjRvaaLjOFw0Y9piLSZTMUMiyZLu')"}}>
+                                    </div>
+                                    {/* Highlight Overlay indicating focus area */}
+                                    <div className="absolute top-[18%] left-[5%] w-[90%] h-[15%] border-2 border-primary bg-primary/10 mix-blend-multiply pointer-events-none rounded">
+                                        <div className="absolute -right-3 -top-3 bg-primary text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm">Focusing Here</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* Right Panel: Zen Mode Interface */}
+                        <section className="flex-1 flex flex-col w-full lg:w-1/2 bg-background-light dark:bg-background-dark relative">
+                            {/* Floating Mobile Toggle */}
+                            <button className="lg:hidden absolute left-4 top-4 z-10 bg-white dark:bg-surface-dark shadow-md p-2 rounded-lg border border-gray-200 dark:border-gray-700">
+                                <span className="material-symbols-outlined">menu_book</span>
+                            </button>
+                            <div className="flex-1 overflow-y-auto">
+                                <div className="max-w-[640px] mx-auto w-full px-6 py-10 flex flex-col gap-8 min-h-full">
+                                    {/* Progress Bar */}
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex justify-between items-end">
+                                            <p className="text-primary font-bold text-sm tracking-wide uppercase">Personal Details</p>
+                                            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Step 1 of 5</p>
+                                        </div>
+                                        <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                            <div className="h-full bg-primary w-[20%] rounded-full shadow-[0_0_10px_rgba(32,96,223,0.4)]"></div>
+                                        </div>
+                                    </div>
+                                    {/* Headline */}
+                                    <div>
+                                        <h1 className="text-[#111317] dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-3">
+                                            Let's start with your personal details.
+                                        </h1>
+                                        <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                                            Please provide your legal name as it appears on your Social Security card.
+                                        </p>
+                                    </div>
+                                    {/* AI Insight Card */}
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-5 flex gap-4 items-start shadow-sm">
+                                        <div className="text-primary mt-0.5 shrink-0">
+                                            <span className="material-symbols-outlined">auto_awesome</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-bold text-[#111317] dark:text-blue-100 mb-1">Why we need this</h4>
+                                            <p className="text-sm text-gray-600 dark:text-blue-200 leading-relaxed">
+                                                This section ensures the government knows exactly where to send your refund. Mismatched names are the #1 reason for delayed returns.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {/* Form Fields */}
+                                    <form className="flex flex-col gap-6 mt-2" onSubmit={(e) => e.preventDefault()}>
+                                        {/* Name Group */}
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div className="flex flex-col gap-2 group">
+                                                <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1" htmlFor="first-name">First Name</label>
+                                                <div className="relative">
+                                                    <input className="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 px-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm placeholder-gray-400" id="first-name" placeholder="e.g. Jane" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col gap-2 group">
+                                                <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1" htmlFor="last-name">Last Name</label>
+                                                <div className="relative">
+                                                    <input className="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 px-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm placeholder-gray-400" id="last-name" placeholder="e.g. Doe" type="text"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* SSN Field */}
+                                        <div className="flex flex-col gap-2 group">
+                                            <div className="flex justify-between items-center ml-1">
+                                                <label className="text-sm font-bold text-gray-700 dark:text-gray-300" htmlFor="ssn">Social Security Number</label>
+                                                <div className="group/tooltip relative flex items-center gap-1 cursor-help text-gray-400 hover:text-primary transition-colors">
+                                                    <span className="material-symbols-outlined text-[18px]">help</span>
+                                                    <span className="text-xs font-medium">What is this?</span>
+                                                    {/* Tooltip */}
+                                                    <div className="absolute bottom-full right-0 mb-2 w-48 bg-gray-900 text-white text-xs rounded p-2 hidden group-hover/tooltip:block z-50">
+                                                        Your 9-digit tax ID number.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="relative">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                                    <span className="material-symbols-outlined text-[20px]">lock</span>
+                                                </div>
+                                                <input className="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm tracking-widest placeholder-gray-400" id="ssn" placeholder="XXX-XX-XXXX" type="password"/>
+                                                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 p-1 rounded transition-colors" type="button">
+                                                    <span className="material-symbols-outlined text-[20px]">visibility</span>
+                                                </button>
+                                            </div>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 ml-1 mt-1 flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px] text-green-600">shield</span>
+                                                Your data is encrypted and secure.
+                                            </p>
+                                        </div>
+                                        {/* Joint Filing Checkbox */}
+                                        <div className="mt-2 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex gap-4 hover:border-primary/50 transition-colors cursor-pointer group">
+                                            <div className="pt-0.5">
+                                                <input className="size-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" id="joint-filing" type="checkbox"/>
+                                            </div>
+                                            <label className="cursor-pointer flex-1" htmlFor="joint-filing">
+                                                <span className="block text-sm font-bold text-gray-900 dark:text-white mb-0.5 group-hover:text-primary transition-colors">Joint Filing</span>
+                                                <span className="block text-sm text-gray-500 dark:text-gray-400">Select this if you are filing this return with a spouse.</span>
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <div className="h-20"></div>
+                                </div>
+                            </div>
+                            {/* Action Bar (Sticky Bottom) */}
+                            <div className="sticky bottom-0 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur border-t border-gray-200 dark:border-gray-700 p-4 md:px-8 md:py-5 flex justify-between items-center">
+                                <button className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium text-sm flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                    <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+                                    Back
+                                </button>
+                                <button onClick={() => navigate('/flow')} className="bg-primary hover:bg-blue-700 text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all transform active:scale-95">
+                                    Confirm & Continue
+                                    <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                </button>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Flow Mode ---
+
+        const FlowModeScreen = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="bg-background-light dark:bg-background-dark font-display text-[#111318] dark:text-white h-screen flex flex-col overflow-hidden">
+                    {/* Top Navigation Bar */}
+                    <header className="flex items-center justify-between border-b border-solid border-[#dcdfe5] bg-white dark:bg-[#111621] px-6 py-3 shrink-0 z-20 shadow-sm">
+                        <div className="flex items-center gap-4">
+                            <div className="size-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-2xl">description</span>
+                            </div>
+                            <h2 className="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">FormFlow AI</h2>
+                            <div className="h-6 w-px bg-[#dcdfe5] mx-2"></div>
+                            <span className="text-sm font-medium text-gray-500">DMV Form DL-44</span>
+                        </div>
+                        <div className="flex items-center gap-6">
+                            {/* View Toggle */}
+                            <div className="flex bg-[#f0f2f4] dark:bg-gray-800 rounded-lg p-1">
+                                <button className="px-3 py-1.5 rounded-md text-sm font-bold bg-white dark:bg-gray-700 shadow-sm text-primary transition-all">Flow Mode</button>
+                                <button className="px-3 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all">Original PDF</button>
+                            </div>
+                            <div className="flex gap-3">
+                                <button className="flex size-10 items-center justify-center rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111318] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                    <span className="material-symbols-outlined">settings</span>
+                                </button>
+                                <div className="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-[#dcdfe5]" data-alt="User profile avatar" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLIum7iNdyrS5yFlp014yN8t-OnaqUSPGqYu1Zbrk2pgYb96T2Q_ou5AEPmPTA3VjSyYzgU6DTkBIgVHw2RdsBe5ud0y8uyb3eMdmZtXg2YJeaC_B2MT6sluAz9TKKgIdSAuKj5Ph9RQ86TxhtwyIeqNvtSMHlc1yuM_iFtJQntexaeQ9a1GV_FhXDt-3gFZ1pv6cMOrbrjhNloL-PplGUm38erWxNWBdYQrDa-b_8fJ-vitIs-l6F4Lc6_Q-j9q2qjkb5Hj9f-fmN")'}}></div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Layout Container */}
+                    <div className="flex flex-1 overflow-hidden relative">
+                        {/* Left Panel: Source View (40%) */}
+                        <aside className="hidden lg:flex flex-col w-[40%] border-r border-[#dcdfe5] bg-[#eef0f2] dark:bg-[#0d1117] relative z-10 shadow-inner group/left-panel transition-all duration-300">
+                            {/* Toolbar for Document */}
+                            <div className="flex justify-between items-center px-4 py-2 bg-white dark:bg-[#111621] border-b border-[#dcdfe5]">
+                                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Source Document</span>
+                                <div className="flex gap-1">
+                                    <button className="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800">
+                                        <span className="material-symbols-outlined text-[20px]">zoom_out</span>
+                                    </button>
+                                    <span className="px-2 py-1.5 text-xs font-mono text-gray-500">100%</span>
+                                    <button className="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800">
+                                        <span className="material-symbols-outlined text-[20px]">zoom_in</span>
+                                    </button>
+                                    <div className="w-px h-6 bg-gray-200 mx-1"></div>
+                                    <button className="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800" title="Dismiss Panel">
+                                        <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {/* PDF/Image Viewer Container */}
+                            <div className="flex-1 overflow-auto p-8 flex justify-center bg-[#525659]/10 relative">
+                                <div className="relative w-full max-w-[600px] shadow-2xl bg-white rounded-sm overflow-hidden min-h-[800px]">
+                                    <div className="w-full h-full bg-[url('https://cdn.usegalileo.ai/sdxl10/924f3f01-f11a-4d24-811c-2c9384771960.png')] bg-top bg-cover opacity-90" data-alt="Dense government form document"></div>
+                                    {/* Highlight Overlay */}
+                                    <div className="absolute top-[18%] left-[5%] right-[5%] h-[200px] bg-primary/10 border-2 border-primary rounded mix-blend-multiply pointer-events-none animate-pulse">
+                                        <div className="absolute -right-3 top-0 bottom-0 flex items-center">
+                                            <div className="bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-l shadow-sm rotate-90 origin-right translate-x-full">
+                                                ACTIVE SECTION
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* Right Panel: Flow Mode (60%) */}
+                        <main className="flex-1 flex flex-col bg-white dark:bg-[#111621] relative z-0">
+                            {/* Progress Header */}
+                            <div className="px-8 pt-6 pb-2">
+                                <div className="flex justify-between items-end mb-2">
+                                    <div>
+                                        <h1 className="text-2xl font-bold text-[#111318] dark:text-white">Personal Identification</h1>
+                                        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Please provide your legal details as they appear on your ID.</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <span className="text-primary font-bold text-lg">40%</span>
+                                        <span className="text-gray-400 text-xs block">Overall Progress</span>
+                                    </div>
+                                </div>
+                                <div className="rounded-full bg-[#f0f2f4] dark:bg-gray-700 h-2 w-full overflow-hidden">
+                                    <div className="h-full bg-primary rounded-full transition-all duration-500 ease-out" style={{width: '40%'}}></div>
+                                </div>
+                            </div>
+                            
+                            {/* Content Area Split */}
+                            <div className="flex flex-1 overflow-hidden">
+                                {/* Stepper Sidebar */}
+                                <div className="w-64 hidden xl:block overflow-y-auto px-6 py-8 border-r border-dashed border-[#dcdfe5] dark:border-gray-700">
+                                    <div className="flex flex-col gap-0">
+                                        {/* Step 1: Done */}
+                                        <div className="flex gap-3 relative pb-8">
+                                            <div className="flex flex-col items-center">
+                                                <div className="size-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center border border-green-200">
+                                                    <span className="material-symbols-outlined text-lg">check</span>
+                                                </div>
+                                                <div className="w-0.5 bg-green-200 grow mt-1"></div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="text-[#111318] dark:text-gray-200 text-sm font-semibold">Eligibility Check</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">Completed</p>
+                                            </div>
+                                        </div>
+                                        {/* Step 2: Active */}
+                                        <div className="flex gap-3 relative pb-8">
+                                            <div className="flex flex-col items-center">
+                                                <div className="size-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 ring-4 ring-primary/10">
+                                                    <span className="material-symbols-outlined text-lg">person</span>
+                                                </div>
+                                                <div className="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="text-primary text-sm font-bold">Personal Info</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">In Progress</p>
+                                            </div>
+                                        </div>
+                                        {/* Step 3: Pending */}
+                                        <div className="flex gap-3 relative pb-8">
+                                            <div className="flex flex-col items-center">
+                                                <div className="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+                                                    <span className="material-symbols-outlined text-lg">badge</span>
+                                                </div>
+                                                <div className="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Income Details</p>
+                                            </div>
+                                        </div>
+                                        {/* Step 4: Pending */}
+                                        <div className="flex gap-3 relative pb-8">
+                                            <div className="flex flex-col items-center">
+                                                <div className="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+                                                    <span className="material-symbols-outlined text-lg">assignment</span>
+                                                </div>
+                                                <div className="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Declaration</p>
+                                            </div>
+                                        </div>
+                                        {/* Step 5: Pending */}
+                                        <div className="flex gap-3 relative">
+                                            <div className="flex flex-col items-center">
+                                                <div className="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+                                                    <span className="material-symbols-outlined text-lg">send</span>
+                                                </div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Review & Submit</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Form Inputs Container */}
+                                <div className="flex-1 overflow-y-auto px-8 py-8 bg-[#fafafa] dark:bg-[#111621]">
+                                    <div className="max-w-3xl mx-auto space-y-6">
+                                        {/* Dynamic Help/Context Alert */}
+                                        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900 rounded-lg p-4 flex gap-3 items-start">
+                                            <span className="material-symbols-outlined text-primary mt-0.5">info</span>
+                                            <div>
+                                                <h4 className="text-sm font-bold text-[#111318] dark:text-blue-100">Why do we need this?</h4>
+                                                <p className="text-sm text-gray-600 dark:text-blue-200 mt-1">We verify your identity against the federal database to prevent fraud. This information is encrypted and stored securely.</p>
+                                            </div>
+                                        </div>
+                                        {/* Question 1 */}
+                                        <div className="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md">
+                                            <label className="block mb-2 text-base font-bold text-[#111318] dark:text-white">
+                                                Full Legal Name
+                                            </label>
+                                            <p className="text-sm text-gray-500 mb-4">Enter your name exactly as it appears on your birth certificate.</p>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="relative">
+                                                    <input className="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="First Name" type="text"/>
+                                                </div>
+                                                <div className="relative">
+                                                    <input className="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Middle Name (Optional)" type="text"/>
+                                                </div>
+                                                <div className="relative md:col-span-2">
+                                                    <input className="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Last Name" type="text"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* Question 2 */}
+                                        <div className="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md ring-2 ring-primary/20">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <label className="block text-base font-bold text-[#111318] dark:text-white">
+                                                    Social Security Number
+                                                </label>
+                                                <span className="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">Required</span>
+                                            </div>
+                                            <div className="relative mt-4">
+                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <span className="material-symbols-outlined text-gray-400">lock</span>
+                                                </div>
+                                                <input className="w-full h-12 rounded-lg border border-primary bg-white dark:bg-gray-800 px-10 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:ring-2 focus:ring-primary/20 outline-none transition-colors font-mono tracking-wider" placeholder="XXX-XX-XXXX" type="text"/>
+                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                                                    <span className="material-symbols-outlined text-gray-400 hover:text-gray-600">visibility_off</span>
+                                                </div>
+                                            </div>
+                                            <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px]">verified_user</span>
+                                                End-to-end encrypted
+                                            </p>
+                                        </div>
+                                        {/* Question 3 */}
+                                        <div className="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md">
+                                            <label className="block mb-4 text-base font-bold text-[#111318] dark:text-white">
+                                                Date of Birth
+                                            </label>
+                                            <div className="flex gap-4">
+                                                <select className="h-12 grow rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                                                    <option>Month</option>
+                                                    <option>January</option>
+                                                    <option>February</option>
+                                                    <option>March</option>
+                                                </select>
+                                                <select className="h-12 w-24 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                                                    <option>Day</option>
+                                                    <option>01</option>
+                                                    <option>02</option>
+                                                </select>
+                                                <select className="h-12 w-32 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                                                    <option>Year</option>
+                                                    <option>2000</option>
+                                                    <option>1999</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Sticky Footer Action Bar */}
+                            <div className="p-6 border-t border-[#dcdfe5] bg-white dark:bg-[#111621] flex justify-between items-center shrink-0 z-20">
+                                <button onClick={() => navigate('/')} className="flex items-center justify-center h-12 px-6 rounded-lg text-[#111318] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-colors">
+                                    <span className="material-symbols-outlined mr-2">arrow_back</span>
+                                    Back
+                                </button>
+                                <div className="flex gap-4">
+                                    <button className="flex items-center justify-center h-12 px-6 rounded-lg border border-[#dcdfe5] dark:border-gray-600 text-[#636f88] hover:text-[#111318] dark:text-gray-400 dark:hover:text-white font-bold transition-colors">
+                                        Save Draft
+                                    </button>
+                                    <button onClick={() => navigate('/focus')} className="flex items-center justify-center h-12 px-8 rounded-lg bg-primary text-white hover:bg-blue-700 shadow-lg shadow-blue-500/30 font-bold transition-all transform active:scale-95">
+                                        Next Step
+                                        <span className="material-symbols-outlined ml-2">arrow_forward</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 3: Focus Mode (ADHD Mode) ---
+        
+        const FocusModeScreen = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="bg-background-light dark:bg-background-dark text-[#111318] font-display overflow-hidden h-screen flex flex-col">
+                    {/* Top Navigation Bar */}
+                    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e5e7eb] bg-surface-light dark:bg-[#1a202c] px-6 py-3 shrink-0 z-20 shadow-sm">
+                        <div className="flex items-center gap-4 text-[#111318] dark:text-white">
+                            <div className="size-8 flex items-center justify-center bg-primary/10 rounded-lg text-primary">
+                                <span className="material-symbols-outlined">description</span>
+                            </div>
+                            <h2 className="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Tax Form 1040 - AI Assistant</h2>
+                        </div>
+                        <div className="flex flex-1 justify-end gap-8">
+                            <div className="hidden md:flex items-center gap-6">
+                                <a className="text-[#636f88] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Home</a>
+                                <a className="text-[#636f88] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Saved Forms</a>
+                                <a className="text-[#636f88] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+                            </div>
+                            <div className="flex gap-2">
+                                <button aria-label="Settings" className="flex items-center justify-center rounded-lg h-9 w-9 hover:bg-[#f0f2f4] text-[#636f88] transition-colors">
+                                    <span className="material-symbols-outlined" style={{fontSize: '20px'}}>settings</span>
+                                </button>
+                                <button aria-label="Theme" className="flex items-center justify-center rounded-lg h-9 w-9 bg-primary/10 text-primary transition-colors">
+                                    <span className="material-symbols-outlined" style={{fontSize: '20px'}}>wb_sunny</span>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    {/* Main Content Area */}
+                    <div className="flex flex-1 overflow-hidden relative">
+                        {/* Left Panel: Source Document (30%) */}
+                        <aside className="hidden lg:flex flex-col w-[30%] min-w-[320px] max-w-[450px] border-r border-[#e5e7eb] bg-surface-light dark:bg-[#1a202c] relative z-10">
+                            {/* Panel Header */}
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-[#f0f2f4]">
+                                <h3 className="text-[#111318] dark:text-white text-sm font-bold tracking-tight">Source Document Preview</h3>
+                                <button className="flex items-center justify-center rounded-lg h-8 px-2 bg-transparent hover:bg-[#f0f2f4] text-[#636f88] gap-1 text-xs font-bold transition-colors">
+                                    <span className="material-symbols-outlined" style={{fontSize: '18px'}}>keyboard_double_arrow_left</span>
+                                    <span>Hide</span>
+                                </button>
+                            </div>
+                            {/* Scrollable Document View */}
+                            <div className="flex-1 overflow-y-auto bg-[#eef0f3] p-6 relative">
+                                <div className="relative w-full shadow-lg rounded-sm overflow-hidden bg-white">
+                                    {/* Document Image */}
+                                    <img alt="Preview of US Tax Form 1040" className="w-full h-auto opacity-80 block" data-alt="Preview of US Tax Form 1040" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtmkWYPIypou93uKzEgwaXbOP1w3YayDh8Q_VpCCtDMxMbIjCn9BTx0PGNgFG907UvayHlGLkhXMJRNems_jccVaOupAaBN5FyGq1737DYM4sDD37sOhNZadPPx4jdXFrlZCYrbkbstJbVLCVF6x79yurOqDtvDI9VS1QHPtfAbuWMTPbcaYa5Mdqy7t-RDDN8doWs6T6gSfBEycuok4vmsI2gFSG4ULH_oNAi71mGmM4a17bf6gto6ehf7ivfPE6lN90VFZbtGd5e"/>
+                                    {/* Highlight Overlay */}
+                                    <div className="absolute top-[12%] left-[5%] w-[90%] h-[10%] bg-primary/20 border-2 border-primary rounded mix-blend-multiply pointer-events-none animate-pulse">
+                                        <div className="absolute -right-3 -top-3 bg-primary text-white rounded-full p-1 shadow-md">
+                                            <span className="material-symbols-outlined text-[16px] block">visibility</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                        {/* Right Panel: Focus Workspace (70%) */}
+                        <main className="flex-1 flex flex-col items-center overflow-y-auto bg-background-light dark:bg-background-dark p-6 md:p-12 relative">
+                            <div className="w-full max-w-2xl flex flex-col gap-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                {/* Progress Header */}
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex gap-6 justify-between items-end">
+                                        <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary ring-1 ring-inset ring-primary/20">
+                                            <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+                                            AI Guided Mode
+                                        </span>
+                                        <p className="text-[#636f88] text-sm font-medium leading-normal">Step 3 of 25</p>
+                                    </div>
+                                    <div className="h-2 w-full rounded-full bg-[#dcdfe5] overflow-hidden">
+                                        <div className="h-full rounded-full bg-primary transition-all duration-500 ease-out" style={{width: '12%'}}></div>
+                                    </div>
+                                </div>
+                                {/* Main Question Card */}
+                                <div className="bg-surface-light dark:bg-[#1e2530] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2d3748] p-8 md:p-10 flex flex-col gap-8">
+                                    {/* Header */}
+                                    <div className="space-y-2">
+                                        <h1 className="text-[#111318] dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
+                                            What is your filing status?
+                                        </h1>
+                                        <p className="text-[#636f88] text-lg">
+                                            This determines your standard deduction and tax rates.
+                                        </p>
+                                    </div>
+                                    {/* AI Context Helper */}
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-primary p-4 rounded-r-lg flex gap-4 items-start">
+                                        <div className="text-primary mt-0.5 shrink-0">
+                                            <span className="material-symbols-outlined">lightbulb</span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-bold text-[#111318] dark:text-blue-100">AI Assistant Tip</p>
+                                            <p className="text-sm text-[#4b5563] dark:text-blue-200 leading-relaxed">
+                                                Most unmarried people qualify as <strong>Single</strong>. If you are unmarried but pay more than half the cost of keeping up a home for a dependent, choose <strong>Head of Household</strong> for a larger deduction.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {/* Interactive Inputs */}
+                                    <div aria-labelledby="filing-status-label" className="flex flex-col gap-4" role="radiogroup">
+                                        {/* Option 1: Single */}
+                                        <label className="relative flex items-start gap-4 p-4 rounded-lg border-2 border-primary bg-blue-50/50 dark:bg-blue-900/10 cursor-pointer transition-all">
+                                            <div className="flex items-center h-6">
+                                                <input defaultChecked className="h-5 w-5 border-gray-300 text-primary focus:ring-primary" name="filing-status" type="radio" value="single"/>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="block text-base font-bold text-[#111318] dark:text-white">Single</span>
+                                                <span className="block text-sm text-[#636f88] mt-1">Unmarried, divorced, or legally separated.</span>
+                                            </div>
+                                            <div className="absolute right-4 top-4 text-primary">
+                                                <span className="material-symbols-outlined">check_circle</span>
+                                            </div>
+                                        </label>
+                                        {/* Option 2: Married Joint */}
+                                        <label className="relative flex items-start gap-4 p-4 rounded-lg border border-[#e5e7eb] dark:border-[#4a5568] hover:bg-[#f8fafc] dark:hover:bg-[#2d3748] cursor-pointer transition-all">
+                                            <div className="flex items-center h-6">
+                                                <input className="h-5 w-5 border-gray-300 text-primary focus:ring-primary" name="filing-status" type="radio" value="married-joint"/>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="block text-base font-bold text-[#111318] dark:text-white">Married Filing Jointly</span>
+                                                <span className="block text-sm text-[#636f88] mt-1">Married and filing one return together.</span>
+                                            </div>
+                                        </label>
+                                        {/* Option 3: Head of Household */}
+                                        <label className="relative flex items-start gap-4 p-4 rounded-lg border border-[#e5e7eb] dark:border-[#4a5568] hover:bg-[#f8fafc] dark:hover:bg-[#2d3748] cursor-pointer transition-all">
+                                            <div className="flex items-center h-6">
+                                                <input className="h-5 w-5 border-gray-300 text-primary focus:ring-primary" name="filing-status" type="radio" value="hoh"/>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="block text-base font-bold text-[#111318] dark:text-white">Head of Household</span>
+                                                <span className="block text-sm text-[#636f88] mt-1">Unmarried with a qualifying dependent.</span>
+                                            </div>
+                                        </label>
+                                        {/* Option 4: Married Separate */}
+                                        <label className="relative flex items-start gap-4 p-4 rounded-lg border border-[#e5e7eb] dark:border-[#4a5568] hover:bg-[#f8fafc] dark:hover:bg-[#2d3748] cursor-pointer transition-all">
+                                            <div className="flex items-center h-6">
+                                                <input className="h-5 w-5 border-gray-300 text-primary focus:ring-primary" name="filing-status" type="radio" value="married-separate"/>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="block text-base font-bold text-[#111318] dark:text-white">Married Filing Separately</span>
+                                                <span className="block text-sm text-[#636f88] mt-1">Married but choosing to file separate returns.</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    {/* Action Bar */}
+                                    <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-[#f0f2f4] dark:border-[#2d3748] mt-2">
+                                        <button onClick={() => navigate('/')} className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-blue-700 text-white h-12 px-6 font-bold text-base shadow-md hover:shadow-lg transition-all transform active:scale-95">
+                                            <span>Confirm and Proceed</span>
+                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        </button>
+                                        <button className="sm:flex-none flex items-center justify-center gap-2 rounded-lg bg-transparent hover:bg-[#f0f2f4] dark:hover:bg-[#2d3748] text-[#636f88] h-12 px-6 font-bold text-sm transition-colors">
+                                            <span>Skip Question</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                {/* Footer / Nav Controls */}
+                                <div className="flex justify-between items-center px-2">
+                                    <button onClick={() => navigate('/flow')} className="flex items-center gap-2 text-[#636f88] hover:text-[#111318] dark:hover:text-white font-medium text-sm transition-colors">
+                                        <span className="material-symbols-outlined">arrow_back</span>
+                                        Previous Step
+                                    </button>
+                                    <button className="flex items-center gap-2 text-[#636f88] hover:text-[#111318] dark:hover:text-white font-medium text-sm transition-colors">
+                                        <span className="material-symbols-outlined">save</span>
+                                        Save Draft
+                                    </button>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- App Component ---
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <DemoNav />
+                    <Routes>
+                        <Route path="/" element={<ZenModeScreen />} />
+                        <Route path="/flow" element={<FlowModeScreen />} />
+                        <Route path="/focus" element={<FocusModeScreen />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

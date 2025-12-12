@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Government Form Flow Mode</title>
+<!-- Google Fonts: Public Sans & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetics in dense panels */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcdfe5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b0b5be; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111318] dark:text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-solid border-[#dcdfe5] bg-white dark:bg-[#111621] px-6 py-3 shrink-0 z-20 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">description</span>
+</div>
+<h2 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">FormFlow AI</h2>
+<div class="h-6 w-px bg-[#dcdfe5] mx-2"></div>
+<span class="text-sm font-medium text-gray-500">DMV Form DL-44</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- View Toggle -->
+<div class="flex bg-[#f0f2f4] dark:bg-gray-800 rounded-lg p-1">
+<button class="px-3 py-1.5 rounded-md text-sm font-bold bg-white dark:bg-gray-700 shadow-sm text-primary transition-all">Flow Mode</button>
+<button class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all">Original PDF</button>
+</div>
+<div class="flex gap-3">
+<button class="flex size-10 items-center justify-center rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111318] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-[#dcdfe5]" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLIum7iNdyrS5yFlp014yN8t-OnaqUSPGqYu1Zbrk2pgYb96T2Q_ou5AEPmPTA3VjSyYzgU6DTkBIgVHw2RdsBe5ud0y8uyb3eMdmZtXg2YJeaC_B2MT6sluAz9TKKgIdSAuKj5Ph9RQ86TxhtwyIeqNvtSMHlc1yuM_iFtJQntexaeQ9a1GV_FhXDt-3gFZ1pv6cMOrbrjhNloL-PplGUm38erWxNWBdYQrDa-b_8fJ-vitIs-l6F4Lc6_Q-j9q2qjkb5Hj9f-fmN");'></div>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel: Source View (40%) -->
+<aside class="hidden lg:flex flex-col w-[40%] border-r border-[#dcdfe5] bg-[#eef0f2] dark:bg-[#0d1117] relative z-10 shadow-inner group/left-panel transition-all duration-300">
+<!-- Toolbar for Document -->
+<div class="flex justify-between items-center px-4 py-2 bg-white dark:bg-[#111621] border-b border-[#dcdfe5]">
+<span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Source Document</span>
+<div class="flex gap-1">
+<button class="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">zoom_out</span>
+</button>
+<span class="px-2 py-1.5 text-xs font-mono text-gray-500">100%</span>
+<button class="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+<div class="w-px h-6 bg-gray-200 mx-1"></div>
+<button class="p-1.5 text-gray-600 hover:bg-gray-100 rounded dark:text-gray-300 dark:hover:bg-gray-800" title="Dismiss Panel">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+</div>
+</div>
+<!-- PDF/Image Viewer Container -->
+<div class="flex-1 overflow-auto p-8 flex justify-center bg-[#525659]/10 relative">
+<!-- Document Image -->
+<div class="relative w-full max-w-[600px] shadow-2xl bg-white rounded-sm overflow-hidden min-h-[800px]">
+<!-- Using a placeholder pattern that looks like a dense form -->
+<div class="w-full h-full bg-[url('https://cdn.usegalileo.ai/sdxl10/924f3f01-f11a-4d24-811c-2c9384771960.png')] bg-top bg-cover opacity-90" data-alt="Dense government form document with many fields and checkboxes"></div>
+<!-- Highlight Overlay -->
+<!-- Simulating highlighting "Section 2: Personal Info" -->
+<div class="absolute top-[18%] left-[5%] right-[5%] h-[200px] bg-primary/10 border-2 border-primary rounded mix-blend-multiply pointer-events-none animate-pulse">
+<div class="absolute -right-3 top-0 bottom-0 flex items-center">
+<div class="bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-l shadow-sm rotate-90 origin-right translate-x-full">
+                                ACTIVE SECTION
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Flow Mode (60%) -->
+<main class="flex-1 flex flex-col bg-white dark:bg-[#111621] relative z-0">
+<!-- Progress Header -->
+<div class="px-8 pt-6 pb-2">
+<div class="flex justify-between items-end mb-2">
+<div>
+<h1 class="text-2xl font-bold text-[#111318] dark:text-white">Personal Identification</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Please provide your legal details as they appear on your ID.</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold text-lg">40%</span>
+<span class="text-gray-400 text-xs block">Overall Progress</span>
+</div>
+</div>
+<!-- Reuse ProgressBar style -->
+<div class="rounded-full bg-[#f0f2f4] dark:bg-gray-700 h-2 w-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500 ease-out" style="width: 40%;"></div>
+</div>
+</div>
+<!-- Content Area Split -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Stepper Sidebar (Adapted Timeline) -->
+<div class="w-64 hidden xl:block overflow-y-auto px-6 py-8 border-r border-dashed border-[#dcdfe5] dark:border-gray-700">
+<div class="flex flex-col gap-0">
+<!-- Step 1: Done -->
+<div class="flex gap-3 relative pb-8">
+<div class="flex flex-col items-center">
+<div class="size-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center border border-green-200">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+<div class="w-0.5 bg-green-200 grow mt-1"></div>
+</div>
+<div class="pt-1">
+<p class="text-[#111318] dark:text-gray-200 text-sm font-semibold">Eligibility Check</p>
+<p class="text-xs text-gray-500 mt-0.5">Completed</p>
+</div>
+</div>
+<!-- Step 2: Active -->
+<div class="flex gap-3 relative pb-8">
+<div class="flex flex-col items-center">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 ring-4 ring-primary/10">
+<span class="material-symbols-outlined text-lg">person</span>
+</div>
+<div class="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+</div>
+<div class="pt-1">
+<p class="text-primary text-sm font-bold">Personal Info</p>
+<p class="text-xs text-gray-500 mt-0.5">In Progress</p>
+</div>
+</div>
+<!-- Step 3: Pending -->
+<div class="flex gap-3 relative pb-8">
+<div class="flex flex-col items-center">
+<div class="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">badge</span>
+</div>
+<div class="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+</div>
+<div class="pt-1">
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Income Details</p>
+</div>
+</div>
+<!-- Step 4: Pending -->
+<div class="flex gap-3 relative pb-8">
+<div class="flex flex-col items-center">
+<div class="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">assignment</span>
+</div>
+<div class="w-0.5 bg-[#f0f2f4] dark:bg-gray-700 grow mt-1"></div>
+</div>
+<div class="pt-1">
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Declaration</p>
+</div>
+</div>
+<!-- Step 5: Pending -->
+<div class="flex gap-3 relative">
+<div class="flex flex-col items-center">
+<div class="size-8 rounded-full bg-white dark:bg-gray-800 border-2 border-[#dcdfe5] dark:border-gray-600 text-gray-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">send</span>
+</div>
+</div>
+<div class="pt-1">
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Review &amp; Submit</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Inputs Container -->
+<div class="flex-1 overflow-y-auto px-8 py-8 bg-[#fafafa] dark:bg-[#111621]">
+<div class="max-w-3xl mx-auto space-y-6">
+<!-- Dynamic Help/Context Alert -->
+<div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900 rounded-lg p-4 flex gap-3 items-start">
+<span class="material-symbols-outlined text-primary mt-0.5">info</span>
+<div>
+<h4 class="text-sm font-bold text-[#111318] dark:text-blue-100">Why do we need this?</h4>
+<p class="text-sm text-gray-600 dark:text-blue-200 mt-1">We verify your identity against the federal database to prevent fraud. This information is encrypted and stored securely.</p>
+</div>
+</div>
+<!-- Question 1 -->
+<div class="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md">
+<label class="block mb-2 text-base font-bold text-[#111318] dark:text-white">
+                                Full Legal Name
+                            </label>
+<p class="text-sm text-gray-500 mb-4">Enter your name exactly as it appears on your birth certificate.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="relative">
+<input class="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="First Name" type="text"/>
+</div>
+<div class="relative">
+<input class="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Middle Name (Optional)" type="text"/>
+</div>
+<div class="relative md:col-span-2">
+<input class="w-full h-12 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Last Name" type="text"/>
+</div>
+</div>
+</div>
+<!-- Question 2 -->
+<div class="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md ring-2 ring-primary/20">
+<div class="flex justify-between items-start mb-2">
+<label class="block text-base font-bold text-[#111318] dark:text-white">
+                                    Social Security Number
+                                </label>
+<span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded dark:bg-gray-700 dark:text-gray-300">Required</span>
+</div>
+<div class="relative mt-4">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400">lock</span>
+</div>
+<input class="w-full h-12 rounded-lg border border-primary bg-white dark:bg-gray-800 px-10 text-[#111318] dark:text-white placeholder:text-[#636f88] focus:ring-2 focus:ring-primary/20 outline-none transition-colors font-mono tracking-wider" placeholder="XXX-XX-XXXX" type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+<span class="material-symbols-outlined text-gray-400 hover:text-gray-600">visibility_off</span>
+</div>
+</div>
+<p class="text-xs text-gray-400 mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+                                End-to-end encrypted
+                            </p>
+</div>
+<!-- Question 3 -->
+<div class="bg-white dark:bg-[#1a202c] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 transition-shadow hover:shadow-md">
+<label class="block mb-4 text-base font-bold text-[#111318] dark:text-white">
+                                Date of Birth
+                            </label>
+<div class="flex gap-4">
+<select class="h-12 grow rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>Month</option>
+<option>January</option>
+<option>February</option>
+<option>March</option>
+</select>
+<select class="h-12 w-24 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>Day</option>
+<option>01</option>
+<option>02</option>
+</select>
+<select class="h-12 w-32 rounded-lg border-[#dcdfe5] bg-[#f8f9fa] dark:bg-gray-800 dark:border-gray-600 px-4 text-[#111318] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>Year</option>
+<option>2000</option>
+<option>1999</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action Bar -->
+<div class="p-6 border-t border-[#dcdfe5] bg-white dark:bg-[#111621] flex justify-between items-center shrink-0 z-20">
+<button class="flex items-center justify-center h-12 px-6 rounded-lg text-[#111318] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition-colors">
+<span class="material-symbols-outlined mr-2">arrow_back</span>
+                    Back
+                </button>
+<div class="flex gap-4">
+<button class="flex items-center justify-center h-12 px-6 rounded-lg border border-[#dcdfe5] dark:border-gray-600 text-[#636f88] hover:text-[#111318] dark:text-gray-400 dark:hover:text-white font-bold transition-colors">
+                        Save Draft
+                    </button>
+<button class="flex items-center justify-center h-12 px-8 rounded-lg bg-primary text-white hover:bg-blue-700 shadow-lg shadow-blue-500/30 font-bold transition-all transform active:scale-95">
+                        Next Step
+                        <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

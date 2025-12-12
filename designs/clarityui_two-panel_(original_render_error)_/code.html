@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClarityUI Two-Panel Error State</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                    "primary": "#195de6",
+                    "background-light": "#f6f6f8",
+                    "background-dark": "#111621",
+                    "surface-dark": "#1a1f2b",
+                    "border-dark": "#2a3140",
+                },
+                fontFamily: {
+                    "display": ["Lexend", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for panels */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3140; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3c4453; 
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen w-full bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+<!-- Global Header -->
+<header class="flex items-center justify-between border-b border-gray-200 dark:border-border-dark px-6 py-3 bg-white dark:bg-surface-dark shrink-0 z-20">
+<!-- Logo & Brand -->
+<div class="flex items-center gap-3">
+<div class="size-8 flex items-center justify-center bg-primary/20 text-primary rounded-lg">
+<span class="material-symbols-outlined">auto_awesome_mosaic</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight hidden sm:block">ClarityUI</h1>
+</div>
+<!-- URL/Search Bar -->
+<div class="flex-1 max-w-2xl mx-8">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="block w-full rounded-lg border-0 py-2.5 pl-10 pr-12 text-gray-900 dark:text-white bg-gray-100 dark:bg-background-dark ring-1 ring-inset ring-gray-300 dark:ring-border-dark placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" placeholder="Enter URL to transform..." type="text" value="https://example-source.com/article/broken-link"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-2">
+<button class="p-1 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+</div>
+<!-- User & Settings -->
+<div class="flex items-center gap-4">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-6 w-px bg-gray-200 dark:bg-border-dark"></div>
+<div class="size-9 rounded-full bg-cover bg-center border-2 border-gray-200 dark:border-border-dark" data-alt="User profile avatar gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHpRVfzamDgHWzzRQduByVUwJ4sdx4cqM8WApO1mTZmb9sKa3oM173RrxIJCkAf-ehRrlgKHggWkSCnGvijU3G_hZLL2UMUlVHRiZcvH4QtQxAvdK6A__DD9yJD-NELdNowD4i6JF12TMRy0B_5Hc5YV-K1kOmvTTa7Cw4yWehXOg5ng4ipVG0hE5wW9Kia4kR3qZy17Y6_0YL9qZQpJmQ2h3p_LvAc1obt6fmOQrJZ37yoxoLYaXi_Fn_d_w6c_NSIATIu-USnWFA");'></div>
+</div>
+</header>
+<!-- Main Split View -->
+<main class="flex flex-1 overflow-hidden relative">
+<!-- LEFT PANEL: Original Source (Error State) -->
+<section class="flex-1 flex flex-col border-r border-gray-200 dark:border-border-dark bg-white/50 dark:bg-background-dark/50 relative">
+<!-- Panel Header -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark">
+<div class="flex items-center gap-2 text-gray-900 dark:text-white font-medium">
+<span class="material-symbols-outlined text-gray-400 text-[20px]">public</span>
+<span>Original Source</span>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800">Error 404</span>
+</div>
+</div>
+<!-- Error Content -->
+<div class="flex-1 flex items-center justify-center p-8 overflow-y-auto">
+<div class="flex flex-col items-center max-w-[420px] text-center">
+<!-- Icon Illustration -->
+<div class="size-24 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center mb-6 ring-1 ring-red-100 dark:ring-red-900/40">
+<span class="material-symbols-outlined text-[48px] text-red-500 dark:text-red-400">link_off</span>
+</div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Failed to load original page content</h2>
+<p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+                        The source URL may be broken, unreachable, or restricting access. We couldn't retrieve the visual content for this page.
+                    </p>
+<div class="flex flex-col w-full gap-3">
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-blue-600 text-white font-bold tracking-wide transition-all shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined mr-2 text-[20px]">refresh</span>
+                            Retry Connection
+                        </button>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-transparent border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium transition-all">
+                            Check URL
+                        </button>
+</div>
+<p class="mt-8 text-xs text-gray-400 dark:text-gray-600 font-mono">
+                        Error Code: NETWORK_TIMEOUT_ERR
+                    </p>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: Clarity View (Empty State) -->
+<section class="flex-1 flex flex-col bg-gray-50 dark:bg-surface-dark relative">
+<!-- Panel Header & Controls -->
+<div class="flex items-center justify-between px-6 py-3 border-b border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<div class="flex items-center gap-2 text-gray-900 dark:text-white font-medium">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
+<span>Clarity View</span>
+</div>
+<!-- Mode Selector -->
+<div class="flex items-center gap-3">
+<label class="text-sm text-gray-500 font-medium hidden lg:block">Mode:</label>
+<div class="relative">
+<select class="appearance-none bg-gray-100 dark:bg-background-dark border border-gray-200 dark:border-border-dark text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-40 p-2.5 pr-8 cursor-pointer">
+<option value="simplify">Simplify</option>
+<option value="summarize">Summarize</option>
+<option value="translate">Translate</option>
+<option value="accessibility">High Contrast</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Content -->
+<div class="flex-1 flex items-center justify-center p-8 overflow-y-auto">
+<div class="flex flex-col items-center max-w-[420px] text-center opacity-60">
+<!-- Abstract Illustration -->
+<div class="relative size-40 mb-6" data-alt="Abstract geometric shapes representing waiting state">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-500/20 rounded-full blur-2xl"></div>
+<div class="relative h-full w-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-gray-400 dark:text-gray-500">article</span>
+<div class="absolute -right-2 -top-2 bg-surface-dark rounded-full p-1">
+<span class="material-symbols-outlined text-[24px] text-primary animate-pulse">colors_spark</span>
+</div>
+</div>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Ready to Transform</h3>
+<p class="text-gray-500 dark:text-gray-400 mb-8 leading-normal">
+                        Once the original source is loaded, select a mode above and click Generate View to process the content.
+                    </p>
+<button class="flex cursor-not-allowed items-center justify-center rounded-lg h-11 px-8 bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 font-bold tracking-wide transition-all" disabled="">
+<span class="material-symbols-outlined mr-2 text-[20px]">play_arrow</span>
+                        Generate View
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

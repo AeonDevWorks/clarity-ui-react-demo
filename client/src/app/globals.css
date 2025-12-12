@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-background-light: var(--background-light);
+  --color-background-dark: var(--background-dark);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-border: var(--surface-border);
+  --color-text-subtle: var(--text-secondary);
+
+  /* Semantic tokens mappable to themes */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  
+  --font-display: var(--font-lexend);
+}
+
+/* Base Variables - Defaults (Standard Dark - Theme 4) */
+:root {
+  --primary: #195de6;
+  --primary-hover: #1650c4;
+  --background-light: #f6f6f8;
+  --background-dark: #111621;
+  --surface-dark: #1c1f26;
+  --surface-border: #292e38;
+  --text-subtle: #9da6b8;
+
+  /* Theme Token Defaults (Dark Standard) */
+  --bg: #111621;
+  --surface: #1c1f26;
+  --text-primary: #ffffff;
+  --text-secondary: #9da6b8;
+  --text-muted: #586070;
+  --border: #292e38;
+}
+
+/* Theme 0: High Contrast Light */
+[data-theme="0"] {
+  --bg: #ffffff;
+  --surface: #f0f0f0;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --text-muted: #222222;
+  --border: #000000;
+  --primary: #0044cc;
+}
+
+/* Theme 1: Standard Light */
+[data-theme="1"] {
+  --bg: #f6f6f8;
+  --surface: #ffffff;
+  --text-primary: #111621;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border: #e5e7eb;
+}
+
+/* Theme 2: Mild Light (Softer) */
+[data-theme="2"] {
+  --bg: #fdfdfd;
+  --surface: #f4f4f5;
+  --text-primary: #27272a;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --border: #e4e4e7; 
+}
+
+/* Theme 3: Mild Dark */
+[data-theme="3"] {
+  --bg: #27272a;
+  --surface: #18181b;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: #3f3f46;
+}
+
+/* Theme 4: Standard Dark (Default) */
+[data-theme="4"] {
+  --bg: #111621;
+  --surface: #1c1f26;
+  --text-primary: #ffffff;
+  --text-secondary: #9da6b8;
+  --text-muted: #586070;
+  --border: #292e38;
+}
+
+/* Theme 5: High Contrast Dark */
+[data-theme="5"] {
+  --bg: #000000;
+  --surface: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: #dddddd;
+  --border: #ffffff;
+  --primary: #4d8aff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-lexend), sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}

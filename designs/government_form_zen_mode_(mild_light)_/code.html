@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Government Form Zen Mode</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2060df",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111317] dark:text-white h-screen flex flex-col overflow-hidden font-display">
+<!-- Top Toolbar -->
+<header class="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f4] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-3 z-20 shadow-sm">
+<div class="flex items-center gap-4 text-[#111317] dark:text-white">
+<div class="size-6 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex flex-col">
+<h2 class="text-[#111317] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Form 1040-SR Assistant</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400">Zen Mode Active</span>
+</div>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-gray-600 dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Save Draft</a>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-gray-700 hidden md:block"></div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111317] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Change Text Size">
+<span class="material-symbols-outlined">text_fields</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#f0f2f4] dark:bg-gray-800 text-[#111317] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Adjust Contrast">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors ring-1 ring-primary/20" title="Toggle View">
+<span class="material-symbols-outlined">vertical_split</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area (Split View) -->
+<main class="flex-1 flex overflow-hidden relative">
+<!-- Left Panel: Original Document Source -->
+<aside class="hidden lg:flex flex-col w-1/2 border-r border-[#f0f2f4] dark:border-gray-800 bg-[#f8fafc] dark:bg-[#0f1218] relative group/left-panel">
+<!-- Panel Header -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-[#e2e8f0] dark:border-gray-800 bg-white/50 dark:bg-surface-dark/50 backdrop-blur-sm sticky top-0 z-10">
+<h3 class="text-gray-700 dark:text-gray-200 text-sm font-bold uppercase tracking-wider">Original Document Source</h3>
+<button class="text-gray-400 hover:text-primary transition-colors" title="Collapse Panel">
+<span class="material-symbols-outlined">first_page</span>
+</button>
+</div>
+<!-- Document Scroll Container -->
+<div class="flex-1 overflow-y-auto p-8 flex justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+<div class="w-full max-w-[800px] bg-white shadow-lg rounded-sm overflow-hidden min-h-[1000px] relative border border-gray-200">
+<!-- Fake Form Representation Image -->
+<div class="w-full aspect-[8.5/11] bg-contain bg-top bg-no-repeat opacity-90 hover:opacity-100 transition-opacity" data-alt="Image of the standard IRS 1040 tax form showing dense fields and small text" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzcyoGNtSVmQAJJj0KSent1qlmeiABq0Be9u01M3ShAzKyIrwwFsxW2I_4RfNJxnvQA9pfVoma4XbsaHP4r9c2lfl474AcmVDQOLYeICWdDrmsUFaP55pd71oioT2RMlJxo0dUotpX7nPUGE7Cg7mQ9FWz-eN-11qXBh-vBvGTOnn7fkwwgH--v8cldOqmrmdrCQCeI5xPv3Y025aGc3dVvncQ79nwA2_1JpPUsTzHAFSXkQ0cvjRvaaLjOFw0Y9piLSZTMUMiyZLu');">
+</div>
+<!-- Highlight Overlay indicating focus area -->
+<div class="absolute top-[18%] left-[5%] w-[90%] h-[15%] border-2 border-primary bg-primary/10 mix-blend-multiply pointer-events-none rounded">
+<div class="absolute -right-3 -top-3 bg-primary text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm">Focusing Here</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Zen Mode Interface -->
+<section class="flex-1 flex flex-col w-full lg:w-1/2 bg-background-light dark:bg-background-dark relative">
+<!-- Floating Mobile Toggle (Only visible on small screens or when left panel collapsed) -->
+<button class="lg:hidden absolute left-4 top-4 z-10 bg-white dark:bg-surface-dark shadow-md p-2 rounded-lg border border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined">menu_book</span>
+</button>
+<div class="flex-1 overflow-y-auto">
+<div class="max-w-[640px] mx-auto w-full px-6 py-10 flex flex-col gap-8 min-h-full">
+<!-- Progress Bar -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<p class="text-primary font-bold text-sm tracking-wide uppercase">Personal Details</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Step 1 of 5</p>
+</div>
+<div class="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[20%] rounded-full shadow-[0_0_10px_rgba(32,96,223,0.4)]"></div>
+</div>
+</div>
+<!-- Headline -->
+<div>
+<h1 class="text-[#111317] dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-3">
+                            Let's start with your personal details.
+                        </h1>
+<p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                            Please provide your legal name as it appears on your Social Security card.
+                        </p>
+</div>
+<!-- AI Insight Card -->
+<div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-5 flex gap-4 items-start shadow-sm">
+<div class="text-primary mt-0.5 shrink-0">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-[#111317] dark:text-blue-100 mb-1">Why we need this</h4>
+<p class="text-sm text-gray-600 dark:text-blue-200 leading-relaxed">
+                                This section ensures the government knows exactly where to send your refund. Mismatched names are the #1 reason for delayed returns.
+                            </p>
+</div>
+</div>
+<!-- Form Fields -->
+<form class="flex flex-col gap-6 mt-2" onsubmit="event.preventDefault();">
+<!-- Name Group -->
+<div class="grid md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2 group">
+<label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1" for="first-name">First Name</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 px-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm placeholder-gray-400" id="first-name" placeholder="e.g. Jane" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2 group">
+<label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1" for="last-name">Last Name</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 px-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm placeholder-gray-400" id="last-name" placeholder="e.g. Doe" type="text"/>
+</div>
+</div>
+</div>
+<!-- SSN Field -->
+<div class="flex flex-col gap-2 group">
+<div class="flex justify-between items-center ml-1">
+<label class="text-sm font-bold text-gray-700 dark:text-gray-300" for="ssn">Social Security Number</label>
+<div class="group/tooltip relative flex items-center gap-1 cursor-help text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="text-xs font-medium">What is this?</span>
+<!-- Tooltip -->
+<div class="absolute bottom-full right-0 mb-2 w-48 bg-gray-900 text-white text-xs rounded p-2 hidden group-hover/tooltip:block z-50">
+                                        Your 9-digit tax ID number.
+                                    </div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="w-full rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 pl-11 pr-4 py-3.5 text-base text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm tracking-widest placeholder-gray-400" id="ssn" placeholder="XXX-XX-XXXX" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 p-1 rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 ml-1 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-green-600">shield</span>
+                                Your data is encrypted and secure.
+                            </p>
+</div>
+<!-- Joint Filing Checkbox -->
+<div class="mt-2 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex gap-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="pt-0.5">
+<input class="size-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" id="joint-filing" type="checkbox"/>
+</div>
+<label class="cursor-pointer flex-1" for="joint-filing">
+<span class="block text-sm font-bold text-gray-900 dark:text-white mb-0.5 group-hover:text-primary transition-colors">Joint Filing</span>
+<span class="block text-sm text-gray-500 dark:text-gray-400">Select this if you are filing this return with a spouse.</span>
+</label>
+</div>
+</form>
+<!-- Spacing for bottom scrolling -->
+<div class="h-20"></div>
+</div>
+</div>
+<!-- Action Bar (Sticky Bottom) -->
+<div class="sticky bottom-0 w-full bg-white/90 dark:bg-surface-dark/90 backdrop-blur border-t border-gray-200 dark:border-gray-700 p-4 md:px-8 md:py-5 flex justify-between items-center">
+<button class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium text-sm flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    Back
+                </button>
+<button class="bg-primary hover:bg-blue-700 text-white font-bold text-base px-8 py-3 rounded-lg shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all transform active:scale-95">
+                    Confirm &amp; Continue
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</section>
+</main>
+</body></html>

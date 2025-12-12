@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>E-commerce UX Modes Prototype</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@300;400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1e232e",
+                        "surface-darker": "#0f1115",
+                        "panel-dark": "#111318",
+                        "border-dark": "#292e38",
+                        "text-muted": "#9da6b8",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "lexend": ["Lexend", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "2rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111621;
+            color: white;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111621; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568; 
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white overflow-hidden h-screen flex flex-col font-display selection:bg-primary/30">
+    <div id="root" class="h-full flex flex-col"></div>
+
+    <!-- React Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Common Components ---
+        
+        // A simple overlay to allow navigation between the screens for the prototype
+        const NavigationOverlay = () => {
+            const location = useLocation();
+            
+            return (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] bg-black/80 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex gap-1 shadow-2xl">
+                    <Link to="/" className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${location.pathname === '/' ? 'bg-primary text-white' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}>
+                        Zen Mode
+                    </Link>
+                    <Link to="/flow" className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${location.pathname === '/flow' ? 'bg-primary text-white' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}>
+                        Flow Browser
+                    </Link>
+                    <Link to="/clarity" className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${location.pathname === '/clarity' ? 'bg-primary text-white' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}>
+                        ADHD Focus
+                    </Link>
+                </div>
+            );
+        };
+
+        // --- Screen 1: Zen Mode ---
+        
+        const ZenModeScreen = () => {
+            return (
+                <div className="flex flex-col h-full bg-background-dark font-display">
+                    {/* Header */}
+                    <header className="flex flex-col border-b border-[#292e38] bg-[#111318] z-20 shrink-0">
+                        <div className="flex items-center justify-between px-6 py-3 h-16">
+                            <div className="flex items-center gap-4 text-white">
+                                <div className="size-8 flex items-center justify-center bg-primary rounded-lg text-white">
+                                    <span className="material-symbols-outlined">auto_awesome</span>
+                                </div>
+                                <h1 className="text-white text-lg font-bold tracking-tight">WebTransformer AI</h1>
+                            </div>
+                            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+                                <div className="relative w-full group">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <span className="material-symbols-outlined text-[18px]">lock</span>
+                                    </div>
+                                    <div className="w-full bg-[#0f1115] text-gray-300 text-sm py-2.5 pl-10 pr-12 rounded-lg border border-[#292e38] flex items-center gap-2">
+                                        <span className="text-gray-500">https://</span>amazon.com/product/sony-headphones-wh-1000xm5
+                                    </div>
+                                    <div className="absolute inset-y-0 right-0 pr-1 flex items-center">
+                                        <button className="text-primary hover:bg-primary/10 rounded-md p-1 transition-colors">
+                                            <span className="material-symbols-outlined text-[20px] icon-fill">refresh</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-2 bg-[#1e232e] rounded-full p-1 border border-[#292e38]">
+                                    <button className="px-3 py-1.5 rounded-full text-xs font-medium text-gray-400 hover:text-white transition-colors">Default</button>
+                                    <button className="px-3 py-1.5 rounded-full text-xs font-medium bg-primary text-white shadow-sm flex items-center gap-1">
+                                        <span className="material-symbols-outlined text-[14px]">check</span> Zen Mode
+                                    </button>
+                                </div>
+                                <div className="w-px h-6 bg-[#292e38]"></div>
+                                <button className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-[#292e38]">
+                                    <span className="material-symbols-outlined">settings</span>
+                                </button>
+                                <button className="size-8 rounded-full overflow-hidden bg-gray-700">
+                                    <img alt="User Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnNjy9Et41BqaoytQuU4lysYFiam0ceZqvJNjrLFYJZ0iK5mh4788T-d_c18oKHc5c6oVN2KggzAGhM_p1B490jzv1cpo2OdhNKT0__b789Z9Ms0JVlXuFpdvYOWHKVLujYni16hDP--HBMMlO81QY5s6lzreedEKybf_AiiBIKAlGOc98ZrJMkqyD8_gMPUz_Qz7dprST9WHeEDo9JYsalZ-r8rVJJKw4mZ0Wdr2BgvL_K6svIDg5UmJFo-Fuoqnj315fPyVyYlic"/>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="flex flex-1 overflow-hidden relative">
+                        {/* LEFT PANEL: Original Context */}
+                        <aside className="hidden md:flex md:w-1/2 flex-col border-r border-[#292e38] bg-[#0f1115] relative group/left-panel transition-all duration-300">
+                            <div className="flex items-center justify-between px-4 py-3 border-b border-[#292e38] bg-[#161b22]">
+                                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[16px]">visibility</span>
+                                    Original Page View
+                                </span>
+                                <button className="text-gray-500 hover:text-white p-1 rounded hover:bg-[#292e38]">
+                                    <span className="material-symbols-outlined text-[20px]">first_page</span>
+                                </button>
+                            </div>
+                            {/* Cluttered UI Simulation */}
+                            <div className="flex-1 overflow-y-auto p-4 opacity-80 hover:opacity-100 transition-opacity">
+                                <div className="h-8 bg-[#1e232e] mb-4 w-full rounded flex items-center gap-4 px-3">
+                                    <div className="w-6 h-4 bg-[#292e38] rounded"></div>
+                                    <div className="w-20 h-3 bg-[#292e38] rounded"></div>
+                                    <div className="flex-1"></div>
+                                    <div className="w-24 h-6 bg-yellow-600/20 border border-yellow-600/50 rounded flex items-center justify-center text-[10px] text-yellow-500 font-bold">LIMITED DEAL</div>
+                                </div>
+                                <div className="grid grid-cols-12 gap-4">
+                                    <div className="col-span-2 flex flex-col gap-2">
+                                        <div className="aspect-square bg-[#1e232e] rounded border border-[#292e38]"></div>
+                                        <div className="aspect-square bg-[#1e232e] rounded border border-[#292e38]"></div>
+                                        <div className="aspect-square bg-[#1e232e] rounded border border-[#292e38]"></div>
+                                    </div>
+                                    <div className="col-span-10">
+                                        <div className="w-full aspect-[4/3] rounded-lg bg-cover bg-center relative" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMvnQrucQRPN642rv1iKlszGGODkR_YEsmqNBAUrr5xJZoaKrBoEfkSqak5I9NeqpoCcMbUVKHA7eZ8koXKFSi3ZAlu9i39LvS5euP4f2exetErMx8QNnQTkoGKxjIRWPRMQm2_5AIqWMfkulyUgaP94HypzErygtJO65K6NreLnlQ4Cfy4Uu-isTOICG8zq8YgiBOFnARB-uB6hh28o4Rv5yM9mdLHVuT6PB6qXde3OYJlXkcWznmtpATqYuAq683NQgqWj2G4n7t")'}}>
+                                            <div className="absolute bottom-2 right-2 bg-black/70 px-2 py-1 text-[10px] rounded text-white backdrop-blur-sm">Click to expand</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-6 space-y-4">
+                                    <div className="flex items-center gap-2 text-primary text-sm font-medium">
+                                        <span>Visit the Sony Store</span>
+                                        <span className="w-px h-3 bg-gray-600"></span>
+                                        <span className="flex text-yellow-500 text-xs">
+                                            <span className="material-symbols-outlined icon-fill text-[14px]">star</span>
+                                            <span className="material-symbols-outlined icon-fill text-[14px]">star</span>
+                                            <span className="material-symbols-outlined icon-fill text-[14px]">star</span>
+                                            <span className="material-symbols-outlined icon-fill text-[14px]">star</span>
+                                            <span className="material-symbols-outlined icon-fill text-[14px]">star_half</span>
+                                        </span>
+                                        <span className="text-gray-400 text-xs">24,502 ratings</span>
+                                    </div>
+                                    <h2 className="text-xl font-medium text-gray-300 leading-snug">
+                                        Sony WH-1000XM5 Wireless Noise Canceling Headphones, 30 Hour Battery Life, Over Ear Headphones with Microphone for Phone Calls, Black
+                                    </h2>
+                                    <div className="p-3 bg-[#1e232e] border border-[#292e38] rounded flex items-start gap-3">
+                                        <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-13%</span>
+                                        <div>
+                                            <div className="flex items-baseline gap-2">
+                                                <span className="text-2xl font-bold text-white">$348.00</span>
+                                                <span className="text-sm text-gray-500 line-through">$399.99</span>
+                                            </div>
+                                            <div className="text-xs text-gray-400 mt-1">Get <b>$60 off</b> instantly: Pay $0.00 upon approval for the Store Card.</div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 mt-4">
+                                        <div className="bg-[#1e232e] p-3 rounded border border-dashed border-gray-700">
+                                            <div className="text-xs text-gray-400 font-bold mb-1">Protection Plan</div>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <div className="size-4 border border-gray-500 rounded"></div>
+                                                <span className="text-xs text-gray-300">2-Year: $34.99</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="size-4 border border-gray-500 rounded"></div>
+                                                <span className="text-xs text-gray-300">3-Year: $49.99</span>
+                                            </div>
+                                        </div>
+                                        <div className="bg-[#1e232e] p-3 rounded flex flex-col justify-center items-center text-center">
+                                            <span className="text-[10px] uppercase text-gray-500 font-bold">Sponsored</span>
+                                            <div className="w-12 h-12 bg-gray-700 rounded-full my-2"></div>
+                                            <span className="text-xs text-primary">View similar items</span>
+                                        </div>
+                                    </div>
+                                    <div className="text-sm text-gray-300 leading-relaxed mt-4">
+                                        About this item: <br/>
+                                        • Industry Leading noise cancellation-two processors control 8 microphones for unprecedented noise cancellation. With Auto NC Optimizer, noise canceling is automatically optimized based on your wearing conditions and environment.<br/>
+                                        • Magnificent Sound, engineered to perfection with the new Integrated Processor V1<br/>
+                                        • Crystal clear hands-free calling with 4 beamforming microphones, precise voice pickup, and advanced audio signal processing.<br/>
+                                        • Up to 30-hour battery life with quick charging (3 min charge for 3 hours of playback).
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+                        </aside>
+
+                        {/* RIGHT PANEL: Zen Mode */}
+                        <section className="w-full md:w-1/2 flex flex-col bg-background-dark relative">
+                            {/* Zen Header */}
+                            <div className="flex items-center justify-between px-8 py-6 pb-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="px-2 py-0.5 rounded bg-primary/20 text-primary text-xs font-bold uppercase tracking-widest border border-primary/20">Zen Mode Active</span>
+                                    <span className="text-gray-500 text-sm">AI Analysis Complete</span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button className="p-2 text-gray-400 hover:text-white hover:bg-[#292e38] rounded-lg transition-colors" title="Bookmark">
+                                        <span className="material-symbols-outlined">bookmark_border</span>
+                                    </button>
+                                    <button className="p-2 text-gray-400 hover:text-white hover:bg-[#292e38] rounded-lg transition-colors" title="Share">
+                                        <span className="material-symbols-outlined">ios_share</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {/* Scrollable Content */}
+                            <div className="flex-1 overflow-y-auto px-6 md:px-12 py-6 pb-20 scroll-smooth">
+                                <div className="max-w-2xl mx-auto space-y-10">
+                                    {/* Product Header */}
+                                    <div className="space-y-4">
+                                        <div className="flex items-center gap-2 text-sm text-gray-400">
+                                            <span>Electronics</span>
+                                            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
+                                            <span>Headphones</span>
+                                            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
+                                            <span className="text-white">Sony</span>
+                                        </div>
+                                        <h1 className="text-4xl font-bold text-white tracking-tight leading-tight">Sony WH-1000XM5 Wireless Noise Canceling Headphones</h1>
+                                        <div className="flex items-center gap-6">
+                                            <div className="flex items-center gap-1.5 bg-[#1e232e] px-3 py-1.5 rounded-full border border-[#292e38]">
+                                                <span className="material-symbols-outlined icon-fill text-yellow-400 text-[18px]">star</span>
+                                                <span className="text-white font-semibold">4.8</span>
+                                                <span className="text-gray-400 text-sm">(24k reviews)</span>
+                                            </div>
+                                            <span className="text-green-400 text-sm font-medium flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[16px]">verified</span>
+                                                In Stock
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Hero Section */}
+                                    <div className="grid grid-cols-1 gap-8">
+                                        <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[#292e38] shadow-2xl relative group">
+                                            <img alt="High quality close up of black Sony WH-1000XM5 headphones with soft leather earcups" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT0EVbRoWpaXPxC5eS-nyWVNDqm6d1BdLg3Kd6rGdTrFxpLJDpzsnnh97YguHmTUmQPkmZjUpny5-QabXS_4CZ34rfs9_in2xePSIwOGxj4Ds5Wa9JnylQCh6nBYdkTK1yLojOrMfrVugUxpXXJJPYgp2U5GFf8m5qQiTK_RKy2sjjz-N4T1Daksjk-U_uvnOO6hx2JFJoVU4VM1eCSGGxlm8mdNjYKr1EzZzKSmxRk-NlZp-qKoeN_A4EzEJfFWwDTi6KQdbTftq4"/>
+                                            <div className="absolute bottom-4 left-4 flex gap-2">
+                                                <button className="size-2 rounded-full bg-white"></button>
+                                                <button className="size-2 rounded-full bg-white/30 hover:bg-white/70"></button>
+                                                <button className="size-2 rounded-full bg-white/30 hover:bg-white/70"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Action & Key Info Grid */}
+                                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                                        {/* Buy Box */}
+                                        <div className="col-span-1 lg:col-span-3 bg-[#1e232e] rounded-xl p-6 border border-[#292e38] flex flex-col justify-between shadow-lg">
+                                            <div>
+                                                <p className="text-gray-400 text-sm font-medium mb-1">Current Price</p>
+                                                <div className="flex items-baseline gap-3 mb-6">
+                                                    <span className="text-4xl font-bold text-white tracking-tight">$348.00</span>
+                                                    <span className="text-sm font-medium px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">Save $52</span>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-3">
+                                                <button className="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3.5 px-4 rounded-lg transition-all shadow-[0_0_15px_rgba(25,93,230,0.3)] flex items-center justify-center gap-2">
+                                                    <span className="material-symbols-outlined">shopping_cart</span>
+                                                    Add to Cart
+                                                </button>
+                                                <button className="w-full bg-[#292e38] hover:bg-[#323842] text-white font-medium py-2.5 px-4 rounded-lg transition-colors text-sm">
+                                                    Buy Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {/* Specs Quick View */}
+                                        <div className="col-span-1 lg:col-span-2 flex flex-row lg:flex-col gap-3">
+                                            <div className="flex-1 bg-[#1e232e]/50 rounded-xl p-4 border border-[#292e38] flex flex-col justify-center items-center text-center">
+                                                <span className="material-symbols-outlined text-gray-400 mb-2">battery_charging_full</span>
+                                                <span className="text-white font-bold text-lg">30 Hrs</span>
+                                                <span className="text-xs text-gray-500 uppercase tracking-wider">Battery</span>
+                                            </div>
+                                            <div className="flex-1 bg-[#1e232e]/50 rounded-xl p-4 border border-[#292e38] flex flex-col justify-center items-center text-center">
+                                                <span className="material-symbols-outlined text-gray-400 mb-2">bluetooth</span>
+                                                <span className="text-white font-bold text-lg">v5.2</span>
+                                                <span className="text-xs text-gray-500 uppercase tracking-wider">Wireless</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* AI Summary Block */}
+                                    <div className="bg-gradient-to-br from-[#1e232e] to-[#151820] rounded-xl p-1 border border-[#292e38] relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                                            <span className="material-symbols-outlined text-[120px]">psychology</span>
+                                        </div>
+                                        <div className="bg-[#111621]/80 backdrop-blur-sm p-6 rounded-lg h-full">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <div className="p-1.5 rounded bg-purple-500/10 text-purple-400">
+                                                    <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+                                                </div>
+                                                <h3 className="text-lg font-bold text-white">AI Executive Summary</h3>
+                                            </div>
+                                            <p className="text-gray-300 leading-relaxed text-lg">
+                                                These headphones are the industry benchmark for <span className="text-white font-medium">noise cancellation</span> and call quality. Reviewers consistently praise the lightweight comfort and 30-hour battery life.
+                                            </p>
+                                            <div className="mt-6 pt-6 border-t border-[#292e38]">
+                                                <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">What you need to know</h4>
+                                                <ul className="space-y-3">
+                                                    <li className="flex items-start gap-3">
+                                                        <span className="material-symbols-outlined text-green-400 mt-0.5 text-[20px]">check_circle</span>
+                                                        <span className="text-gray-300">Best-in-class Active Noise Cancellation (ANC) automatically optimizes for your environment.</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-3">
+                                                        <span className="material-symbols-outlined text-green-400 mt-0.5 text-[20px]">check_circle</span>
+                                                        <span className="text-gray-300">Fast charging gives 3 hours of playback from just a 3-minute charge.</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-3">
+                                                        <span className="material-symbols-outlined text-orange-400 mt-0.5 text-[20px]">info</span>
+                                                        <span className="text-gray-300">Design does not fold down completely compact, unlike previous XM4 model.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Detailed Specs Table */}
+                                    <div className="pt-4">
+                                        <h3 className="text-xl font-bold text-white mb-6">Technical Specifications</h3>
+                                        <div className="border-t border-[#292e38]">
+                                            <div className="grid grid-cols-3 py-4 border-b border-[#292e38]">
+                                                <span className="text-gray-500 font-medium">Weight</span>
+                                                <span className="col-span-2 text-gray-200">250 grams (approx. 8.82 oz)</span>
+                                            </div>
+                                            <div className="grid grid-cols-3 py-4 border-b border-[#292e38]">
+                                                <span className="text-gray-500 font-medium">Driver Unit</span>
+                                                <span className="col-span-2 text-gray-200">30mm (Precision engineered)</span>
+                                            </div>
+                                            <div className="grid grid-cols-3 py-4 border-b border-[#292e38]">
+                                                <span className="text-gray-500 font-medium">Frequency Response</span>
+                                                <span className="col-span-2 text-gray-200">4 Hz - 40,000 Hz</span>
+                                            </div>
+                                            <div className="grid grid-cols-3 py-4 border-b border-[#292e38]">
+                                                <span className="text-gray-500 font-medium">Cord Type</span>
+                                                <span className="col-span-2 text-gray-200">Single-sided (detachable)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#111621] to-transparent h-12 pointer-events-none"></div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Flow Mode ---
+
+        const FlowModeScreen = () => {
+            return (
+                <div className="bg-background-dark text-white font-display h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-white font-lexend">
+                    {/* Top Navigation Bar */}
+                    <header className="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-b-[#292e38] bg-[#111318] px-6 py-3 z-50">
+                        <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-3 text-white">
+                                <div className="size-8 flex items-center justify-center rounded-lg bg-primary/20 text-primary">
+                                    <span className="material-symbols-outlined text-2xl">auto_awesome</span>
+                                </div>
+                                <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Flow Browser</h2>
+                                <div className="h-4 w-px bg-[#3c4453] mx-2"></div>
+                                <span className="text-[#9da6b8] text-sm font-medium">Standard Dark</span>
+                            </div>
+                            <label className="flex flex-col min-w-40 !h-10 w-96 hidden md:flex">
+                                <div className="flex w-full flex-1 items-stretch rounded-xl h-full bg-[#1c2029] border border-[#292e38] group focus-within:border-primary/50 transition-colors">
+                                    <div className="text-[#9da6b8] flex items-center justify-center pl-4 pr-2">
+                                        <span className="material-symbols-outlined text-[20px]">lock</span>
+                                    </div>
+                                    <input className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl bg-transparent text-white focus:outline-0 border-none placeholder:text-[#586175] text-sm font-normal leading-normal" placeholder="nebula-store.com/products/runner-2024" readOnly defaultValue="nebula-store.com/products/runner-2024"/>
+                                </div>
+                            </label>
+                        </div>
+                        <div className="flex gap-3">
+                            <button className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#1c2029] hover:bg-[#292e38] text-white transition-colors">
+                                <span className="material-symbols-outlined text-[20px]">settings</span>
+                            </button>
+                            <button className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#1c2029] hover:bg-[#292e38] text-white transition-colors">
+                                <span className="material-symbols-outlined text-[20px]">account_circle</span>
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content Layout */}
+                    <main className="flex flex-1 overflow-hidden relative">
+                        {/* Left Panel: Original Page Context */}
+                        <aside className="hidden lg:flex w-[40%] min-w-[320px] max-w-[600px] border-r border-[#292e38] bg-[#0d0f14] flex-col relative z-10 transition-all duration-300">
+                            <div className="flex items-center justify-between p-4 border-b border-[#292e38] bg-[#111318]/90 backdrop-blur-sm sticky top-0 z-20">
+                                <h3 className="text-[#9da6b8] text-xs font-bold uppercase tracking-wider">Original Context</h3>
+                                <button className="text-[#9da6b8] hover:text-white flex items-center gap-1 text-xs font-medium bg-[#1c2029] px-3 py-1.5 rounded-full transition-colors">
+                                    <span className="material-symbols-outlined text-[16px]">close_fullscreen</span>
+                                    <span>Dismiss</span>
+                                </button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-6 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                                <div className="flex gap-2 text-xs text-[#586175] mb-4">
+                                    <span>Home</span> / <span>Running</span> / <span>Men's Shoes</span>
+                                </div>
+                                <div className="bg-surface-dark rounded-xl p-4 border border-[#292e38] mb-6">
+                                    <div className="aspect-[4/3] w-full bg-[#1c2029] rounded-lg mb-4 bg-cover bg-center" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUbzR2RNQHgzL7wrkXUY9CvwHWTUt7U1Iv0Ur7V8XM2BCXO2B0u-lGaMz4KW5JelveJMo8R5Jtbu4zRMdh3ucAJ2YF6zL_riH4gghvMt8R_0O9ES3Immfxqa_V2X_0cWtZJb8VirUjoAQhqZ9TzPocKBq4yVO_J-eZgUP9aI5C-6Mce5lu-r8GqvAlJE23B6tonp0mS5L52eEt6hXCjwUGYFjGdRnBBqI0Sgi_dd9pHMTmzFkrpRJ5MDc54GPpxbQXRiCRVqW6c5kd')"}}></div>
+                                    <div className="flex gap-2 overflow-x-auto pb-2 mb-2">
+                                        <div className="size-16 shrink-0 rounded bg-[#292e38]"></div>
+                                        <div className="size-16 shrink-0 rounded bg-[#292e38]"></div>
+                                        <div className="size-16 shrink-0 rounded bg-[#292e38]"></div>
+                                    </div>
+                                </div>
+                                <h1 className="text-2xl font-bold text-white mb-2">Nebula Runner 2024 - High Performance</h1>
+                                <div className="flex items-center gap-2 mb-4">
+                                    <div className="flex text-yellow-500 text-sm">
+                                        <span className="material-symbols-outlined text-[16px] fill-current">star</span>
+                                        <span className="material-symbols-outlined text-[16px] fill-current">star</span>
+                                        <span className="material-symbols-outlined text-[16px] fill-current">star</span>
+                                        <span className="material-symbols-outlined text-[16px] fill-current">star</span>
+                                        <span className="material-symbols-outlined text-[16px] fill-current">star_half</span>
+                                    </div>
+                                    <span className="text-[#9da6b8] text-sm">(1,240 reviews)</span>
+                                </div>
+                                <p className="text-xl font-bold text-white mb-6 border-b border-[#292e38] pb-4">$129.00</p>
+                                <div className="space-y-4 mb-8">
+                                    <div>
+                                        <p className="text-sm font-bold text-white mb-2">Description</p>
+                                        <p className="text-sm text-[#9da6b8] leading-relaxed">
+                                            Experience the future of running with the Nebula Runner 2024. Featuring our proprietary Gravity-Defy™ foam technology, this shoe returns 20% more energy with every step. The breathable knit upper adapts to your foot shape for a custom fit feel. Perfect for long distance and speed training alike.
+                                        </p>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 text-xs">
+                                        <div className="bg-[#1c2029] p-2 rounded">Weight: 240g</div>
+                                        <div className="bg-[#1c2029] p-2 rounded">Drop: 8mm</div>
+                                        <div className="bg-[#1c2029] p-2 rounded">Terrain: Road</div>
+                                        <div className="bg-[#1c2029] p-2 rounded">Arch: Neutral</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* Right Panel: Flow Mode */}
+                        <section className="flex-1 bg-background-dark flex flex-col relative overflow-hidden">
+                            {/* Top Stepper Navigation */}
+                            <div className="w-full flex justify-center py-6 px-4 bg-background-dark/95 backdrop-blur z-20 sticky top-0">
+                                <div className="flex h-10 items-center bg-[#1c2029] rounded-full p-1 border border-[#292e38] overflow-x-auto">
+                                    <div className="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors whitespace-nowrap">
+                                        <span className="material-symbols-outlined text-[18px] mr-1">check_circle</span>
+                                        Overview
+                                    </div>
+                                    <div className="flex items-center px-4 py-1.5 rounded-full bg-primary text-white text-sm font-bold shadow-lg shadow-primary/25 cursor-default whitespace-nowrap">
+                                        <span className="material-symbols-outlined text-[18px] mr-1">tune</span>
+                                        Options
+                                    </div>
+                                    <div className="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors whitespace-nowrap">
+                                        Review
+                                    </div>
+                                    <div className="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors whitespace-nowrap">
+                                        Checkout
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Flow Content Container */}
+                            <div className="flex-1 overflow-y-auto px-4 sm:px-12 md:px-20 lg:px-28 pb-32 pt-4 scroll-smooth">
+                                <div className="max-w-4xl mx-auto flex flex-col h-full justify-center">
+                                    <div className="mb-8 text-center">
+                                        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Customize your pair</h1>
+                                        <p className="text-[#9da6b8] text-lg">Select your preferred colorway and size.</p>
+                                    </div>
+                                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                        {/* Product Hero Image */}
+                                        <div className="relative group">
+                                            <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-700"></div>
+                                            <div className="aspect-square w-full relative z-10 rounded-3xl overflow-hidden bg-gradient-to-br from-[#292e38] to-[#1c2029] border border-[#292e38] shadow-2xl">
+                                                <div className="w-full h-full bg-contain bg-center bg-no-repeat p-8 transition-transform duration-500 hover:scale-105" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6wmSatkUcNPrO2YYSCkKl-gaq24PClkQhp86Usp8745rd5J93eI35xmM_SSxwhT-Xl19HoAc1LO2ShXrjQrU5fkqpitN7tr54EsfP8TgEfrvdF-G6Wn8V7QmrOSZdHyYGRK3Hk8tv9c04Lrf8EC_1g6--FSc8EWivOfc6VJJcwgNzLhzKrVQDRsORO-aZOjRwBTV7wp1vxJsHumLzs0wzsZ7X4rpXtutAjDfv81n_7gcSWspabDpX0CosWfMmLb-j3a_BHVRfDmxo')", transform: "rotate(-15deg) scale(1.1)"}}></div>
+                                                <div className="absolute bottom-4 left-4 right-4 bg-[#111318]/80 backdrop-blur-md p-3 rounded-xl border border-white/10 flex justify-between items-center">
+                                                    <span className="text-sm font-medium text-[#9da6b8]">Nebula Runner 2024</span>
+                                                    <span className="text-white font-bold bg-white/10 px-2 py-1 rounded-lg text-xs">Red / Crimson</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* Controls */}
+                                        <div className="flex flex-col gap-8">
+                                            {/* Color Selector */}
+                                            <div>
+                                                <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                                                    Color <span className="text-[#9da6b8] font-normal text-sm ml-auto">Crimson Red selected</span>
+                                                </h3>
+                                                <div className="flex gap-4">
+                                                    <label className="cursor-pointer group relative">
+                                                        <input defaultChecked className="peer sr-only" name="color" type="radio"/>
+                                                        <div className="size-12 rounded-full bg-red-600 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all shadow-lg shadow-red-900/20"></div>
+                                                        <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                            <span className="material-symbols-outlined text-lg">check</span>
+                                                        </div>
+                                                    </label>
+                                                    <label className="cursor-pointer group relative">
+                                                        <input className="peer sr-only" name="color" type="radio"/>
+                                                        <div className="size-12 rounded-full bg-blue-600 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all shadow-lg shadow-blue-900/20"></div>
+                                                        <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                            <span className="material-symbols-outlined text-lg">check</span>
+                                                        </div>
+                                                    </label>
+                                                    <label className="cursor-pointer group relative">
+                                                        <input className="peer sr-only" name="color" type="radio"/>
+                                                        <div className="size-12 rounded-full bg-slate-800 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all border border-[#3c4453]"></div>
+                                                        <div className="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                            <span className="material-symbols-outlined text-lg">check</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {/* Size Selector */}
+                                            <div>
+                                                <div className="flex justify-between items-end mb-4">
+                                                    <h3 className="text-white font-bold">Size (US)</h3>
+                                                    <button className="text-primary text-sm font-medium hover:underline">Size Guide</button>
+                                                </div>
+                                                <div className="grid grid-cols-4 gap-3">
+                                                    <label className="cursor-pointer">
+                                                        <input className="peer sr-only" name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">7</div>
+                                                    </label>
+                                                    <label className="cursor-pointer">
+                                                        <input className="peer sr-only" name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">8</div>
+                                                    </label>
+                                                    <label className="cursor-pointer">
+                                                        <input defaultChecked className="peer sr-only" name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">9</div>
+                                                    </label>
+                                                    <label className="cursor-pointer">
+                                                        <input className="peer sr-only" name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">10</div>
+                                                    </label>
+                                                    <label className="cursor-pointer">
+                                                        <input className="peer sr-only" name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">11</div>
+                                                    </label>
+                                                    <label className="cursor-not-allowed opacity-50">
+                                                        <input className="peer sr-only" disabled name="size" type="radio"/>
+                                                        <div className="h-12 w-full rounded-xl border border-[#292e38] bg-[#111318] text-[#586175] flex items-center justify-center font-medium relative overflow-hidden">
+                                                            12
+                                                            <div className="absolute h-px w-full bg-[#586175] rotate-45"></div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {/* Stock Alert */}
+                                            <div className="flex items-center gap-2 text-green-400 text-sm bg-green-900/10 p-3 rounded-lg border border-green-900/30">
+                                                <span className="material-symbols-outlined text-[18px]">inventory_2</span>
+                                                <span>In Stock - Ready to ship today</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Sticky Action Footer */}
+                            <div className="absolute bottom-0 left-0 w-full bg-[#111621] border-t border-[#292e38] p-6 lg:px-12 z-30">
+                                <div className="max-w-4xl mx-auto flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                        <span className="text-[#9da6b8] text-sm">Total Price</span>
+                                        <div className="flex items-baseline gap-2">
+                                            <span className="text-3xl font-bold text-white tracking-tight">$129.00</span>
+                                            <span className="text-[#586175] text-sm line-through">$149.00</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <button className="hidden sm:flex h-14 px-8 items-center justify-center rounded-full border border-[#3c4453] bg-transparent text-white font-bold text-base hover:bg-[#292e38] transition-all">
+                                            Back
+                                        </button>
+                                        <button className="h-14 px-10 flex items-center justify-center gap-2 rounded-full bg-primary text-white font-bold text-lg hover:bg-blue-600 transition-all shadow-[0_0_20px_rgba(25,93,230,0.4)] hover:shadow-[0_0_30px_rgba(25,93,230,0.6)] hover:scale-105 active:scale-95">
+                                            <span>Confirm Selection</span>
+                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 3: ADHD Focus Mode ---
+        
+        const ClarityModeScreen = () => {
+            return (
+                <div className="bg-background-dark text-white font-display overflow-hidden h-screen flex flex-col">
+                    {/* Top Navigation Bar */}
+                    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-panel-dark px-6 py-3 shrink-0 z-20">
+                        <div className="flex items-center gap-4 text-white">
+                            <div className="size-8 flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-3xl">local_see</span>
+                            </div>
+                            <h2 className="text-white text-lg font-bold leading-tight tracking-tight">ClarityAI Browser</h2>
+                        </div>
+                        <div className="hidden md:flex flex-1 max-w-xl mx-8 bg-background-dark rounded-full border border-border-dark px-4 py-2 items-center gap-2 text-text-muted text-sm">
+                            <span className="material-symbols-outlined text-[18px]">lock</span>
+                            <span className="text-white truncate">amazon.com/Sony-WH-1000XM5-Noise-Canceling...</span>
+                        </div>
+                        <div className="flex gap-3">
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-border-dark/50 border border-border-dark">
+                                <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Mode</span>
+                                <span className="material-symbols-outlined text-primary text-sm">bolt</span>
+                                <span className="text-sm font-bold text-white">ADHD Focus</span>
+                            </div>
+                            <button className="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-border-dark text-white hover:bg-[#3c4453] transition-colors">
+                                <span className="material-symbols-outlined">person</span>
+                            </button>
+                        </div>
+                    </header>
+                    
+                    {/* Main Layout */}
+                    <div className="flex flex-1 overflow-hidden">
+                        {/* LEFT PANEL: Controls & Context */}
+                        <aside className="hidden lg:flex w-[30%] min-w-[320px] max-w-[400px] flex-col border-r border-border-dark bg-panel-dark overflow-y-auto">
+                            <div className="p-6 pb-2 flex justify-between items-center">
+                                <h2 className="text-white text-xl font-bold leading-tight">AI Settings</h2>
+                                <button className="text-text-muted hover:text-white transition-colors">
+                                    <span className="material-symbols-outlined">dock_to_left</span>
+                                </button>
+                            </div>
+                            {/* Controls Section */}
+                            <div className="px-6 py-4 flex flex-col gap-6">
+                                {/* Distraction Slider */}
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <span className="material-symbols-outlined text-text-muted text-lg">blur_on</span>
+                                            <p className="text-white text-sm font-medium">Distraction Shield</p>
+                                        </div>
+                                        <p className="text-primary text-sm font-bold">Max</p>
+                                    </div>
+                                    <div className="h-1.5 w-full rounded-full bg-[#3c4453]">
+                                        <div className="h-full w-[90%] rounded-full bg-primary relative">
+                                            <div className="absolute -right-1.5 -top-[5px] size-4 rounded-full bg-white shadow-lg border-2 border-primary cursor-pointer hover:scale-110 transition-transform"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Toggle Actions */}
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex items-center justify-between p-3 rounded-xl border border-border-dark bg-[#1a1d26]">
+                                        <div className="flex items-center gap-3">
+                                            <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                                <span className="material-symbols-outlined text-lg">summarize</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-bold text-white">Smart Summary</span>
+                                                <span className="text-xs text-text-muted">Key facts only</span>
+                                            </div>
+                                        </div>
+                                        <label className="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-primary p-0.5">
+                                            <div className="h-5 w-5 rounded-full bg-white shadow-sm translate-x-5 transition-transform"></div>
+                                            <input defaultChecked className="invisible absolute" type="checkbox"/>
+                                        </label>
+                                    </div>
+                                    <div className="flex items-center justify-between p-3 rounded-xl border border-border-dark bg-panel-dark hover:bg-[#1a1d26] transition-colors">
+                                        <div className="flex items-center gap-3">
+                                            <div className="size-8 rounded-full bg-[#3c4453]/30 flex items-center justify-center text-text-muted">
+                                                <span className="material-symbols-outlined text-lg">compare_arrows</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-medium text-white">Compare Prices</span>
+                                                <span className="text-xs text-text-muted">Auto-check other stores</span>
+                                            </div>
+                                        </div>
+                                        <label className="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-[#3c4453] p-0.5">
+                                            <div className="h-5 w-5 rounded-full bg-white shadow-sm translate-x-0 transition-transform"></div>
+                                            <input className="invisible absolute" type="checkbox"/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="h-px bg-border-dark mx-6 my-2"></div>
+                            {/* Original Source Context */}
+                            <div className="px-6 py-4 flex flex-col gap-3">
+                                <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">Original Context</p>
+                                <div className="rounded-xl border border-border-dark overflow-hidden bg-[#1a1d26] group cursor-pointer hover:border-primary/50 transition-colors">
+                                    <div className="relative h-32 w-full bg-cover bg-center opacity-60 group-hover:opacity-100 transition-opacity" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIYBa1ADFREpsaAP9_chLgY6vC4-6B_x30nBOnj77YljaxigLoFW9aOoi0RguSEt1rdPLgkOzLIaa8pKjbWDkGgOPcOGgNl3ynxHElAYydT6EYLJAvVa_ZzTUBWqrbYuEYGRry0Bnk_n-SzFwFj_XgFjjJlrUjNjmIypU1mL-YF2RVd6yBCKNEyoEJStVfq-OpCo8UGX2P2iP2--z7RTlxaHk8Grvlwz_9bLisHDSQDYd-xGNRUnPLhv1Zi0lKIZjUF2ImfcxMvqhD')"}}>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1d26] to-transparent"></div>
+                                        <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                                            <div className="bg-white text-black p-1 rounded text-xs font-bold">AZ</div>
+                                            <span className="text-white text-sm font-medium drop-shadow-md">Amazon.com Product Page</span>
+                                        </div>
+                                    </div>
+                                    <div className="p-3 flex justify-between items-center">
+                                        <span className="text-xs text-text-muted">Filtered 42 distractions</span>
+                                        <span className="material-symbols-outlined text-text-muted text-sm group-hover:text-primary">open_in_new</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+
+                        {/* RIGHT PANEL: ADHD Mode View */}
+                        <main className="flex-1 bg-background-dark overflow-y-auto relative flex flex-col items-center">
+                            {/* Zen Header */}
+                            <div className="w-full max-w-5xl px-8 py-6 flex items-center justify-start">
+                                <button className="flex items-center gap-2 text-text-muted hover:text-white transition-colors group">
+                                    <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                                    <span className="text-sm font-medium">Back to Search Results</span>
+                                </button>
+                            </div>
+                            
+                            {/* Product Focus Content */}
+                            <div className="w-full max-w-5xl px-8 pb-20 flex flex-col gap-12">
+                                {/* Hero Section */}
+                                <div className="flex flex-col lg:flex-row gap-12 items-start">
+                                    {/* Product Image */}
+                                    <div className="flex-1 w-full bg-[#1a1d26] rounded-2xl border border-border-dark p-8 flex items-center justify-center aspect-square lg:aspect-[4/3] relative group">
+                                        <div className="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 hover:scale-105" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7jzcqaULPrueAl5-DDsZ94dAZ9lUXAQSi3VwgZ1mBMhBHVQV5idmmIVeevMegoabQh3S4ZPFp48B76BbnXaNmz9klj4iaea9jg8WMTaB_2pet5CQC6VhV6tkvwMFgclze9cSbel__RjoPM-bgtHWyazXS6RBMshojt3iBRQCF2kXo1UzJEaMEA8XwLmxVTUuy42vJYZZ1Lc-vsEFEUKMkLc_Dlzi0dfagStEn-rFqS3fCblXqJT6RKkzujKbk4wrRtdghIaeFyAsx')"}}></div>
+                                        <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button className="size-8 rounded-full bg-black/50 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+                                                <span className="material-symbols-outlined text-sm">360</span>
+                                            </button>
+                                            <button className="size-8 rounded-full bg-black/50 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+                                                <span className="material-symbols-outlined text-sm">zoom_in</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Essential Info & Action */}
+                                    <div className="flex-1 flex flex-col gap-8 justify-center pt-4">
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-green-900/40 text-green-400 border border-green-800 uppercase tracking-wider">Best Seller</span>
+                                                <div className="flex items-center gap-0.5 text-yellow-500">
+                                                    <span className="material-symbols-outlined text-sm fill-current">star</span>
+                                                    <span className="text-sm font-bold text-white">4.8</span>
+                                                    <span className="text-xs text-text-muted ml-1">(12k reviews)</span>
+                                                </div>
+                                            </div>
+                                            <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] mb-4">Sony WH-1000XM5</h1>
+                                            <p className="text-lg text-text-muted leading-relaxed font-light">
+                                                Industry-leading noise canceling with two processors controlling 8 microphones. 
+                                                <span className="text-white font-medium">Up to 30-hour battery life</span> for long travel days.
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-5xl font-bold text-white tracking-tight">$348.00</span>
+                                            <span className="text-xl text-text-muted line-through decoration-red-500/50">$399.99</span>
+                                        </div>
+                                        
+                                        <div className="bg-[#1a1d26] border border-border-dark rounded-xl p-6 shadow-xl flex flex-col gap-4 relative overflow-hidden">
+                                            <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                                            <div className="flex flex-col gap-3 z-10">
+                                                <div className="flex justify-between text-sm text-text-muted mb-1">
+                                                    <span>In Stock</span>
+                                                    <span>Free Delivery by <span className="text-white font-medium">Tomorrow</span></span>
+                                                </div>
+                                                <button className="w-full h-14 bg-primary hover:bg-blue-600 text-white text-lg font-bold rounded-full shadow-[0_0_20px_rgba(25,93,230,0.3)] transition-all hover:shadow-[0_0_30px_rgba(25,93,230,0.5)] transform active:scale-95 flex items-center justify-center gap-3">
+                                                    <span>Buy Now</span>
+                                                    <span className="material-symbols-outlined">arrow_forward</span>
+                                                </button>
+                                                <button className="w-full h-10 bg-transparent hover:bg-white/5 border border-border-dark text-white text-sm font-semibold rounded-full transition-colors flex items-center justify-center gap-2">
+                                                    <span className="material-symbols-outlined text-lg">shopping_cart</span>
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex gap-6 justify-center lg:justify-start">
+                                            <div className="flex items-center gap-2 text-text-muted">
+                                                <span className="material-symbols-outlined text-lg">verified_user</span>
+                                                <span className="text-xs">2 Year Warranty</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-text-muted">
+                                                <span className="material-symbols-outlined text-lg">assignment_return</span>
+                                                <span className="text-xs">30-Day Returns</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="h-px bg-border-dark w-full"></div>
+                                {/* Hidden/Collapsed Details */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <button className="flex items-center justify-between p-5 rounded-2xl bg-[#1a1d26] border border-border-dark hover:border-primary/30 transition-all group text-left">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-10 rounded-full bg-background-dark flex items-center justify-center text-text-muted group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined">memory</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg">Technical Specifications</h3>
+                                                <p className="text-sm text-text-muted">Battery, Weight, Connectivity</p>
+                                            </div>
+                                        </div>
+                                        <span className="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">add_circle</span>
+                                    </button>
+                                    <button className="flex items-center justify-between p-5 rounded-2xl bg-[#1a1d26] border border-border-dark hover:border-primary/30 transition-all group text-left">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-10 rounded-full bg-background-dark flex items-center justify-center text-text-muted group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined">forum</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg">Customer Reviews</h3>
+                                                <p className="text-sm text-text-muted">Summary of 12,403 opinions</p>
+                                            </div>
+                                        </div>
+                                        <span className="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">add_circle</span>
+                                    </button>
+                                    <button className="flex items-center justify-between p-5 rounded-2xl bg-[#1a1d26] border border-border-dark hover:border-primary/30 transition-all group text-left">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-10 rounded-full bg-background-dark flex items-center justify-center text-text-muted group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined">help</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg">Common Questions</h3>
+                                                <p className="text-sm text-text-muted">Compatibility & Setup</p>
+                                            </div>
+                                        </div>
+                                        <span className="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">add_circle</span>
+                                    </button>
+                                    <button className="flex items-center justify-between p-5 rounded-2xl bg-[#1a1d26] border border-border-dark hover:border-primary/30 transition-all group text-left">
+                                        <div className="flex items-center gap-4">
+                                            <div className="size-10 rounded-full bg-background-dark flex items-center justify-center text-text-muted group-hover:text-white transition-colors">
+                                                <span className="material-symbols-outlined">style</span>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg">Similar Products</h3>
+                                                <p className="text-sm text-text-muted">Bose, Sennheiser comparisons</p>
+                                            </div>
+                                        </div>
+                                        <span className="material-symbols-outlined text-text-muted group-hover:text-white transition-colors">add_circle</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Floating Scroll Top */}
+                            <button className="fixed bottom-8 right-8 size-12 bg-primary/20 backdrop-blur border border-primary/30 text-primary rounded-full flex items-center justify-center shadow-lg hover:bg-primary hover:text-white transition-all">
+                                <span className="material-symbols-outlined">arrow_upward</span>
+                            </button>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Main App Component ---
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <NavigationOverlay />
+                    <Routes>
+                        <Route path="/" element={<ZenModeScreen />} />
+                        <Route path="/flow" element={<FlowModeScreen />} />
+                        <Route path="/clarity" element={<ClarityModeScreen />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

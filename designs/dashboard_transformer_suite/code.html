@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard Transformer Suite</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "primary-hover": "#154bb8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f1115", // Base dark
+                        "background-dark-flow": "#111621",
+                        "background-dark-adhd": "#0b0d11",
+                        "surface-dark": "#1a1d24",
+                        "text-subtle": "#9da6b8",
+                        "border-dark": "#292e38",
+                        "card-dark": "#1a1d24",
+                        "accent-high": "#fa6238",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"],
+                        "body": ["Public Sans", "sans-serif"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: "Public Sans", sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111621; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #292e38; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3c4453; 
+        }
+        .dimmed-overlay {
+            background: linear-gradient(to bottom, rgba(17, 22, 33, 0.7), rgba(17, 22, 33, 0.85));
+            backdrop-filter: grayscale(100%) blur(1px);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+
+    <!-- React Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen overflow-hidden">
+    <div id="root" class="h-full flex flex-col"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Demo Navigation (Overlay) ---
+        const DemoNav = () => {
+            const navigate = useNavigate();
+            const location = useLocation();
+            
+            const tabs = [
+                { path: '/', label: 'Zen Mode', icon: 'spa' },
+                { path: '/flow', label: 'Flow Mode', icon: 'auto_mode' },
+                { path: '/adhd', label: 'ADHD Mode', icon: 'bolt' },
+            ];
+
+            return (
+                <div className="fixed bottom-6 right-6 z-[100] flex bg-surface-dark border border-border-dark rounded-full p-1.5 shadow-2xl">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.path}
+                            onClick={() => navigate(tab.path)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                                location.pathname === tab.path 
+                                ? 'bg-primary text-white shadow-lg' 
+                                : 'text-text-subtle hover:text-white hover:bg-white/5'
+                            }`}
+                        >
+                            <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+            );
+        };
+
+        // --- Screen 1: Zen Mode ---
+        const ZenModeScreen = () => {
+            const [zenLevel, setZenLevel] = useState(85);
+
+            return (
+                <div className="bg-[#0f1115] text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+                    {/* Top Toolbar */}
+                    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#292e38] bg-[#111318] px-6 py-3 shrink-0">
+                        <div className="flex items-center gap-4 text-white">
+                            <div className="size-8 flex items-center justify-center rounded bg-primary/20 text-primary">
+                                <span className="material-symbols-outlined text-[24px]">dashboard_customize</span>
+                            </div>
+                            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Dashboard Transformer</h2>
+                        </div>
+                        <div className="flex flex-1 justify-end gap-6 items-center">
+                            <div className="flex gap-2 items-center">
+                                <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-dark border border-[#292e38]">
+                                    <span className="size-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span className="text-xs font-medium text-text-subtle">AI Model: GPT-4o</span>
+                                </div>
+                                <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-blue-600 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                    <span className="truncate">Zen Mode Active</span>
+                                </button>
+                                <button className="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#292e38] hover:bg-[#353b47] text-white transition-colors">
+                                    <span className="material-symbols-outlined text-[20px]">settings</span>
+                                </button>
+                                <button className="flex size-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-[#292e38] hover:bg-[#353b47] text-white transition-colors">
+                                    <span className="material-symbols-outlined text-[20px]">notifications</span>
+                                </button>
+                            </div>
+                            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-[#292e38]" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZyGwBjGa-pvudFMZpX5ValMOyEMEy8IvsCTrmZoEol8P-Lm2xQAMd2r2gTzUPCnaZrYTCzPoz_iYL5bKCiDqKV5hL4jbs6dTr5nsKfwl9pHxbTQsP515NB_LqzWUKvjgeOoRnYV8frkRAm7qZWdP4DR9_uyhfAuqTAhOPNZMf7mh0-YsdwPKJ1OFZGr9463NtYQXD88UTDcGsR5mEn-r_x6ATOAchQ7AulBLF4zZFDOeHvzsHjmNoQoKVOLUJvHa1uYMIdtKf5H-m")'}}></div>
+                        </div>
+                    </header>
+                    {/* Main Content Split View */}
+                    <main className="flex flex-1 overflow-hidden">
+                        {/* Left Panel: Original Source (50%) */}
+                        <section className="hidden lg:flex flex-col w-1/2 border-r border-[#292e38] bg-[#0f1115] relative group/left-panel">
+                            {/* Header for Panel */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-[#292e38]">
+                                <h3 className="text-white tracking-light text-sm font-bold uppercase tracking-wider text-text-subtle flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[18px]">table_chart</span>
+                                    Original Source: Google Analytics 4
+                                </h3>
+                                <button className="text-text-subtle hover:text-white transition-colors flex items-center gap-1 text-sm">
+                                    <span className="material-symbols-outlined text-[18px]">open_in_full</span>
+                                    Dismiss Panel
+                                </button>
+                            </div>
+                            {/* Content Representation */}
+                            <div className="flex-1 p-6 overflow-y-auto relative">
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-[#0f1115]/60 backdrop-blur-[2px] z-10 pointer-events-none flex items-center justify-center">
+                                    <div className="bg-surface-dark border border-[#292e38] px-4 py-2 rounded-full text-sm text-text-subtle shadow-xl">
+                                        Reference View
+                                    </div>
+                                </div>
+                                {/* Fake Complex Dashboard Layout */}
+                                <div className="flex flex-col gap-4 opacity-50">
+                                    <div className="flex gap-4">
+                                        <div className="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+                                        <div className="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+                                        <div className="h-32 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+                                    </div>
+                                    <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg border border-[#292e38] opacity-70" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCQf9kFz0jTLb3oYy9idJd32_r7bSftlHA_XTH8nmzQUanoK4JkUgOczrQHvakNR-veahiWW3LDnW2lDdsvolzmz22KwMxGlsh_YpEQypPvSPg9VMLqLr0TXhiODQxPIRkR78hHYsCVU3NQ0FgDelTlstM6QEshGKVAptsD4MhQBPSZ1ijgpmwTY9K-mfA_KuqWoVZbZ6QsztiPN-F8MubJoX2h7ziefzSTPfCPXSbGGroB869Eo1si0WF0XkaC7npfrWmDMeB17X6w")'}}></div>
+                                    <div className="flex gap-4">
+                                        <div className="h-48 w-2/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+                                        <div className="h-48 w-1/3 bg-surface-dark rounded-lg border border-[#292e38]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Resize Handle Simulation */}
+                            <div className="absolute right-0 top-0 bottom-0 w-1 hover:w-1.5 cursor-col-resize bg-[#292e38] hover:bg-primary transition-all z-20"></div>
+                        </section>
+                        {/* Right Panel: Zen Mode (50%) */}
+                        <section className="flex flex-col flex-1 w-full lg:w-1/2 bg-[#0f1115] overflow-y-auto">
+                            {/* Zen Controls (Slider) */}
+                            <div className="px-8 pt-8 pb-4">
+                                <div className="@container">
+                                    <div className="relative flex w-full flex-col items-start justify-between gap-3 p-4 bg-surface-dark border border-[#292e38] rounded-xl @[480px]:flex-row @[480px]:items-center">
+                                        <div className="flex w-full shrink-[3] items-center gap-3">
+                                            <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                                <span className="material-symbols-outlined">tune</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-white text-base font-bold leading-normal">Zen Level</p>
+                                                <p className="text-text-subtle text-xs">Simplification Intensity</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col w-full max-w-[240px] gap-2">
+                                            <div className="flex justify-between text-xs text-text-subtle font-medium">
+                                                <span>Detail</span>
+                                                <span className="text-white">{zenLevel > 80 ? 'High' : zenLevel > 40 ? 'Medium' : 'Low'}</span>
+                                            </div>
+                                            <div className="flex h-4 w-full items-center gap-4">
+                                                <div className="flex h-1.5 flex-1 rounded-full bg-[#3c4453] cursor-pointer" onClick={(e) => {
+                                                    const rect = e.currentTarget.getBoundingClientRect();
+                                                    const x = e.clientX - rect.left;
+                                                    const p = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                                                    setZenLevel(p);
+                                                }}>
+                                                    <div className="h-full rounded-full bg-gradient-to-r from-blue-600 to-primary relative" style={{width: `${zenLevel}%`}}>
+                                                        <div className="absolute -right-2 -top-[5px] size-4 rounded-full bg-white shadow-[0_0_10px_rgba(25,93,230,0.5)] cursor-pointer hover:scale-110 transition-transform"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Main Content Area */}
+                            <div className="px-8 pb-12 flex flex-col gap-8 max-w-[800px] mx-auto w-full">
+                                {/* Headline Section */}
+                                <div className="flex flex-col gap-3 border-l-4 border-primary pl-6 py-2">
+                                    <p className="text-text-subtle text-sm font-medium uppercase tracking-widest">AI Insight • High Confidence</p>
+                                    <h1 className="text-white text-3xl md:text-4xl font-bold leading-tight">Weekly Performance Overview</h1>
+                                </div>
+                                {/* Narrative Summary */}
+                                <div className="prose prose-invert max-w-none">
+                                    <p className="text-xl text-[#e0e2e8] leading-relaxed font-light">
+                                        Your acquisition strategy is showing strong results. <span className="text-primary font-medium border-b border-primary/30 pb-0.5">Direct traffic</span> has surpassed organic search for the first time this quarter, indicating stronger brand recall.
+                                    </p>
+                                </div>
+                                {/* Key Metrics Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="p-5 bg-surface-dark border border-[#292e38] rounded-xl flex flex-col gap-4 hover:border-primary/50 transition-colors group cursor-pointer">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-text-subtle font-medium text-sm flex items-center gap-2">
+                                                <span className="material-symbols-outlined text-[18px]">group</span>
+                                                Total Users
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400 flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px]">trending_up</span>
+                                                +12%
+                                            </span>
+                                        </div>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-4xl font-bold text-white group-hover:text-primary transition-colors">12.4k</span>
+                                            <span className="text-text-subtle text-sm mb-1">this week</span>
+                                        </div>
+                                    </div>
+                                    <div className="p-5 bg-surface-dark border border-[#292e38] rounded-xl flex flex-col gap-4 hover:border-primary/50 transition-colors group cursor-pointer">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-text-subtle font-medium text-sm flex items-center gap-2">
+                                                <span className="material-symbols-outlined text-[18px]">ads_click</span>
+                                                Conversion Rate
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400 flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px]">trending_up</span>
+                                                +0.5%
+                                            </span>
+                                        </div>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-4xl font-bold text-white group-hover:text-primary transition-colors">2.4%</span>
+                                            <span className="text-text-subtle text-sm mb-1">avg. session</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Linear Insight Feed */}
+                                <div className="flex flex-col gap-4">
+                                    <h4 className="text-white font-bold text-lg border-b border-[#292e38] pb-2">Why this happened</h4>
+                                    <ul className="flex flex-col gap-4">
+                                        <li className="flex gap-4 items-start">
+                                            <div className="mt-1 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
+                                                <span className="material-symbols-outlined text-[16px]">check</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-white font-medium">New Summer Campaign</p>
+                                                <p className="text-text-subtle text-sm mt-1">The email blast sent on Tuesday drove 40% of the direct traffic surge.</p>
+                                            </div>
+                                        </li>
+                                        <li className="flex gap-4 items-start">
+                                            <div className="mt-1 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
+                                                <span className="material-symbols-outlined text-[16px]">check</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-white font-medium">Reduced Bounce Rate</p>
+                                                <p className="text-text-subtle text-sm mt-1">Landing page optimization improved retention by 15s on average.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {/* Action Buttons */}
+                                <div className="pt-4 flex flex-wrap gap-4">
+                                    <button className="flex-1 min-w-[200px] h-12 bg-primary hover:bg-blue-600 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                        <span className="material-symbols-outlined">download</span>
+                                        Generate Full Report
+                                    </button>
+                                    <button className="flex-1 min-w-[200px] h-12 bg-surface-dark hover:bg-[#292e38] border border-[#292e38] text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                        <span className="material-symbols-outlined">manage_search</span>
+                                        Deep Dive Analysis
+                                    </button>
+                                </div>
+                                <div className="h-10"></div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Flow Mode ---
+        const FlowModeScreen = () => {
+            const navigate = useNavigate();
+            const [selectedMetrics, setSelectedMetrics] = useState({
+                newUsers: true,
+                bounceRate: true,
+                avgSession: false,
+                revenue: false
+            });
+
+            const toggleMetric = (key) => {
+                setSelectedMetrics(prev => ({...prev, [key]: !prev[key]}));
+            };
+
+            return (
+                <div className="bg-[#111621] text-slate-900 dark:text-white h-screen flex flex-col overflow-hidden">
+                    {/* Top Navigation Bar */}
+                    <header className="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-[#111318] px-6 py-3 z-50">
+                        <div className="flex items-center gap-4 text-white">
+                            <div className="size-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined">transform</span>
+                            </div>
+                            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AI Interface Transformer</h2>
+                        </div>
+                        <div className="flex flex-1 justify-end gap-6 items-center">
+                            <div className="flex bg-[#292e38] rounded-lg p-1">
+                                <button className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-4 bg-primary text-white text-sm font-bold leading-normal transition-all hover:brightness-110 shadow-lg shadow-blue-900/20">
+                                    <span className="material-symbols-outlined text-[18px] mr-2">auto_mode</span>
+                                    <span className="truncate">Flow Mode</span>
+                                </button>
+                                <button onClick={() => navigate('/')} className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-9 px-4 text-gray-400 text-sm font-medium leading-normal hover:text-white transition-colors">
+                                    <span className="truncate">Standard</span>
+                                </button>
+                            </div>
+                            <div className="h-8 w-[1px] bg-[#292e38]"></div>
+                            <div className="flex items-center gap-3">
+                                <div className="text-right hidden sm:block">
+                                    <p className="text-sm font-bold text-white leading-none">Alex Morgan</p>
+                                    <p className="text-xs text-gray-400 leading-none mt-1">Data Analyst</p>
+                                </div>
+                                <div className="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-[#292e38]" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBOqlU7i4XwT5aYX96ltd7xqavgHUirWeVy8gFdUJKfey7Tpko8_3Msz6Yk_s-Dsv6ZmLxM1cTyDyMmRZ9jLcaO7bpoxvf54QdzHCRuiEfMGy-oMAQWTufeI1W8-LdnVMXj19qcZ5GmdiVOhv_6FZDoLpisyIqQfxUzJfPL2qCUzGUavjzp54yfGLZX1ibDWjapYlPgDjRwIP3qZFAFbVGZ7kUBTdwWbgwNm7-pQXVOyDKhCIsQJz5gLf-CvgyWGcQYiD5nFvJ3rP4")'}}></div>
+                            </div>
+                        </div>
+                    </header>
+                    {/* Main Content Area: Split View */}
+                    <div className="flex flex-1 overflow-hidden relative">
+                        {/* Left Panel: Source View (Dimmed) */}
+                        <aside className="hidden lg:flex w-[40%] flex-col border-r border-border-dark relative bg-[#0d1016]">
+                            <button className="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#292e38] text-gray-400 hover:text-white hover:bg-[#3c4453] transition-colors" title="Collapse Source View">
+                                <span className="material-symbols-outlined text-lg">close_fullscreen</span>
+                            </button>
+                            <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md">
+                                <p className="text-xs font-medium text-gray-300 flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[14px]">visibility_off</span>
+                                    Original Interface (Source)
+                                </p>
+                            </div>
+                            <div className="absolute inset-0 z-10 dimmed-overlay pointer-events-none"></div>
+                            {/* Mock Content */}
+                            <div className="flex-1 overflow-hidden opacity-40 p-4 scale-[0.98] origin-top">
+                                <div className="h-12 w-full bg-[#1e2128] border border-[#292e38] rounded mb-4 flex items-center gap-2 px-3">
+                                    <div className="h-6 w-24 bg-[#292e38] rounded"></div>
+                                    <div className="h-6 w-32 bg-[#292e38] rounded"></div>
+                                    <div className="flex-1"></div>
+                                    <div className="h-6 w-6 bg-[#292e38] rounded-full"></div>
+                                </div>
+                                <div className="grid grid-cols-4 gap-3">
+                                    <div className="col-span-1 flex flex-col gap-2">
+                                        <div className="h-8 w-full bg-[#1e2128] rounded"></div>
+                                        <div className="h-8 w-full bg-[#1e2128] rounded"></div>
+                                        <div className="h-8 w-full bg-[#1e2128] rounded"></div>
+                                        <div className="h-8 w-full bg-[#1e2128] rounded"></div>
+                                        <div className="h-32 w-full bg-[#1e2128] rounded mt-4"></div>
+                                    </div>
+                                    <div className="col-span-3 flex flex-col gap-3">
+                                        <div className="h-48 w-full bg-[#1e2128] rounded border border-[#292e38] relative overflow-hidden">
+                                            <div className="absolute bottom-4 left-4 right-4 h-32 flex items-end justify-between gap-1">
+                                                <div className="w-full bg-[#292e38] h-[40%]"></div>
+                                                <div className="w-full bg-[#292e38] h-[60%]"></div>
+                                                <div className="w-full bg-[#292e38] h-[30%]"></div>
+                                                <div className="w-full bg-[#292e38] h-[80%]"></div>
+                                                <div className="w-full bg-[#292e38] h-[50%]"></div>
+                                            </div>
+                                        </div>
+                                        <div className="h-80 w-full bg-[#1e2128] rounded border border-[#292e38] p-3">
+                                            <div className="flex gap-4 mb-3 border-b border-[#292e38] pb-2">
+                                                <div className="h-4 w-20 bg-[#292e38] rounded"></div>
+                                                <div className="h-4 w-20 bg-[#292e38] rounded"></div>
+                                                <div className="h-4 w-20 bg-[#292e38] rounded"></div>
+                                            </div>
+                                            <div className="flex flex-col gap-2">
+                                                <div className="h-8 w-full bg-[#292e38]/50 rounded"></div>
+                                                <div className="h-8 w-full bg-[#292e38]/50 rounded"></div>
+                                                <div className="h-8 w-full bg-[#292e38]/50 rounded"></div>
+                                                <div className="h-8 w-full bg-[#292e38]/50 rounded"></div>
+                                                <div className="h-8 w-full bg-[#292e38]/50 rounded"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                        {/* Right Panel: Active Flow Mode */}
+                        <main className="flex-1 flex flex-col h-full bg-background-dark overflow-hidden relative">
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-16 bg-[#292e38] rounded-r hover:bg-primary cursor-ew-resize hidden lg:block transition-colors"></div>
+                            <div className="flex-1 overflow-y-auto px-8 py-8 md:px-12 lg:px-16">
+                                <div className="max-w-[800px] mx-auto flex flex-col gap-8 pb-24">
+                                    {/* Header */}
+                                    <div className="flex flex-col gap-2">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full w-fit">
+                                            <span className="material-symbols-outlined text-primary text-sm">analytics</span>
+                                            <span className="text-primary text-xs font-bold uppercase tracking-wide">Report Generation</span>
+                                        </div>
+                                        <h1 className="text-white text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+                                            Monthly User Acquisition
+                                        </h1>
+                                        <p className="text-gray-400 text-lg">Define the metrics you want to include in this month's automated report.</p>
+                                    </div>
+                                    {/* Progress Stepper */}
+                                    <div className="flex flex-col gap-3 bg-surface-dark p-5 rounded-xl border border-border-dark shadow-sm">
+                                        <div className="flex justify-between items-end">
+                                            <div>
+                                                <p className="text-white text-base font-semibold">Step 2 of 5</p>
+                                                <p className="text-gray-400 text-sm mt-1">Select Key Metrics</p>
+                                            </div>
+                                            <span className="text-primary text-sm font-bold">40% Completed</span>
+                                        </div>
+                                        <div className="w-full h-2 bg-[#292e38] rounded-full overflow-hidden">
+                                            <div className="h-full bg-primary rounded-full" style={{width: '40%'}}></div>
+                                        </div>
+                                    </div>
+                                    {/* Main Interaction Area: Metric Selection */}
+                                    <div className="flex flex-col gap-4">
+                                        <h3 className="text-white text-lg font-bold flex items-center gap-2">
+                                            <span className="material-symbols-outlined text-primary">bar_chart</span>
+                                            Choose Metrics
+                                        </h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {/* Card 1 */}
+                                            <label className="relative group cursor-pointer">
+                                                <input checked={selectedMetrics.newUsers} onChange={() => toggleMetric('newUsers')} className="peer sr-only" type="checkbox"/>
+                                                <div className="h-full bg-surface-dark border-2 border-[#292e38] rounded-xl p-5 transition-all peer-checked:bg-primary/5 peer-checked:border-primary hover:border-gray-500">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <div className="p-2 bg-[#292e38] rounded-lg text-white">
+                                                            <span className="material-symbols-outlined">group_add</span>
+                                                        </div>
+                                                        <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedMetrics.newUsers ? 'bg-primary border-primary text-white' : 'border-[#3c4453] text-transparent'}`}>
+                                                            <span className="material-symbols-outlined text-sm font-bold">check</span>
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="text-white font-bold text-lg mb-1">New Users</h4>
+                                                    <p className="text-gray-400 text-sm mb-3">First-time visitors to the site.</p>
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-2xl font-bold text-white">3,450</span>
+                                                        <span className="text-green-400 text-xs font-bold flex items-center">
+                                                            <span className="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            {/* Card 2 */}
+                                            <label className="relative group cursor-pointer">
+                                                <input checked={selectedMetrics.avgSession} onChange={() => toggleMetric('avgSession')} className="peer sr-only" type="checkbox"/>
+                                                <div className="h-full bg-surface-dark border-2 border-[#292e38] rounded-xl p-5 transition-all peer-checked:bg-primary/5 peer-checked:border-primary hover:border-gray-500">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <div className="p-2 bg-[#292e38] rounded-lg text-white">
+                                                            <span className="material-symbols-outlined">timer</span>
+                                                        </div>
+                                                        <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedMetrics.avgSession ? 'bg-primary border-primary text-white' : 'border-[#3c4453] text-transparent'}`}>
+                                                            <span className="material-symbols-outlined text-sm font-bold">check</span>
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="text-white font-bold text-lg mb-1">Avg. Session Duration</h4>
+                                                    <p className="text-gray-400 text-sm mb-3">Time spent per session.</p>
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-2xl font-bold text-white">2m 14s</span>
+                                                        <span className="text-gray-600 text-xs font-bold flex items-center">
+                                                            <span className="material-symbols-outlined text-[14px]">remove</span> 0%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            {/* Card 3 */}
+                                            <label className="relative group cursor-pointer">
+                                                <input checked={selectedMetrics.bounceRate} onChange={() => toggleMetric('bounceRate')} className="peer sr-only" type="checkbox"/>
+                                                <div className="h-full bg-surface-dark border-2 border-[#292e38] rounded-xl p-5 transition-all peer-checked:bg-primary/5 peer-checked:border-primary hover:border-gray-500">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <div className="p-2 bg-[#292e38] rounded-lg text-white">
+                                                            <span className="material-symbols-outlined">call_missed_outgoing</span>
+                                                        </div>
+                                                        <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedMetrics.bounceRate ? 'bg-primary border-primary text-white' : 'border-[#3c4453] text-transparent'}`}>
+                                                            <span className="material-symbols-outlined text-sm font-bold">check</span>
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="text-white font-bold text-lg mb-1">Bounce Rate</h4>
+                                                    <p className="text-gray-400 text-sm mb-3">Single-page sessions.</p>
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-2xl font-bold text-white">42.5%</span>
+                                                        <span className="text-green-400 text-xs font-bold flex items-center">
+                                                            <span className="material-symbols-outlined text-[14px]">arrow_downward</span> 5%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            {/* Card 4 */}
+                                            <label className="relative group cursor-pointer">
+                                                <input checked={selectedMetrics.revenue} onChange={() => toggleMetric('revenue')} className="peer sr-only" type="checkbox"/>
+                                                <div className="h-full bg-surface-dark border-2 border-[#292e38] rounded-xl p-5 transition-all peer-checked:bg-primary/5 peer-checked:border-primary hover:border-gray-500">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <div className="p-2 bg-[#292e38] rounded-lg text-white">
+                                                            <span className="material-symbols-outlined">attach_money</span>
+                                                        </div>
+                                                        <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedMetrics.revenue ? 'bg-primary border-primary text-white' : 'border-[#3c4453] text-transparent'}`}>
+                                                            <span className="material-symbols-outlined text-sm font-bold">check</span>
+                                                        </div>
+                                                    </div>
+                                                    <h4 className="text-white font-bold text-lg mb-1">Revenue</h4>
+                                                    <p className="text-gray-400 text-sm mb-3">Total revenue generated.</p>
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-2xl font-bold text-white">$12,450</span>
+                                                        <span className="text-red-400 text-xs font-bold flex items-center">
+                                                            <span className="material-symbols-outlined text-[14px]">arrow_downward</span> 2%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {/* AI Insight Box */}
+                                    <div className="bg-gradient-to-r from-[#1c2333] to-[#111621] border border-primary/30 p-5 rounded-xl flex gap-4 items-start shadow-lg relative overflow-hidden group">
+                                        <div className="absolute -right-10 -top-10 w-32 h-32 bg-primary/20 blur-[50px] rounded-full group-hover:bg-primary/30 transition-all"></div>
+                                        <div className="bg-primary/20 p-2 rounded-lg text-primary shrink-0 z-10">
+                                            <span className="material-symbols-outlined">auto_awesome</span>
+                                        </div>
+                                        <div className="z-10">
+                                            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-1">AI Analysis</h4>
+                                            <p className="text-gray-200 text-sm leading-relaxed">
+                                                <strong className="text-white">Good news:</strong> Your bounce rate has improved by 5% compared to last month, likely due to the recent optimization of the landing page load times. This is a key highlight for your report.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Footer: Navigation Actions */}
+                            <footer className="border-t border-border-dark bg-[#111621] p-6 absolute bottom-0 w-full z-10">
+                                <div className="max-w-[800px] mx-auto flex justify-between items-center">
+                                    <button onClick={() => navigate('/')} className="flex items-center gap-2 px-6 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-[#292e38] transition-colors font-semibold">
+                                        <span className="material-symbols-outlined text-lg">arrow_back</span>
+                                        Back
+                                    </button>
+                                    <button onClick={() => navigate('/adhd')} className="flex items-center gap-2 px-8 py-3 rounded-lg bg-primary hover:bg-blue-600 text-white shadow-lg shadow-blue-600/20 transition-all transform hover:-translate-y-0.5 font-bold">
+                                        Next: Analyze Trends
+                                        <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                                    </button>
+                                </div>
+                            </footer>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 3: ADHD Mode ---
+        const ADHDModeScreen = () => {
+            return (
+                <div className="bg-[#0b0d11] text-white font-display antialiased h-screen flex flex-col overflow-hidden">
+                    {/* Top Toolbar */}
+                    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#292e38] bg-[#111318] px-6 py-3 shrink-0 z-20">
+                        <div className="flex items-center gap-4 text-white">
+                            <div className="size-6 flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-[28px]">auto_fix_high</span>
+                            </div>
+                            <h2 className="text-white text-lg font-bold leading-tight tracking-tight">Interface Transformer AI</h2>
+                            <div className="h-4 w-px bg-[#292e38] mx-2"></div>
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
+                                <span className="text-primary text-xs font-bold uppercase tracking-wider">ADHD Mode Active</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-1 justify-end gap-6 items-center">
+                            <div className="flex gap-2 items-center">
+                                <span className="text-[#9da6b8] text-sm font-medium">Focus Level</span>
+                                <div className="flex items-center bg-[#292e38] rounded-lg p-1">
+                                    <button className="px-3 py-1 text-xs font-bold text-[#9da6b8] hover:text-white transition-colors">Low</button>
+                                    <button className="px-3 py-1 text-xs font-bold bg-primary text-white rounded shadow-sm">High</button>
+                                </div>
+                            </div>
+                            <div className="w-px h-6 bg-[#292e38]"></div>
+                            <button className="flex items-center justify-center rounded-lg size-10 hover:bg-[#292e38] text-[#9da6b8] transition-colors">
+                                <span className="material-symbols-outlined">settings</span>
+                            </button>
+                            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-[#292e38]" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBc3HMPzDhCn6nhAD9k3UepDvtZd2q5pK8smIhgR-rwHEy_N93jCgoAF01NYBD_IPUMkxjoEjm9EREoJuNa1-9nyhZLncZHlrdJybO5oG6DZnPAMzRVaJnVJhmfobbkTc6XIehR-QNGPorX59X59GF0LTtsFFjwwyGuzI7XFM-W7I0XaZEFTX63jxkHcJWerWV9n2iHPJ4Pj54z0wMM3mYOIYzld17nbOuAKEz9pdZ22t66_z_fh73RQ10dw4861tSKw1DjfLITMpdW")'}}></div>
+                        </div>
+                    </header>
+                    {/* Main Content Area */}
+                    <div className="flex flex-1 overflow-hidden relative">
+                        {/* Left Panel (30% - Context/Navigation) */}
+                        <aside className="w-[30%] min-w-[300px] max-w-[400px] flex flex-col border-r border-[#292e38] bg-[#111318] relative z-10 transition-all duration-300 ease-in-out">
+                            <div className="p-4 border-b border-[#292e38] flex justify-between items-center">
+                                <div>
+                                    <h1 className="text-white text-base font-bold">Analytics Overview</h1>
+                                    <p className="text-[#9da6b8] text-xs">Property: ShopGlobal (Web)</p>
+                                </div>
+                                <button className="text-[#9da6b8] hover:text-white p-1 rounded hover:bg-[#292e38]">
+                                    <span className="material-symbols-outlined text-[20px]">first_page</span>
+                                </button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                                <div className="px-3 py-2 text-[#64748b] text-xs font-bold uppercase tracking-wider mt-2">Reports Snapshot</div>
+                                {/* Nav Item: Realtime */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">schedule</span>
+                                        <p className="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Realtime</p>
+                                    </div>
+                                    <div className="h-1 w-8 bg-green-500/20 rounded-full overflow-hidden">
+                                        <div className="h-full w-[70%] bg-green-500"></div>
+                                    </div>
+                                </div>
+                                {/* Nav Item: Acquisition */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">group_add</span>
+                                        <p className="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Acquisition</p>
+                                    </div>
+                                </div>
+                                {/* Nav Item: Engagement */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">analytics</span>
+                                        <p className="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Engagement</p>
+                                    </div>
+                                </div>
+                                {/* Nav Item: Monetization (Warning State) */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg bg-[#292e38]/50 border border-[#fa6238]/20 cursor-pointer transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#fa6238]">monetization_on</span>
+                                        <p className="text-white text-sm font-medium">Monetization</p>
+                                    </div>
+                                    <span className="flex h-2 w-2 rounded-full bg-[#fa6238]"></span>
+                                </div>
+                                {/* Nav Item: Retention */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">favorite</span>
+                                        <p className="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Retention</p>
+                                    </div>
+                                </div>
+                                <div className="px-3 py-2 text-[#64748b] text-xs font-bold uppercase tracking-wider mt-6">Settings</div>
+                                {/* Nav Item: Admin */}
+                                <div className="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">admin_panel_settings</span>
+                                        <p className="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Admin</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Bottom Fader */}
+                            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#111318] to-transparent pointer-events-none"></div>
+                        </aside>
+                        {/* Right Panel (70% - ADHD Mode/Focus) */}
+                        <main className="flex-1 bg-[#0b0d11] relative flex items-center justify-center p-8 overflow-y-auto">
+                            {/* Focus Card Container */}
+                            <div className="w-full max-w-4xl flex flex-col gap-8 animate-fade-in-up">
+                                {/* Alert Banner */}
+                                <div className="flex items-center gap-3 bg-[#fa6238]/10 border border-[#fa6238]/30 px-4 py-3 rounded-lg self-start">
+                                    <span className="material-symbols-outlined text-[#fa6238]">warning</span>
+                                    <p className="text-[#fa6238] font-bold text-sm tracking-wide uppercase">Critical Attention Needed</p>
+                                </div>
+                                {/* Main Focus Card */}
+                                <div className="bg-[#1a1d24] rounded-2xl border border-[#292e38] shadow-2xl p-10 md:p-14 flex flex-col md:flex-row gap-12 items-center relative overflow-hidden">
+                                    {/* Decorative Background Element */}
+                                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                                    {/* Left: The Big Metric */}
+                                    <div className="flex-1 flex flex-col gap-2 z-10 min-w-[280px]">
+                                        <h2 className="text-[#9da6b8] text-lg font-medium tracking-wide">Conversion Rate Drop (iOS)</h2>
+                                        <div className="flex items-baseline gap-4">
+                                            <h1 className="text-white text-[80px] md:text-[100px] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-400">
+                                                15.4<span className="text-4xl align-top text-[#fa6238]">%</span>
+                                            </h1>
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <span className="material-symbols-outlined text-[#fa6238] text-2xl">trending_down</span>
+                                            <p className="text-[#fa6238] text-xl font-bold">Decrease vs last 4h</p>
+                                        </div>
+                                    </div>
+                                    {/* Divider */}
+                                    <div className="hidden md:block w-px h-48 bg-[#292e38]"></div>
+                                    {/* Right: The Insight & Action */}
+                                    <div className="flex-1 flex flex-col justify-center gap-8 z-10">
+                                        <div className="space-y-4">
+                                            <h3 className="text-white text-2xl font-bold leading-tight">Checkout abandonment spiked on Mobile</h3>
+                                            <p className="text-[#9da6b8] text-lg leading-relaxed">
+                                                An unusual drop in conversion was detected starting at 10:00 AM. The issue is isolated to iOS devices on the payment confirmation screen.
+                                            </p>
+                                        </div>
+                                        {/* Mini Trend Chart */}
+                                        <div className="h-24 w-full bg-[#111318] rounded-lg border border-[#292e38] p-4 relative overflow-hidden group">
+                                            <div className="absolute inset-0 flex items-end justify-between px-4 pb-4 pt-8 gap-1">
+                                                <div className="w-full bg-[#292e38] h-[80%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#292e38] h-[75%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#292e38] h-[82%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#292e38] h-[78%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#292e38] h-[60%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#292e38] h-[40%] rounded-sm opacity-50"></div>
+                                                <div className="w-full bg-[#fa6238] h-[25%] rounded-sm shadow-[0_0_15px_rgba(250,98,56,0.5)]"></div>
+                                            </div>
+                                            <div className="absolute top-2 left-4 text-[10px] text-[#9da6b8] font-mono">HOURLY TREND</div>
+                                        </div>
+                                        {/* Primary CTA */}
+                                        <button className="w-full bg-primary hover:bg-primary-hover text-white text-lg font-bold py-5 px-8 rounded-xl shadow-[0_0_40px_rgba(25,93,230,0.3)] hover:shadow-[0_0_60px_rgba(25,93,230,0.5)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group/btn">
+                                            <span>Investigate iOS Funnel</span>
+                                            <span className="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                                        </button>
+                                        <div className="text-center">
+                                            <button className="text-[#64748b] hover:text-white text-sm underline decoration-dashed underline-offset-4 transition-colors">
+                                                Dismiss this alert
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Secondary Context Cards (Faded) */}
+                                <div className="grid grid-cols-2 gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+                                    <div className="bg-[#1a1d24] border border-[#292e38] p-4 rounded-lg flex items-center justify-between">
+                                        <div>
+                                            <p className="text-[#9da6b8] text-sm">Active Users</p>
+                                            <p className="text-white text-xl font-bold">12.5k</p>
+                                        </div>
+                                        <div className="h-8 w-20">
+                                            <svg className="w-full h-full stroke-green-500 fill-none" strokeWidth="2" viewBox="0 0 100 40">
+                                                <path d="M0 30 Q 20 35 40 20 T 100 10"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div className="bg-[#1a1d24] border border-[#292e38] p-4 rounded-lg flex items-center justify-between">
+                                        <div>
+                                            <p className="text-[#9da6b8] text-sm">Avg. Session</p>
+                                            <p className="text-white text-xl font-bold">2m 45s</p>
+                                        </div>
+                                        <div className="h-8 w-20">
+                                            <svg className="w-full h-full stroke-[#9da6b8] fill-none" strokeWidth="2" viewBox="0 0 100 40">
+                                                <path d="M0 20 Q 20 10 40 25 T 100 20"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter initialEntries={['/']}>
+                    <Routes>
+                        <Route path="/" element={<ZenModeScreen />} />
+                        <Route path="/flow" element={<FlowModeScreen />} />
+                        <Route path="/adhd" element={<ADHDModeScreen />} />
+                    </Routes>
+                    <DemoNav />
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

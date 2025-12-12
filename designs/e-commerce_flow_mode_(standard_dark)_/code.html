@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>E-commerce Flow Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1a1d24",
+                        "surface-darker": "#0d0f14",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111621;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #292e38;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3c4453;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-white">
+<!-- Top Navigation Bar -->
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-b-[#292e38] bg-[#111318] px-6 py-3 z-50">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-2xl">auto_awesome</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Flow Browser</h2>
+<div class="h-4 w-px bg-[#3c4453] mx-2"></div>
+<span class="text-[#9da6b8] text-sm font-medium">Standard Dark</span>
+</div>
+<!-- Address Bar Simulation -->
+<label class="flex flex-col min-w-40 !h-10 w-96 hidden md:flex">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-[#1c2029] border border-[#292e38] group focus-within:border-primary/50 transition-colors">
+<div class="text-[#9da6b8] flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl bg-transparent text-white focus:outline-0 border-none placeholder:text-[#586175] text-sm font-normal leading-normal" placeholder="nebula-store.com/products/runner-2024" readonly="" value="nebula-store.com/products/runner-2024"/>
+</div>
+</label>
+</div>
+<div class="flex gap-3">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#1c2029] hover:bg-[#292e38] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#1c2029] hover:bg-[#292e38] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#1c2029] hover:bg-[#292e38] text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">side_navigation</span>
+</button>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel: Original Page Context (40% width) -->
+<aside class="w-[40%] min-w-[320px] max-w-[600px] border-r border-[#292e38] bg-[#0d0f14] flex flex-col relative z-10 transition-all duration-300">
+<!-- Panel Header -->
+<div class="flex items-center justify-between p-4 border-b border-[#292e38] bg-[#111318]/90 backdrop-blur-sm sticky top-0 z-20">
+<h3 class="text-[#9da6b8] text-xs font-bold uppercase tracking-wider">Original Context</h3>
+<button class="text-[#9da6b8] hover:text-white flex items-center gap-1 text-xs font-medium bg-[#1c2029] px-3 py-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[16px]">close_fullscreen</span>
+<span>Dismiss</span>
+</button>
+</div>
+<!-- Scrollable Content - Simulating a "busy" standard e-commerce page -->
+<div class="flex-1 overflow-y-auto p-6 opacity-70 hover:opacity-100 transition-opacity duration-300">
+<!-- Breadcrumbs -->
+<div class="flex gap-2 text-xs text-[#586175] mb-4">
+<span>Home</span> / <span>Running</span> / <span>Men's Shoes</span>
+</div>
+<div class="bg-surface-dark rounded-xl p-4 border border-[#292e38] mb-6">
+<div class="aspect-[4/3] w-full bg-[#1c2029] rounded-lg mb-4 bg-cover bg-center" data-alt="Side profile of a generic running shoe" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUbzR2RNQHgzL7wrkXUY9CvwHWTUt7U1Iv0Ur7V8XM2BCXO2B0u-lGaMz4KW5JelveJMo8R5Jtbu4zRMdh3ucAJ2YF6zL_riH4gghvMt8R_0O9ES3Immfxqa_V2X_0cWtZJb8VirUjoAQhqZ9TzPocKBq4yVO_J-eZgUP9aI5C-6Mce5lu-r8GqvAlJE23B6tonp0mS5L52eEt6hXCjwUGYFjGdRnBBqI0Sgi_dd9pHMTmzFkrpRJ5MDc54GPpxbQXRiCRVqW6c5kd');"></div>
+<div class="flex gap-2 overflow-x-auto pb-2 mb-2">
+<div class="size-16 shrink-0 rounded bg-[#292e38]"></div>
+<div class="size-16 shrink-0 rounded bg-[#292e38]"></div>
+<div class="size-16 shrink-0 rounded bg-[#292e38]"></div>
+</div>
+</div>
+<h1 class="text-2xl font-bold text-white mb-2">Nebula Runner 2024 - High Performance</h1>
+<div class="flex items-center gap-2 mb-4">
+<div class="flex text-yellow-500 text-sm">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star_half</span>
+</div>
+<span class="text-[#9da6b8] text-sm">(1,240 reviews)</span>
+</div>
+<p class="text-xl font-bold text-white mb-6 border-b border-[#292e38] pb-4">$129.00</p>
+<!-- Dense info simulation -->
+<div class="space-y-4 mb-8">
+<div>
+<p class="text-sm font-bold text-white mb-2">Description</p>
+<p class="text-sm text-[#9da6b8] leading-relaxed">
+                            Experience the future of running with the Nebula Runner 2024. Featuring our proprietary Gravity-Defy™ foam technology, this shoe returns 20% more energy with every step. The breathable knit upper adapts to your foot shape for a custom fit feel. Perfect for long distance and speed training alike.
+                        </p>
+</div>
+<div class="grid grid-cols-2 gap-4 text-xs">
+<div class="bg-[#1c2029] p-2 rounded">Weight: 240g</div>
+<div class="bg-[#1c2029] p-2 rounded">Drop: 8mm</div>
+<div class="bg-[#1c2029] p-2 rounded">Terrain: Road</div>
+<div class="bg-[#1c2029] p-2 rounded">Arch: Neutral</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Flow Mode (60% width) -->
+<section class="flex-1 bg-background-dark flex flex-col relative overflow-hidden">
+<!-- Top Stepper Navigation -->
+<div class="w-full flex justify-center py-6 px-4 bg-background-dark/95 backdrop-blur z-20 sticky top-0">
+<div class="flex h-10 items-center bg-[#1c2029] rounded-full p-1 border border-[#292e38]">
+<div class="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px] mr-1">check_circle</span>
+                        Overview
+                    </div>
+<div class="flex items-center px-4 py-1.5 rounded-full bg-primary text-white text-sm font-bold shadow-lg shadow-primary/25 cursor-default">
+<span class="material-symbols-outlined text-[18px] mr-1">tune</span>
+                        Options
+                    </div>
+<div class="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors">
+                        Review
+                    </div>
+<div class="flex items-center px-4 py-1.5 rounded-full text-[#9da6b8] text-sm font-medium cursor-pointer hover:text-white transition-colors">
+                        Checkout
+                    </div>
+</div>
+</div>
+<!-- Flow Content Container -->
+<div class="flex-1 overflow-y-auto px-4 sm:px-12 md:px-20 lg:px-28 pb-32 pt-4">
+<div class="max-w-4xl mx-auto flex flex-col h-full justify-center">
+<div class="mb-8 text-center">
+<h1 class="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Customize your pair</h1>
+<p class="text-[#9da6b8] text-lg">Select your preferred colorway and size.</p>
+</div>
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<!-- Product Hero Image -->
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-700"></div>
+<div class="aspect-square w-full relative z-10 rounded-3xl overflow-hidden bg-gradient-to-br from-[#292e38] to-[#1c2029] border border-[#292e38] shadow-2xl">
+<div class="w-full h-full bg-contain bg-center bg-no-repeat p-8 transition-transform duration-500 hover:scale-105" data-alt="Large detailed red running shoe floating in center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6wmSatkUcNPrO2YYSCkKl-gaq24PClkQhp86Usp8745rd5J93eI35xmM_SSxwhT-Xl19HoAc1LO2ShXrjQrU5fkqpitN7tr54EsfP8TgEfrvdF-G6Wn8V7QmrOSZdHyYGRK3Hk8tv9c04Lrf8EC_1g6--FSc8EWivOfc6VJJcwgNzLhzKrVQDRsORO-aZOjRwBTV7wp1vxJsHumLzs0wzsZ7X4rpXtutAjDfv81n_7gcSWspabDpX0CosWfMmLb-j3a_BHVRfDmxo'); transform: rotate(-15deg) scale(1.1);"></div>
+<div class="absolute bottom-4 left-4 right-4 bg-[#111318]/80 backdrop-blur-md p-3 rounded-xl border border-white/10 flex justify-between items-center">
+<span class="text-sm font-medium text-[#9da6b8]">Nebula Runner 2024</span>
+<span class="text-white font-bold bg-white/10 px-2 py-1 rounded-lg text-xs">Red / Crimson</span>
+</div>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex flex-col gap-8">
+<!-- Color Selector -->
+<div>
+<h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                                    Color <span class="text-[#9da6b8] font-normal text-sm ml-auto">Crimson Red selected</span>
+</h3>
+<div class="flex gap-4">
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="color" type="radio"/>
+<div class="size-12 rounded-full bg-red-600 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all shadow-lg shadow-red-900/20"></div>
+<div class="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="color" type="radio"/>
+<div class="size-12 rounded-full bg-blue-600 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all shadow-lg shadow-blue-900/20"></div>
+<div class="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="color" type="radio"/>
+<div class="size-12 rounded-full bg-slate-800 ring-2 ring-offset-4 ring-offset-[#111621] ring-transparent peer-checked:ring-primary transition-all border border-[#3c4453]"></div>
+<div class="absolute inset-0 flex items-center justify-center text-white opacity-0 peer-checked:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Size Selector -->
+<div>
+<div class="flex justify-between items-end mb-4">
+<h3 class="text-white font-bold">Size (US)</h3>
+<button class="text-primary text-sm font-medium hover:underline">Size Guide</button>
+</div>
+<div class="grid grid-cols-4 gap-3">
+<!-- Size 7 -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">
+                                            7
+                                        </div>
+</label>
+<!-- Size 8 -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">
+                                            8
+                                        </div>
+</label>
+<!-- Size 9 (Active) -->
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">
+                                            9
+                                        </div>
+</label>
+<!-- Size 10 -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">
+                                            10
+                                        </div>
+</label>
+<!-- Size 11 -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#3c4453] bg-[#1c2029] text-[#9da6b8] flex items-center justify-center font-medium transition-all hover:border-[#586175] peer-checked:border-primary peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-[0_0_15px_rgba(25,93,230,0.3)]">
+                                            11
+                                        </div>
+</label>
+<!-- Size 12 (Disabled) -->
+<label class="cursor-not-allowed opacity-50">
+<input class="peer sr-only" disabled="" name="size" type="radio"/>
+<div class="h-12 w-full rounded-xl border border-[#292e38] bg-[#111318] text-[#586175] flex items-center justify-center font-medium relative overflow-hidden">
+                                            12
+                                            <div class="absolute h-px w-full bg-[#586175] rotate-45"></div>
+</div>
+</label>
+</div>
+</div>
+<!-- Stock Alert -->
+<div class="flex items-center gap-2 text-green-400 text-sm bg-green-900/10 p-3 rounded-lg border border-green-900/30">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span>In Stock - Ready to ship today</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Action Footer -->
+<div class="absolute bottom-0 left-0 w-full bg-[#111621] border-t border-[#292e38] p-6 lg:px-12 z-30">
+<div class="max-w-4xl mx-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[#9da6b8] text-sm">Total Price</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-white tracking-tight">$129.00</span>
+<span class="text-[#586175] text-sm line-through">$149.00</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="hidden sm:flex h-14 px-8 items-center justify-center rounded-full border border-[#3c4453] bg-transparent text-white font-bold text-base hover:bg-[#292e38] transition-all">
+                            Back
+                        </button>
+<button class="h-14 px-10 flex items-center justify-center gap-2 rounded-full bg-primary text-white font-bold text-lg hover:bg-blue-600 transition-all shadow-[0_0_20px_rgba(25,93,230,0.4)] hover:shadow-[0_0_30px_rgba(25,93,230,0.6)] hover:scale-105 active:scale-95">
+<span>Confirm Selection</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

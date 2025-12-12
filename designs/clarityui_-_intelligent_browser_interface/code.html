@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ClarityUI - Intelligent Browser Interface</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e2330",
+                        "border-light": "#dcdfe5",
+                        "border-dark": "#2a2f3d",
+                        "text-main": "#111318",
+                        "text-sub": "#636f88",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem", 
+                        "lg": "1.5rem", 
+                        "xl": "2rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcdfe5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c0c4cc; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2a2f3d;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #3e4556;
+        }
+    </style>
+    
+    <!-- React Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-hidden h-screen flex flex-col">
+    <div id="root" class="h-full w-full"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Common Components ---
+
+        const Header = ({ currentMode, onModeChange }) => {
+            const navigate = useNavigate();
+
+            const handleModeClick = (mode, path) => {
+                onModeChange(mode);
+                navigate(path);
+            };
+
+            return (
+                <header className="flex items-center justify-between whitespace-nowrap border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-6 py-3 shrink-0 z-30 relative h-[65px]">
+                    <div className="flex items-center gap-3 text-text-main dark:text-white w-1/4 cursor-pointer" onClick={() => navigate('/')}>
+                        <div className="size-9 flex items-center justify-center bg-primary/10 rounded-full text-primary">
+                            <span className="material-symbols-outlined text-2xl">filter_vintage</span>
+                        </div>
+                        <h2 className="text-xl font-bold leading-tight tracking-[-0.02em]">ClarityUI</h2>
+                    </div>
+                    
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex">
+                        <div className="flex h-11 items-center justify-center rounded-full bg-background-light dark:bg-background-dark p-1.5 border border-border-light dark:border-border-dark shadow-inner">
+                            <label 
+                                onClick={() => handleModeClick('Zen', '/zen')}
+                                className={`group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 ${currentMode === 'Zen' ? 'bg-white dark:bg-[#2a2f3d] shadow-sm text-primary' : 'text-text-sub dark:text-gray-400 hover:text-text-main dark:hover:text-gray-200'} text-sm font-semibold transition-all duration-200`}
+                            >
+                                <span className="flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">self_improvement</span> 
+                                    Zen
+                                </span>
+                                <input className="invisible w-0 absolute" name="mode" type="radio" value="Zen" checked={currentMode === 'Zen'} readOnly/>
+                            </label>
+                            
+                            <label 
+                                onClick={() => handleModeClick('Flow', '/flow')}
+                                className={`group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 ${currentMode === 'Flow' ? 'bg-white dark:bg-[#2a2f3d] shadow-sm text-primary' : 'text-text-sub dark:text-gray-400 hover:text-text-main dark:hover:text-gray-200'} text-sm font-semibold transition-all duration-200`}
+                            >
+                                <span className="flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">waves</span> 
+                                    Flow
+                                </span>
+                                <input className="invisible w-0 absolute" name="mode" type="radio" value="Flow" checked={currentMode === 'Flow'} readOnly/>
+                            </label>
+                            
+                            <label 
+                                onClick={() => handleModeClick('ADHD', '/dashboard')}
+                                className={`group flex cursor-pointer h-full items-center justify-center overflow-hidden rounded-full px-5 ${currentMode === 'ADHD' ? 'bg-white dark:bg-[#2a2f3d] shadow-sm text-primary' : 'text-text-sub dark:text-gray-400 hover:text-text-main dark:hover:text-gray-200'} text-sm font-semibold transition-all duration-200`}
+                            >
+                                <span className="flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">bolt</span> 
+                                    ADHD
+                                </span>
+                                <input className="invisible w-0 absolute" name="mode" type="radio" value="ADHD" checked={currentMode === 'ADHD'} readOnly/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-6 w-1/4">
+                        <div className="hidden xl:flex items-center gap-4 bg-background-light dark:bg-background-dark px-4 py-2 rounded-full border border-border-light dark:border-border-dark">
+                            <span className="text-[10px] font-bold text-text-sub uppercase tracking-wider">Intensity</span>
+                            <div className="flex h-1.5 w-20 rounded-full bg-gray-200 dark:bg-gray-700 relative items-center cursor-pointer group">
+                                <div className="h-full w-[60%] rounded-full bg-primary group-hover:bg-blue-600 transition-colors"></div>
+                                <div className="absolute left-[60%] -translate-x-1/2 w-3.5 h-3.5 bg-white border-2 border-primary rounded-full shadow-sm cursor-grab hover:scale-110 active:scale-95 transition-transform"></div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <button className="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-text-main dark:text-white transition-colors border border-transparent hover:border-border-light">
+                                <span className="material-symbols-outlined">settings</span>
+                            </button>
+                            <div className="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white dark:border-gray-700 shadow-sm cursor-pointer hover:ring-2 ring-primary ring-offset-2 transition-all" 
+                                style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0Wq1EktKfVxcce6WrN9siJ0ZoK4StRecexx9I8hzUSTjJxrHCZErqdyBufrLKolVetM4_TgGDjM8tV5NqKRGmS87pOUYnm1a3kaZ4SHDp6a7p4USj7md1rpZrMfCRJruHv0jjCzy86qci5eGYO9Sh4vWFoCig3AswEbsG7hok4LWxZe4n8uWE5QI4ewLP_0OeB7FojZJGoVGMp2-ch-Ywyl8CpzeHqA2ppoTNhw0zlPxByXEgVSTY0JGabDU4yhrv66Up7LSENC_6")'}}>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const OriginalViewPanel = ({ show, onClose }) => {
+            if (!show) return null;
+            return (
+                 <section className="flex flex-col w-[30%] shrink-0 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden h-full transition-all duration-300">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-white/50 dark:bg-black/20 backdrop-blur-sm z-10">
+                        <div className="flex flex-col gap-0.5 overflow-hidden">
+                            <h3 className="text-sm font-bold text-text-main dark:text-white truncate">Original View</h3>
+                            <div className="flex items-center gap-1.5 text-xs text-text-sub dark:text-gray-400 font-medium">
+                                <span className="material-symbols-outlined text-[14px]">lock</span>
+                                <span className="truncate">bbc.com/news/tech...</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                            <div className="flex items-center gap-2" title="Show Original">
+                                <label className="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-gray-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+                                    <div className="h-4 w-4 rounded-full bg-white shadow-sm"></div>
+                                    <input defaultChecked className="invisible absolute" type="checkbox"/>
+                                </label>
+                            </div>
+                            <button onClick={onClose} className="flex items-center justify-center size-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-sub transition-colors" title="Collapse Panel">
+                                <span className="material-symbols-outlined text-[20px]">first_page</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="flex-1 overflow-y-auto relative bg-gray-50 dark:bg-[#0f1218]">
+                        <div className="w-full h-auto min-h-full flex flex-col opacity-60 hover:opacity-100 transition-opacity duration-300">
+                            <img alt="Screenshot of a cluttered news website" className="w-full h-auto object-cover border-b border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNrW9ML2_ZzvEDNdqjTA2M85LInikYPnGySX5zYSZf8wjI1qwKVLB7NSOE7p0sLWerAqody11-eRWk9bHG4AbttSauLsX9MGqTe2F2tYs861c_JCeB1IW_kzuZvqWGYxIW27A0urTHnn5d80XwIKqD-4FcXR8UVSP8uwm6u33PjxxlbD1cOfEvY_8Qow0hGyWvkzdNpyjorVZv3FyrohpM6hXVcbHAf98Xls1ZY2C6aVN8J52wtdu5ZIUCqzjG2wmIauO3gSlKXD3z"/>
+                            <div className="p-4 space-y-4 bg-white dark:bg-[#1e2330]">
+                                <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-full"></div>
+                                <div className="h-32 bg-gray-100 dark:bg-gray-800 rounded w-full"></div>
+                                <div className="flex gap-2">
+                                    <div className="h-20 w-1/3 bg-gray-100 dark:bg-gray-800 rounded"></div>
+                                    <div className="h-20 w-1/3 bg-gray-100 dark:bg-gray-800 rounded"></div>
+                                    <div className="h-20 w-1/3 bg-gray-100 dark:bg-gray-800 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+
+        // --- Screen 1: Dashboard (ADHD Mode) ---
+        const DashboardScreen = () => {
+            const [showPanel, setShowPanel] = useState(true);
+
+            return (
+                <div className="h-full flex flex-col">
+                    <Header currentMode="ADHD" onModeChange={() => {}} />
+                    <main className="flex-1 overflow-hidden relative w-full h-full bg-background-light dark:bg-background-dark p-4 md:p-6 flex flex-row gap-6">
+                        {showPanel && <OriginalViewPanel show={showPanel} onClose={() => setShowPanel(false)} />}
+                        
+                        <section className={`flex flex-col flex-1 ${showPanel ? 'w-[70%]' : 'w-full'} bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden h-full relative`}>
+                            <div className="flex items-center justify-between px-6 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-20 sticky top-0">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center bg-background-light dark:bg-background-dark p-1 rounded-lg border border-border-light dark:border-border-dark">
+                                        <button className="px-3 py-1.5 rounded-md text-xs font-semibold text-text-sub hover:text-text-main transition-colors">
+                                            Reader
+                                        </button>
+                                        <button className="px-3 py-1.5 rounded-md text-xs font-semibold bg-white dark:bg-surface-dark text-primary shadow-sm border border-border-light dark:border-border-dark flex items-center gap-1.5">
+                                            <span className="material-symbols-outlined text-[16px]">bolt</span>
+                                            ADHD Optimized
+                                        </button>
+                                        <button className="px-3 py-1.5 rounded-md text-xs font-semibold text-text-sub hover:text-text-main transition-colors">
+                                            Dyslexia Support
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    {!showPanel && (
+                                         <button onClick={() => setShowPanel(true)} className="flex items-center justify-center size-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-sub transition-colors" title="Show Panel">
+                                            <span className="material-symbols-outlined text-[20px]">last_page</span>
+                                        </button>
+                                    )}
+                                    <div className="h-4 w-px bg-border-light dark:bg-border-dark"></div>
+                                    <button className="group flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-full border border-border-light dark:border-border-dark hover:border-primary/50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all cursor-pointer">
+                                        <span className="text-[10px] font-bold text-text-sub uppercase tracking-wider">Theme</span>
+                                        <div className="w-1 h-1 rounded-full bg-border-light dark:bg-border-dark"></div>
+                                        <span className="text-xs text-text-main dark:text-white font-medium">Focus Blue</span>
+                                        <span className="material-symbols-outlined text-[18px] text-text-sub group-hover:text-primary">expand_more</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto bg-surface-light dark:bg-surface-dark">
+                                <div className="max-w-4xl mx-auto p-8 md:p-12 pb-24">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <span className="px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/30 text-primary text-[11px] font-bold uppercase tracking-wider">Technology</span>
+                                        <span className="text-sm text-text-sub">4 min read</span>
+                                    </div>
+                                    <h1 className="text-4xl md:text-5xl font-bold text-text-main dark:text-white mb-8 leading-tight tracking-tight">
+                                        Tech giants agree on new AI safety standards
+                                    </h1>
+                                    <div className="mb-10 p-6 rounded-2xl bg-[#F0F7FF] dark:bg-primary/10 border border-primary/10 relative overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                                        <h3 className="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wide mb-4">
+                                            <span className="material-symbols-outlined text-[20px]">auto_awesome</span> 
+                                            Key Takeaways
+                                        </h3>
+                                        <ul className="space-y-3">
+                                            <li className="flex items-start gap-3">
+                                                <span className="mt-1.5 size-1.5 rounded-full bg-primary shrink-0"></span>
+                                                <p className="text-text-main dark:text-gray-200 font-medium leading-relaxed">Major tech companies have signed a voluntary agreement to implement <strong className="text-primary font-bold">watermarking</strong> for AI-generated content.</p>
+                                            </li>
+                                            <li className="flex items-start gap-3">
+                                                <span className="mt-1.5 size-1.5 rounded-full bg-primary shrink-0"></span>
+                                                <p className="text-text-main dark:text-gray-200 font-medium leading-relaxed">The agreement includes commitments to <strong className="text-primary font-bold">external security testing</strong> of AI systems before release.</p>
+                                            </li>
+                                            <li className="flex items-start gap-3">
+                                                <span className="mt-1.5 size-1.5 rounded-full bg-primary shrink-0"></span>
+                                                <p className="text-text-main dark:text-gray-200 font-medium leading-relaxed">Focus is placed on preventing bias and discrimination in algorithmic decision-making.</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="font-body text-lg md:text-xl text-text-main dark:text-gray-200 leading-loose space-y-8">
+                                        <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-1 first-letter:float-left first-letter:text-primary">
+                                            Leading artificial intelligence companies have agreed to a new set of voluntary safeguards brokered by the White House, aiming to address the growing risks associated with the technology.
+                                        </p>
+                                        <p>
+                                            The commitment, announced on Friday, brings together seven major players in the AI space, including <span className="bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded">OpenAI, Google, and Meta</span>. The primary goal is to ensure that AI products are safe before they are introduced to the public.
+                                        </p>
+                                        <div className="my-8 pl-6 border-l-4 border-gray-200 dark:border-gray-700 italic text-text-sub dark:text-gray-400 text-base">
+                                            "This agreement represents a critical step towards responsible innovation," stated a White House representative. "We are setting a precedent for safety."
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-text-main dark:text-white mt-12 mb-4">Why this matters now</h2>
+                                        <p>
+                                            With the rapid proliferation of generative AI tools, concerns regarding misinformation, privacy, and security have escalated. The new guidelines specifically target the issue of <strong>deepfakes</strong> by encouraging the development of robust watermarking systems.
+                                        </p>
+                                        <p>
+                                            This ensures that users can distinguish between human-created and AI-generated audio and visual content, reducing the potential for fraud and deception.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Zen Mode ---
+        const ZenModeScreen = () => {
+             return (
+                <div className="h-full flex flex-col">
+                    <Header currentMode="Zen" onModeChange={() => {}} />
+                    <main className="flex-1 flex flex-col lg:flex-row overflow-hidden relative w-full bg-background-light dark:bg-background-dark">
+                        <section className="flex flex-col w-full lg:w-1/2 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark relative group/leftpanel transition-all duration-300">
+                            <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-white dark:bg-surface-dark z-10 h-14 shrink-0">
+                                <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1.5 max-w-[60%]">
+                                    <span className="material-symbols-outlined text-sm text-text-sub mr-2">lock</span>
+                                    <span className="text-xs font-mono text-text-sub truncate">bbc.com/news/technology</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-2 pl-3 border-l border-border-light dark:border-border-dark">
+                                        <span className="text-xs font-medium text-text-sub hidden sm:inline-block">Show Original</span>
+                                        <label className="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-gray-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+                                            <div className="h-4 w-4 rounded-full bg-white shadow-sm"></div>
+                                            <input defaultChecked className="invisible absolute" type="checkbox"/>
+                                        </label>
+                                    </div>
+                                    <button className="flex items-center justify-center size-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-text-sub hover:text-text-main transition-colors" title="Dismiss Panel">
+                                        <span className="material-symbols-outlined text-xl">close</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto relative bg-gray-50 dark:bg-[#0f1218] scroll-smooth">
+                                <img alt="Screenshot of a cluttered news website" className="w-full h-auto object-top min-h-full opacity-90 dark:opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNrW9ML2_ZzvEDNdqjTA2M85LInikYPnGySX5zYSZf8wjI1qwKVLB7NSOE7p0sLWerAqody11-eRWk9bHG4AbttSauLsX9MGqTe2F2tYs861c_JCeB1IW_kzuZvqWGYxIW27A0urTHnn5d80XwIKqD-4FcXR8UVSP8uwm6u33PjxxlbD1cOfEvY_8Qow0hGyWvkzdNpyjorVZv3FyrohpM6hXVcbHAf98Xls1ZY2C6aVN8J52wtdu5ZIUCqzjG2wmIauO3gSlKXD3z"/>
+                                <div className="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+                            </div>
+                        </section>
+                        <section className="flex flex-col w-full lg:w-1/2 bg-surface-light dark:bg-surface-dark relative h-full">
+                            <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md z-20 h-14 shrink-0 sticky top-0">
+                                <div className="flex items-center p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                                    <button className="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Raw</button>
+                                    <button className="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Struct</button>
+                                    <button className="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Summary</button>
+                                    <button className="px-3 py-1 text-[11px] font-bold rounded-md bg-white dark:bg-gray-600 text-primary shadow-sm ring-1 ring-black/5 dark:ring-white/5">Deep</button>
+                                    <button className="px-3 py-1 text-[11px] font-medium rounded-md text-text-sub hover:text-text-main hover:bg-white dark:hover:bg-gray-700 transition-all">Flux</button>
+                                </div>
+                                <button className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-full hover:border-primary/50 hover:shadow-sm transition-all group">
+                                    <span className="material-symbols-outlined text-lg text-text-sub group-hover:text-primary">palette</span>
+                                    <span className="text-xs font-semibold text-text-main dark:text-white">Appearance</span>
+                                </button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto px-8 py-10 lg:px-12 bg-surface-light dark:bg-surface-dark font-body">
+                                <article className="max-w-2xl mx-auto animate-[fadeIn_0.5s_ease-out]">
+                                    <span className="inline-block px-3 py-1 mb-6 text-[10px] font-bold tracking-widest text-primary uppercase bg-primary/10 rounded-full">Technology</span>
+                                    <h1 className="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-6 leading-tight font-display">
+                                        How AI Transformers Are Reshaping Digital Consumption
+                                    </h1>
+                                    <div className="flex items-center gap-3 mb-10 text-xs text-text-sub border-b border-border-light dark:border-border-dark pb-6">
+                                        <span className="font-bold text-text-main dark:text-gray-300">BBC News</span>
+                                        <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                        <span>5 min read</span>
+                                        <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                        <span>Processed by ClarityUI</span>
+                                    </div>
+                                    <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                                        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:float-left first-letter:mr-3 first-letter:mt-[-6px]">
+                                            The modern web is a cacophony of noise. Ads, pop-ups, and endless navigation bars compete for our limited attention span. But a new wave of browser interfaces, powered by multimodal AI, is emerging to bring silence to the chaos.
+                                        </p>
+                                        <p>
+                                            These "transformer" interfaces don't just block ads; they fundamentally restructure the content. By understanding the semantic meaning of a webpage, AI can strip away the structural debris and present the core information in a format that suits the user's current cognitive state.
+                                        </p>
+                                        <div className="my-8 p-6 bg-background-light dark:bg-[#151921] rounded-2xl border-l-4 border-primary">
+                                            <p className="text-base italic font-medium text-text-main dark:text-gray-200">
+                                                "It's not about hiding information, it's about revealing clarity. We are moving from a web of pages to a web of pure intent."
+                                            </p>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-text-main dark:text-white mt-8 mb-4 font-display">The Deep Reading Mode</h3>
+                                        <p>
+                                            In 'Deep' mode, distractions are eliminated entirely. Typography is optimized for long-form reading, contrast is adjusted to reduce eye strain, and related concepts are automatically linked for context without cluttering the view. This allows users to enter a flow state previously impossible on ad-heavy news sites.
+                                        </p>
+                                        <p>
+                                            As we move forward, the browser will cease to be a passive window and become an active agent, curating our digital environment to match our mental needs.
+                                        </p>
+                                    </div>
+                                    <div className="mt-16 pt-8 border-t border-border-light dark:border-border-dark flex justify-between items-center text-sm text-text-sub">
+                                        <span>Original source: bbc.com</span>
+                                        <button className="text-primary font-medium hover:underline">Read original</button>
+                                    </div>
+                                </article>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+             )
+        }
+
+        // --- Screen 3: Landing / Generate ---
+        const LandingScreen = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="h-full flex flex-col">
+                    <Header currentMode="Flow" onModeChange={() => {}} />
+                    <main className="flex-1 overflow-hidden relative w-full h-full bg-background-light dark:bg-background-dark p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+                        <section className="flex flex-col flex-1 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden h-full">
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-border-light dark:border-border-dark bg-white/50 dark:bg-black/20 backdrop-blur-sm z-10">
+                                <div className="flex flex-col gap-0.5">
+                                    <h3 className="text-base font-bold text-text-main dark:text-white">Original View</h3>
+                                    <p className="text-xs text-text-sub dark:text-gray-400 font-medium">bbc.com/news/technology</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-sm font-medium text-text-sub dark:text-gray-400">Show Original</span>
+                                    <label className="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-gray-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+                                        <div className="h-5 w-5 rounded-full bg-white shadow-sm" style={{boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}></div>
+                                        <input defaultChecked className="invisible absolute" type="checkbox"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto relative bg-gray-50 dark:bg-[#0f1218]">
+                                <div className="w-full h-auto min-h-full flex flex-col">
+                                    <img alt="Screenshot of a cluttered news website" className="w-full h-auto object-cover opacity-90 dark:opacity-80 border-b border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNrW9ML2_ZzvEDNdqjTA2M85LInikYPnGySX5zYSZf8wjI1qwKVLB7NSOE7p0sLWerAqody11-eRWk9bHG4AbttSauLsX9MGqTe2F2tYs861c_JCeB1IW_kzuZvqWGYxIW27A0urTHnn5d80XwIKqD-4FcXR8UVSP8uwm6u33PjxxlbD1cOfEvY_8Qow0hGyWvkzdNpyjorVZv3FyrohpM6hXVcbHAf98Xls1ZY2C6aVN8J52wtdu5ZIUCqzjG2wmIauO3gSlKXD3z"/>
+                                    <div className="p-6 space-y-6 bg-white dark:bg-[#1e2330]">
+                                        <div className="flex gap-4">
+                                            <div className="w-1/3 aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse"></div>
+                                            <div className="flex-1 space-y-3 py-1">
+                                                <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-3/4 animate-pulse"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-full animate-pulse"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-5/6 animate-pulse"></div>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <div className="w-1/3 aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse"></div>
+                                            <div className="flex-1 space-y-3 py-1">
+                                                <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-1/2 animate-pulse"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-full animate-pulse"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-4/5 animate-pulse"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="flex flex-col flex-1 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden relative h-full group">
+                            <div className="absolute inset-0 p-8 md:p-12 opacity-30 pointer-events-none select-none flex flex-col gap-8 filter blur-[2px] transition-all duration-700 group-hover:blur-0 group-hover:opacity-40">
+                                <div className="w-full h-12 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4"></div>
+                                <div className="w-full aspect-[21/9] bg-gray-100 dark:bg-gray-800 rounded-xl"></div>
+                                <div className="flex gap-8 mt-4">
+                                    <div className="flex-1 space-y-4">
+                                        <div className="h-6 bg-gray-100 dark:bg-gray-800 rounded w-3/4"></div>
+                                        <div className="space-y-2">
+                                            <div className="h-3 bg-gray-50 dark:bg-gray-800/50 rounded w-full"></div>
+                                            <div className="h-3 bg-gray-50 dark:bg-gray-800/50 rounded w-full"></div>
+                                            <div className="h-3 bg-gray-50 dark:bg-gray-800/50 rounded w-5/6"></div>
+                                            <div className="h-3 bg-gray-50 dark:bg-gray-800/50 rounded w-full"></div>
+                                        </div>
+                                    </div>
+                                    <div className="hidden md:block w-1/4 space-y-4">
+                                        <div className="h-32 bg-gray-50 dark:bg-gray-800/50 rounded w-full"></div>
+                                        <div className="h-32 bg-gray-50 dark:bg-gray-800/50 rounded w-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full w-full p-8 text-center bg-gradient-to-b from-transparent via-surface-light/85 to-surface-light dark:via-surface-dark/85 dark:to-surface-dark backdrop-blur-[2px]">
+                                <div className="size-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 text-primary shadow-lg shadow-primary/5 animate-[bounce_3s_infinite]">
+                                    <span className="material-symbols-outlined text-[40px]">auto_fix_high</span>
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-3 tracking-tight">Your Clarity Awaits</h2>
+                                <p className="text-text-sub dark:text-gray-400 text-lg max-w-md mb-8 leading-relaxed">
+                                    Select a cognitive mode from the top bar to strip away the noise and focus on what matters.
+                                </p>
+                                <div className="flex flex-col items-center gap-6">
+                                    <button onClick={() => navigate('/flow')} className="group relative flex items-center gap-3 bg-primary hover:bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-primary/30 transition-all hover:shadow-primary/50 hover:-translate-y-1 active:translate-y-0">
+                                        <span>Generate View</span>
+                                        <span className="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">sync</span>
+                                    </button>
+                                    <button className="group/theme flex items-center gap-2.5 px-4 py-2 bg-white dark:bg-surface-dark rounded-full border border-border-light dark:border-border-dark hover:border-primary/50 hover:shadow-md transition-all">
+                                        <span className="text-[10px] font-bold text-text-sub uppercase tracking-wider">Theme</span>
+                                        <div className="w-px h-3 bg-border-light dark:bg-border-dark"></div>
+                                        <span className="text-sm text-text-main dark:text-white font-medium">Balanced</span>
+                                        <span className="material-symbols-outlined text-xl text-text-sub group-hover/theme:text-primary transition-colors">expand_more</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen 4: Flow Mode (Step-by-step) ---
+        const FlowModeScreen = () => {
+            const navigate = useNavigate();
+
+            return (
+                <div className="h-full flex flex-col">
+                    <Header currentMode="Flow" onModeChange={() => {}} />
+                    <main className="flex-1 overflow-hidden relative w-full h-full bg-background-light dark:bg-background-dark p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+                        <section className="flex flex-col lg:w-[40%] bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden h-full shrink-0">
+                            <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-white/50 dark:bg-black/20 backdrop-blur-sm z-10">
+                                <div className="flex items-center gap-3 overflow-hidden">
+                                    <div className="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-lg shrink-0">
+                                        <span className="material-symbols-outlined text-text-sub text-lg">public</span>
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        <h3 className="text-sm font-bold text-text-main dark:text-white truncate">BBC Technology</h3>
+                                        <p className="text-xs text-text-sub dark:text-gray-400 font-medium truncate">bbc.com/news/technology</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 shrink-0">
+                                    <div className="flex items-center gap-2 pr-3 border-r border-border-light dark:border-border-dark">
+                                        <span className="hidden xl:block text-xs font-bold text-text-sub uppercase tracking-wider">Original</span>
+                                        <label className="relative flex h-5 w-9 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-gray-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-200">
+                                            <div className="h-4 w-4 rounded-full bg-white shadow-sm"></div>
+                                            <input defaultChecked className="invisible absolute" type="checkbox"/>
+                                        </label>
+                                    </div>
+                                    <button className="text-text-sub hover:text-text-main dark:hover:text-white transition-colors" title="Dismiss Panel">
+                                        <span className="material-symbols-outlined">close_fullscreen</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto relative bg-gray-50 dark:bg-[#0f1218] scrollbar-hide">
+                                <div className="w-full h-auto min-h-full flex flex-col grayscale-[30%] origin-top scale-[0.98]">
+                                    <img alt="Screenshot of a cluttered news website" className="w-full h-auto object-cover opacity-90 dark:opacity-80 border-b border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNrW9ML2_ZzvEDNdqjTA2M85LInikYPnGySX5zYSZf8wjI1qwKVLB7NSOE7p0sLWerAqody11-eRWk9bHG4AbttSauLsX9MGqTe2F2tYs861c_JCeB1IW_kzuZvqWGYxIW27A0urTHnn5d80XwIKqD-4FcXR8UVSP8uwm6u33PjxxlbD1cOfEvY_8Qow0hGyWvkzdNpyjorVZv3FyrohpM6hXVcbHAf98Xls1ZY2C6aVN8J52wtdu5ZIUCqzjG2wmIauO3gSlKXD3z"/>
+                                    <div className="p-6 space-y-6 bg-white dark:bg-[#1e2330]">
+                                        <div className="flex gap-4">
+                                            <div className="w-1/3 aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg"></div>
+                                            <div className="flex-1 space-y-3 py-1">
+                                                <div className="h-4 bg-gray-100 dark:bg-gray-800 rounded w-3/4"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-full"></div>
+                                                <div className="h-3 bg-gray-50 dark:bg-gray-900 rounded w-5/6"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="absolute inset-0 bg-gray-900/5 pointer-events-none"></div>
+                            </div>
+                        </section>
+                        <section className="flex flex-col lg:w-[60%] flex-1 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-lg overflow-hidden relative h-full group ring-1 ring-black/5 dark:ring-white/5">
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark z-20">
+                                <div className="flex items-center gap-2">
+                                    <span className="flex items-center justify-center size-8 bg-blue-100 dark:bg-blue-900/30 text-primary rounded-lg">
+                                        <span className="material-symbols-outlined text-lg">waves</span>
+                                    </span>
+                                    <div>
+                                        <h3 className="text-sm font-bold text-text-main dark:text-white leading-tight">Flow View</h3>
+                                        <p className="text-[10px] text-text-sub font-medium uppercase tracking-wider">Step-by-step breakdown</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center bg-background-light dark:bg-background-dark rounded-full p-1 border border-border-light dark:border-border-dark shadow-sm">
+                                    <button className="p-1.5 rounded-full hover:bg-white dark:hover:bg-surface-dark hover:shadow-sm text-text-sub dark:text-gray-400 hover:text-primary transition-all">
+                                        <span className="material-symbols-outlined text-[18px]">text_fields</span>
+                                    </button>
+                                    <div className="w-px h-3 bg-border-light dark:bg-border-dark mx-0.5"></div>
+                                    <button className="p-1.5 rounded-full hover:bg-white dark:hover:bg-surface-dark hover:shadow-sm text-text-sub dark:text-gray-400 hover:text-primary transition-all">
+                                        <span className="material-symbols-outlined text-[18px]">contrast</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex flex-col h-full overflow-hidden relative bg-white dark:bg-surface-dark">
+                                <div className="bg-background-light/50 dark:bg-background-dark/30 border-b border-border-light dark:border-border-dark px-6 py-4">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">Step 2 of 4</span>
+                                        <span className="text-xs font-medium text-text-sub">Key Insights</span>
+                                    </div>
+                                    <div className="flex w-full gap-1.5 h-1.5">
+                                        <div className="flex-1 rounded-full bg-primary cursor-pointer hover:opacity-80 transition-opacity" title="Overview"></div>
+                                        <div className="flex-1 rounded-full bg-primary cursor-pointer" title="Key Insights"></div>
+                                        <div className="flex-1 rounded-full bg-border-light dark:bg-border-dark cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" title="Deep Dive"></div>
+                                        <div className="flex-1 rounded-full bg-border-light dark:bg-border-dark cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" title="Summary"></div>
+                                    </div>
+                                </div>
+                                <div className="flex-1 overflow-y-auto p-8 md:p-10">
+                                    <div className="max-w-3xl mx-auto space-y-8 animate-[fadeIn_0.5s_ease-out]">
+                                        <header className="space-y-4">
+                                            <div className="inline-flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+                                                <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                                                AI Synthesized
+                                            </div>
+                                            <h1 className="text-3xl md:text-4xl font-display font-bold text-text-main dark:text-white leading-tight">
+                                                The Shift to Generative Interfaces
+                                            </h1>
+                                        </header>
+                                        <article className="prose dark:prose-invert prose-lg text-text-sub dark:text-gray-300 leading-relaxed">
+                                            <p>
+                                                Traditional web navigation is undergoing a seismic shift. Static pages are evolving into dynamic, <span className="text-text-main dark:text-white font-medium bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded">AI-generated interfaces</span> that adapt in real-time to user intent. This reduces cognitive load by filtering noise before it reaches the eye.
+                                            </p>
+                                            <div className="my-8 p-6 bg-background-light dark:bg-background-dark rounded-xl border border-border-light dark:border-border-dark flex gap-5 items-start">
+                                                <span className="material-symbols-outlined text-primary text-3xl shrink-0">lightbulb</span>
+                                                <div className="space-y-2">
+                                                    <h4 className="font-bold text-text-main dark:text-white text-lg">Core Insight</h4>
+                                                    <p className="text-sm">By stripping away advertisements, pop-ups, and redundant navigation, cognitive load decreases by approximately 40%, allowing for deeper focus and better retention of information.</p>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                The technology leverages multimodal models to understand not just the text, but the semantic structure of the page layout itself.
+                                            </p>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div className="p-5 border-t border-border-light dark:border-border-dark bg-white/80 dark:bg-surface-dark/80 backdrop-blur flex items-center justify-between">
+                                    <button onClick={() => navigate('/')} className="group flex items-center gap-2 px-4 py-2 text-text-sub hover:text-text-main dark:text-gray-400 dark:hover:text-white transition-colors text-sm font-medium">
+                                        <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                                        Previous Step
+                                    </button>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => navigate('/zen')} className="flex items-center gap-2 px-6 py-3 bg-primary hover:bg-blue-600 text-white rounded-full font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm">
+                                            Next: Deep Dive
+                                            <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<LandingScreen />} />
+                        <Route path="/dashboard" element={<DashboardScreen />} />
+                        <Route path="/zen" element={<ZenModeScreen />} />
+                        <Route path="/flow" element={<FlowModeScreen />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

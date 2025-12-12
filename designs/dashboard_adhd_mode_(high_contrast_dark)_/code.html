@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard ADHD Mode</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "primary-hover": "#154bb8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0b0d11", 
+                        "panel-dark": "#111318",
+                        "card-dark": "#1a1d24",
+                        "accent-high": "#fa6238",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem", 
+                        "md": "0.375rem",
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased h-screen flex flex-col overflow-hidden">
+<!-- Top Toolbar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#292e38] bg-panel-dark px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]">auto_fix_high</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">Interface Transformer AI</h2>
+<div class="h-4 w-px bg-[#292e38] mx-2"></div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-primary text-xs font-bold uppercase tracking-wider">ADHD Mode Active</span>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="flex gap-2 items-center">
+<span class="text-[#9da6b8] text-sm font-medium">Focus Level</span>
+<div class="flex items-center bg-[#292e38] rounded-lg p-1">
+<button class="px-3 py-1 text-xs font-bold text-[#9da6b8] hover:text-white transition-colors">Low</button>
+<button class="px-3 py-1 text-xs font-bold bg-primary text-white rounded shadow-sm">High</button>
+</div>
+</div>
+<div class="w-px h-6 bg-[#292e38]"></div>
+<button class="flex items-center justify-center rounded-lg size-10 hover:bg-[#292e38] text-[#9da6b8] transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-[#292e38]" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBc3HMPzDhCn6nhAD9k3UepDvtZd2q5pK8smIhgR-rwHEy_N93jCgoAF01NYBD_IPUMkxjoEjm9EREoJuNa1-9nyhZLncZHlrdJybO5oG6DZnPAMzRVaJnVJhmfobbkTc6XIehR-QNGPorX59X59GF0LTtsFFjwwyGuzI7XFM-W7I0XaZEFTX63jxkHcJWerWV9n2iHPJ4Pj54z0wMM3mYOIYzld17nbOuAKEz9pdZ22t66_z_fh73RQ10dw4861tSKw1DjfLITMpdW");'></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Left Panel (30% - Context/Navigation) -->
+<aside class="w-[30%] min-w-[300px] max-w-[400px] flex flex-col border-r border-[#292e38] bg-panel-dark relative z-10 transition-all duration-300 ease-in-out">
+<div class="p-4 border-b border-[#292e38] flex justify-between items-center">
+<div>
+<h1 class="text-white text-base font-bold">Analytics Overview</h1>
+<p class="text-[#9da6b8] text-xs">Property: ShopGlobal (Web)</p>
+</div>
+<button class="text-[#9da6b8] hover:text-white p-1 rounded hover:bg-[#292e38]">
+<span class="material-symbols-outlined text-[20px]">first_page</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<div class="px-3 py-2 text-[#64748b] text-xs font-bold uppercase tracking-wider mt-2">Reports Snapshot</div>
+<!-- Nav Item: Realtime -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">schedule</span>
+<p class="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Realtime</p>
+</div>
+<div class="h-1 w-8 bg-green-500/20 rounded-full overflow-hidden">
+<div class="h-full w-[70%] bg-green-500"></div>
+</div>
+</div>
+<!-- Nav Item: Acquisition -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">group_add</span>
+<p class="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Acquisition</p>
+</div>
+</div>
+<!-- Nav Item: Engagement -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">analytics</span>
+<p class="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Engagement</p>
+</div>
+</div>
+<!-- Nav Item: Monetization (Warning State) -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg bg-[#292e38]/50 border border-[#fa6238]/20 cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#fa6238]">monetization_on</span>
+<p class="text-white text-sm font-medium">Monetization</p>
+</div>
+<span class="flex h-2 w-2 rounded-full bg-[#fa6238]"></span>
+</div>
+<!-- Nav Item: Retention -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">favorite</span>
+<p class="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Retention</p>
+</div>
+</div>
+<div class="px-3 py-2 text-[#64748b] text-xs font-bold uppercase tracking-wider mt-6">Settings</div>
+<!-- Nav Item: Admin -->
+<div class="group flex items-center justify-between gap-3 px-3 py-3 rounded-lg hover:bg-[#292e38] cursor-pointer transition-colors opacity-60 hover:opacity-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9da6b8] group-hover:text-primary transition-colors">admin_panel_settings</span>
+<p class="text-[#9da6b8] group-hover:text-white text-sm font-medium transition-colors">Admin</p>
+</div>
+</div>
+</div>
+<!-- Bottom Fader for Scroll Indication -->
+<div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-panel-dark to-transparent pointer-events-none"></div>
+</aside>
+<!-- Right Panel (70% - ADHD Mode/Focus) -->
+<main class="flex-1 bg-background-dark relative flex items-center justify-center p-8 overflow-y-auto">
+<!-- Focus Card Container -->
+<div class="w-full max-w-4xl flex flex-col gap-8 animate-fade-in-up">
+<!-- Alert Banner -->
+<div class="flex items-center gap-3 bg-[#fa6238]/10 border border-[#fa6238]/30 px-4 py-3 rounded-lg self-start">
+<span class="material-symbols-outlined text-[#fa6238]">warning</span>
+<p class="text-[#fa6238] font-bold text-sm tracking-wide uppercase">Critical Attention Needed</p>
+</div>
+<!-- Main Focus Card -->
+<div class="bg-card-dark rounded-2xl border border-[#292e38] shadow-2xl p-10 md:p-14 flex flex-col md:flex-row gap-12 items-center relative overflow-hidden">
+<!-- Decorative Background Element -->
+<div class="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<!-- Left: The Big Metric -->
+<div class="flex-1 flex flex-col gap-2 z-10 min-w-[280px]">
+<h2 class="text-[#9da6b8] text-lg font-medium tracking-wide">Conversion Rate Drop (iOS)</h2>
+<div class="flex items-baseline gap-4">
+<h1 class="text-white text-[80px] md:text-[100px] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-400">
+                                15.4<span class="text-4xl align-top text-[#fa6238]">%</span>
+</h1>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-[#fa6238] text-2xl">trending_down</span>
+<p class="text-[#fa6238] text-xl font-bold">Decrease vs last 4h</p>
+</div>
+</div>
+<!-- Divider -->
+<div class="hidden md:block w-px h-48 bg-[#292e38]"></div>
+<!-- Right: The Insight & Action -->
+<div class="flex-1 flex flex-col justify-center gap-8 z-10">
+<div class="space-y-4">
+<h3 class="text-white text-2xl font-bold leading-tight">Checkout abandonment spiked on Mobile</h3>
+<p class="text-[#9da6b8] text-lg leading-relaxed">
+                                An unusual drop in conversion was detected starting at 10:00 AM. The issue is isolated to iOS devices on the payment confirmation screen.
+                            </p>
+</div>
+<!-- Mini Trend Chart -->
+<div class="h-24 w-full bg-[#111318] rounded-lg border border-[#292e38] p-4 relative overflow-hidden group">
+<div class="absolute inset-0 flex items-end justify-between px-4 pb-4 pt-8 gap-1">
+<div class="w-full bg-[#292e38] h-[80%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#292e38] h-[75%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#292e38] h-[82%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#292e38] h-[78%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#292e38] h-[60%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#292e38] h-[40%] rounded-sm opacity-50"></div>
+<div class="w-full bg-[#fa6238] h-[25%] rounded-sm shadow-[0_0_15px_rgba(250,98,56,0.5)]"></div> <!-- The Drop -->
+</div>
+<div class="absolute top-2 left-4 text-[10px] text-[#9da6b8] font-mono">HOURLY TREND</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full bg-primary hover:bg-primary-hover text-white text-lg font-bold py-5 px-8 rounded-xl shadow-[0_0_40px_rgba(25,93,230,0.3)] hover:shadow-[0_0_60px_rgba(25,93,230,0.5)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group/btn">
+<span>Investigate iOS Funnel</span>
+<span class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="text-center">
+<button class="text-[#64748b] hover:text-white text-sm underline decoration-dashed underline-offset-4 transition-colors">
+                                Dismiss this alert
+                            </button>
+</div>
+</div>
+</div>
+<!-- Secondary Context Cards (Faded) -->
+<div class="grid grid-cols-2 gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="bg-card-dark border border-[#292e38] p-4 rounded-lg flex items-center justify-between">
+<div>
+<p class="text-[#9da6b8] text-sm">Active Users</p>
+<p class="text-white text-xl font-bold">12.5k</p>
+</div>
+<div class="h-8 w-20">
+<svg class="w-full h-full stroke-green-500 fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 30 Q 20 35 40 20 T 100 10"></path>
+</svg>
+</div>
+</div>
+<div class="bg-card-dark border border-[#292e38] p-4 rounded-lg flex items-center justify-between">
+<div>
+<p class="text-[#9da6b8] text-sm">Avg. Session</p>
+<p class="text-white text-xl font-bold">2m 45s</p>
+</div>
+<div class="h-8 w-20">
+<svg class="w-full h-full stroke-[#9da6b8] fill-none" stroke-width="2" viewbox="0 0 100 40">
+<path d="M0 20 Q 20 10 40 25 T 100 20"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Animation Styles -->
+<style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111318; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #292e38; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f4756; 
+        }
+    </style>
+</body></html>

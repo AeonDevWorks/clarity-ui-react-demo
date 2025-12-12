@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClarityUI Home Screen (Variant 3: Smart Input Suggestions)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#195de6",
+              "primary-hover": "#1650c4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111621",
+              "surface-dark": "#1c1f26",
+              "surface-border": "#292e38",
+              "text-subtle": "#9da6b8",
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            animation: {
+                "fade-in-up": "fadeInUp 0.5s ease-out forwards",
+            },
+            keyframes: {
+                fadeInUp: {
+                    "0%": { opacity: "0", transform: "translateY(10px)" },
+                    "100%": { opacity: "1", transform: "translateY(0)" },
+                }
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #195de6;
+            cursor: pointer;
+            margin-top: -6px; 
+            border: 2px solid #fff;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #292e38;
+            border-radius: 2px;
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen w-full flex flex-col font-display overflow-x-hidden selection:bg-primary/30 selection:text-white">
+<header class="w-full border-b border-surface-border bg-background-dark/90 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-start sm:items-center justify-between gap-4">
+<div class="flex items-center gap-3 text-white py-2">
+<div class="flex items-center justify-center text-primary bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-2xl">filter_center_focus</span>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight hidden sm:block">ClarityUI</h2>
+</div>
+<div class="flex-1 max-w-2xl hidden md:flex flex-col gap-2 bg-surface-dark border border-surface-border rounded-xl px-4 py-2 shadow-lg">
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="text-white text-xs font-bold uppercase tracking-wider">Theme</span>
+<label class="flex items-center cursor-pointer gap-2 select-none group">
+<div class="relative">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="block bg-surface-border w-8 h-4 rounded-full peer-checked:bg-primary/50"></div>
+<div class="dot absolute left-0.5 top-0.5 bg-[#9da6b8] w-3 h-3 rounded-full transition peer-checked:translate-x-full peer-checked:bg-primary"></div>
+</div>
+<span class="text-[10px] text-text-subtle group-hover:text-white transition-colors">System</span>
+</label>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full border border-gray-300 bg-white" title="High Contrast Light"></div>
+<div class="w-3 h-3 rounded-full bg-gray-100" title="Standard Light"></div>
+<div class="w-3 h-3 rounded-full bg-gray-300" title="Mild Light"></div>
+<div class="w-3 h-3 rounded-full bg-gray-700" title="Mild Dark"></div>
+<div class="w-3 h-3 rounded-full bg-gray-900 border border-gray-600" title="Standard Dark"></div>
+<div class="w-3 h-3 rounded-full bg-black border border-gray-700" title="High Contrast Dark"></div>
+</div>
+<div class="flex items-center gap-1 bg-emerald-900/30 border border-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold text-emerald-400">
+<span class="material-symbols-outlined text-[10px]">check_circle</span>
+                    WCAG AAA
+                 </div>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<input class="w-full h-2 bg-transparent appearance-none cursor-pointer" max="6" min="1" step="1" type="range" value="5"/>
+<div class="flex justify-between w-full text-[9px] text-text-subtle uppercase font-semibold tracking-wider">
+<span class="text-center w-10">Hi-C Lt</span>
+<span class="text-center w-10">Std Lt</span>
+<span class="text-center w-10">Mild Lt</span>
+<span class="text-center w-10">Mild Dk</span>
+<span class="text-center w-10 text-primary">Std Dk</span>
+<span class="text-center w-10">Hi-C Dk</span>
+</div>
+</div>
+</div>
+<div class="md:hidden pt-2">
+<button class="text-white p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center py-12 px-4 sm:px-6 relative overflow-hidden">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+<div class="w-full max-w-[840px] flex flex-col gap-10 z-10">
+<div class="text-center flex flex-col gap-5 animate-fade-in-up">
+<h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-[-0.03em] drop-shadow-2xl">
+                Clarify the Web
+            </h1>
+<p class="text-text-subtle text-lg sm:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+                Transform cluttered webpages into calm, structured views.
+            </p>
+</div>
+<div class="bg-surface-dark border border-surface-border rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/60 flex flex-col gap-8 relative">
+<div class="flex flex-col gap-2">
+<label class="text-text-subtle text-xs font-bold uppercase tracking-wider ml-1">Page Source</label>
+<div class="relative w-full group z-30">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary transition-colors">link</span>
+</div>
+<input autofocus="" class="block w-full rounded-xl border border-primary bg-background-dark/50 pl-12 pr-[140px] h-16 text-white placeholder:text-[#586070] ring-1 ring-primary text-lg transition-all shadow-inner" placeholder="Paste URL here..." type="text"/>
+<div class="absolute inset-y-0 right-2 flex items-center">
+<button class="h-10 px-4 bg-primary hover:bg-primary-hover text-white text-sm font-bold rounded-lg transition-colors shadow-lg shadow-blue-900/20 flex items-center gap-2">
+                            Fetch Page
+                        </button>
+</div>
+<div class="absolute top-full left-0 right-0 mt-2 bg-surface-dark border border-surface-border rounded-xl shadow-2xl z-40 overflow-hidden animate-fade-in-up">
+<div class="p-1.5 flex flex-col gap-0.5">
+<div class="px-3 py-2 text-[10px] font-bold text-text-subtle uppercase tracking-widest flex items-center justify-between">
+<span>Smart Suggestions</span>
+<span class="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-[9px] font-bold">AI Ready</span>
+</div>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-border/50 transition-colors text-left group/item relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/item:opacity-100 transition-opacity"></div>
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 relative z-10">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div class="flex-1 min-w-0 relative z-10">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-white truncate">The Future of Interface Design</span>
+<span class="text-[10px] text-text-subtle bg-surface-border px-1.5 rounded-md">Medium</span>
+</div>
+<div class="text-xs text-text-subtle truncate">medium.com/ux-collective/future-interface...</div>
+</div>
+<span class="text-xs text-primary font-medium opacity-0 group-hover/item:opacity-100 transition-opacity hidden sm:block relative z-10 mr-2">
+                Resume
+            </span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-border/50 transition-colors text-left group/item relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/item:opacity-100 transition-opacity"></div>
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 relative z-10">
+<span class="material-symbols-outlined text-[20px]">trending_up</span>
+</div>
+<div class="flex-1 min-w-0 relative z-10">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-white truncate">Climate Change Report 2024</span>
+<span class="text-[10px] text-text-subtle bg-surface-border px-1.5 rounded-md">NY Times</span>
+</div>
+<div class="text-xs text-text-subtle truncate">nytimes.com/section/climate/report-2024</div>
+</div>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-border/50 transition-colors text-left group/item relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/item:opacity-100 transition-opacity"></div>
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 relative z-10">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</div>
+<div class="flex-1 min-w-0 relative z-10">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-white truncate">Surprise Me</span>
+<span class="text-[10px] text-text-subtle bg-surface-border px-1.5 rounded-md">Random</span>
+</div>
+<div class="text-xs text-text-subtle truncate">Fetch a random curated article</div>
+</div>
+</button>
+</div>
+<div class="bg-surface-border/20 border-t border-surface-border px-4 py-2 flex items-center justify-between text-[10px] text-text-subtle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">keyboard_command_key</span>
+<span>CMD + V to paste</span>
+</div>
+<a class="hover:text-white transition-colors" href="#">Manage history</a>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 z-10">
+<button class="flex-1 h-12 flex items-center justify-center gap-2 rounded-xl border border-surface-border hover:border-text-subtle hover:bg-surface-border/50 text-text-subtle hover:text-white transition-all text-sm font-medium group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">add_a_photo</span>
+                    Upload Screenshot
+                </button>
+<div class="flex-1">
+<details class="group w-full relative">
+<summary class="list-none cursor-pointer h-12 flex items-center justify-center gap-2 rounded-xl border border-surface-border hover:border-text-subtle hover:bg-surface-border/50 text-text-subtle hover:text-white transition-all text-sm font-medium select-none">
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">code</span>
+                            Paste HTML
+                        </summary>
+<div class="absolute top-full left-0 right-0 mt-2 z-20">
+<textarea class="w-full h-40 bg-background-dark border border-surface-border rounded-xl p-4 text-sm text-white font-mono focus:border-primary focus:ring-1 focus:ring-primary shadow-xl resize-none" placeholder="Paste raw HTML code here..."></textarea>
+</div>
+</details>
+</div>
+</div>
+<hr class="border-surface-border/50"/>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<label class="text-text-subtle text-xs font-bold uppercase tracking-wider">Select Clarity Mode</label>
+<a class="text-primary text-xs font-bold hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Compare modes <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="mode" type="radio"/>
+<div class="h-full flex flex-col items-center text-center gap-3 rounded-xl border border-surface-border bg-background-dark/50 p-5 transition-all hover:border-text-subtle hover:bg-surface-border/30 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_0_1px_rgba(25,93,230,1)]">
+<div class="p-2 rounded-full bg-surface-border/50 text-text-subtle peer-checked:bg-primary peer-checked:text-white transition-colors">
+<span class="material-symbols-outlined">spa</span>
+</div>
+<div>
+<h3 class="text-white text-sm font-bold">Zen</h3>
+<p class="text-text-subtle text-xs mt-1">Text only. Zero distractions.</p>
+</div>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input checked="" class="peer sr-only" name="mode" type="radio"/>
+<div class="h-full flex flex-col items-center text-center gap-3 rounded-xl border border-surface-border bg-background-dark/50 p-5 transition-all hover:border-text-subtle hover:bg-surface-border/30 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_0_1px_rgba(25,93,230,1)]">
+<div class="p-2 rounded-full bg-surface-border/50 text-text-subtle peer-checked:bg-primary peer-checked:text-white transition-colors">
+<span class="material-symbols-outlined">waves</span>
+</div>
+<div>
+<h3 class="text-white text-sm font-bold">Flow</h3>
+<p class="text-text-subtle text-xs mt-1">Balanced layout. Key visuals.</p>
+</div>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="mode" type="radio"/>
+<div class="h-full flex flex-col items-center text-center gap-3 rounded-xl border border-surface-border bg-background-dark/50 p-5 transition-all hover:border-text-subtle hover:bg-surface-border/30 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:shadow-[0_0_0_1px_rgba(25,93,230,1)]">
+<div class="p-2 rounded-full bg-surface-border/50 text-text-subtle peer-checked:bg-primary peer-checked:text-white transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<div>
+<h3 class="text-white text-sm font-bold">ADHD</h3>
+<p class="text-text-subtle text-xs mt-1">Bionic reading highlights.</p>
+</div>
+</div>
+</label>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-3 h-14 bg-surface-border text-text-subtle rounded-xl font-bold text-lg cursor-not-allowed opacity-70 transition-all" disabled="">
+<span class="material-symbols-outlined">auto_awesome</span>
+                Generate Clarity View
+            </button>
+</div>
+<div class="text-center flex flex-col gap-6">
+<div class="flex flex-col items-center gap-2">
+<span class="text-xs font-bold text-text-subtle uppercase tracking-widest opacity-60">Supported Domains</span>
+<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-[#586070] font-medium max-w-lg">
+<span>Wikipedia</span>
+<span class="opacity-30">•</span>
+<span>Medium</span>
+<span class="opacity-30">•</span>
+<span>Substack</span>
+<span class="opacity-30">•</span>
+<span>NY Times</span>
+<span class="opacity-30">•</span>
+<span>The Guardian</span>
+<span class="opacity-30">•</span>
+<span>ArXiv</span>
+<span class="opacity-30">•</span>
+<span>Notion (Public)</span>
+</div>
+</div>
+<p class="text-[#586070] text-xs max-w-md mx-auto leading-relaxed">
+                ClarityUI processes content locally when possible. Results may vary based on page complexity. 
+                <a class="underline decoration-surface-border hover:decoration-text-subtle hover:text-text-subtle transition-colors" href="#">Privacy Policy</a>
+</p>
+</div>
+</div>
+</main>
+
+</body></html>
