@@ -4,7 +4,8 @@ import React from "react";
 
 export function Footer() {
   const domains = [
-    "Wikipedia", "Medium", "Substack", "NY Times", "The Guardian", "ArXiv", "Notion (Public)"
+    "bbc.com", "cnn.com", "amazon.com", "ebay.com", "walmart.com", "irs.gov", 
+    "usa.gov", "analytics.usa.gov", "coingecko.com", "bls.gov", "wikipedia.com", "arxiv.com"
   ];
 
   return (

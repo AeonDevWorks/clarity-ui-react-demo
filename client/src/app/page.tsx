@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { TwoPanelLayout } from "@/components/TwoPanelLayout";
 import { ClarityMode } from "@/types";
 import { useUrlOrScreenshotInput } from "@/hooks/useUrlOrScreenshotInput";
+import { DynamicRenderer } from "@/components/DynamicRenderer";
 import { generateClarityView } from "@/lib/gemini";
 
 export default function Home() {
@@ -62,7 +63,7 @@ export default function Home() {
                 )
             }
             clarityContent={
-                <div className="flex flex-col items-center justify-center h-full gap-4 p-10 text-center w-full h-full overflow-y-auto">
+                <div className="flex flex-col items-center justify-center h-full gap-4 p-10 text-center w-full h-full overflow-y-auto relative">
                     {!generatedContent ? (
                         <>
                             <div className="p-4 rounded-full bg-primary/10 text-primary animate-pulse">
@@ -74,21 +75,36 @@ export default function Home() {
                             </p>
                         </>
                     ) : (
-                        <div className="w-full h-full text-left p-4 bg-bg border border-border rounded-xl font-mono text-xs overflow-auto whitespace-pre-wrap">
-                            {/* For Phase 3, we just display the JSON output */}
-                            {generatedContent}
+                        <div className="w-full h-full text-left p-4 overflow-auto">
+                            <DynamicRenderer content={generatedContent} />
                         </div>
                     )}
                     
-                    <div className="mt-4 w-full max-w-md">
-                        <ModeSelector 
-                            selectedMode={mode} 
-                            onModeSelect={setMode} 
-                            onGenerate={handleGenerate} 
-                            canGenerate={true}
-                            isGenerating={isGenerating}
-                        />
-                    </div>
+                    {!generatedContent && (
+                        <div className="mt-4 w-full max-w-md">
+                            <ModeSelector 
+                                selectedMode={mode} 
+                                onModeSelect={setMode} 
+                                onGenerate={handleGenerate} 
+                                canGenerate={true}
+                                isGenerating={isGenerating}
+                            />
+                        </div>
+                    )}
+                    
+                    {/* Floating controls when content is generated */}
+                    {generatedContent && (
+                         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-surface border border-border rounded-full shadow-2xl p-2 flex gap-2">
+                             <ModeSelector 
+                                selectedMode={mode} 
+                                onModeSelect={setMode} 
+                                onGenerate={handleGenerate} 
+                                canGenerate={true}
+                                isGenerating={isGenerating}
+                            />
+                         </div>
+                    )}
+
                 </div>
             }
         />
